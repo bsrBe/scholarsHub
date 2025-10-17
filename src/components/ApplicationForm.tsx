@@ -20,7 +20,6 @@ const formSchema = z.object({
   studyLevel: z.string().min(1, "Please select your intended study level"),
   phoneNumber: z.string().optional(),
   additionalInfo: z.string().max(1000).optional(),
-  documents: z.any().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -43,7 +42,6 @@ const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
       studyLevel: "",
       phoneNumber: "",
       additionalInfo: "",
-      documents: undefined,
     },
   });
 
@@ -202,29 +200,6 @@ const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="documents"
-          render={({ field: { onChange, value, ...field } }) => (
-            <FormItem>
-              <FormLabel>Upload Documents (Optional)</FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  multiple
-                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                  onChange={(e) => onChange(e.target.files)}
-                  {...field}
-                />
-              </FormControl>
-              <p className="text-sm text-muted-foreground mt-1">
-                Upload your CV, certificates, transcripts, or other relevant documents (PDF, DOC, DOCX, JPG, PNG)
-              </p>
               <FormMessage />
             </FormItem>
           )}
