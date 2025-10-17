@@ -189,13 +189,20 @@ const DestinationDetail = () => {
             Ready to Apply to {destination.name}?
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Book a free consultation with our experts to discuss your application strategy.
+            Start your application or book a free consultation with our experts.
           </p>
-          <Link to="/book-consultation">
-            <Button variant="hero" size="lg">
-              Book Free Consultation
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to={`/apply?country=${encodeURIComponent(destination.name)}`}>
+              <Button variant="hero" size="lg">
+                Apply Now
+              </Button>
+            </Link>
+            <Link to="/book-consultation">
+              <Button variant="outline" size="lg">
+                Book Free Consultation
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </main>
