@@ -193,7 +193,7 @@ const DestinationDetail = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to={`/apply?country=${encodeURIComponent(destination.name)}`}>
-              <Button variant="hero" size="lg">
+              <Button variant="apply" size="lg">
                 Apply Now
               </Button>
             </Link>
