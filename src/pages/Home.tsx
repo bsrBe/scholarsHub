@@ -131,14 +131,23 @@ const Home = () => {
             Ready to Start Your Journey?
           </h2>
           <p className="text-xl mb-8 opacity-95">
-            Book a free consultation with our expert counselors today and take the first step
+            Apply now or book a free consultation with our expert counselors to take the first step
             towards your dream university.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/book-consultation">
+            <Link to="/apply">
               <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                Book Free Consultation
+                Apply Now
                 <ArrowRight size={20} />
+              </Button>
+            </Link>
+            <Link to="/book-consultation">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+              >
+                Book Free Consultation
               </Button>
             </Link>
             <Link to="/contact">
