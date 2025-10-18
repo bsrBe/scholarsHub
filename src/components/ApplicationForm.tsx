@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
-import { Send } from "lucide-react";
+import { Send, Upload } from "lucide-react";
 import { destinations } from "@/lib/constants";
 
 const formSchema = z.object({
@@ -19,6 +19,7 @@ const formSchema = z.object({
   destinationCountry: z.string().min(1, "Please select a destination country"),
   studyLevel: z.string().min(1, "Please select your intended study level"),
   phoneNumber: z.string().optional(),
+  documents: z.instanceof(FileList).optional(),
   additionalInfo: z.string().max(1000).optional(),
 });
 
@@ -41,6 +42,7 @@ const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
       destinationCountry: preSelectedCountry || "",
       studyLevel: "",
       phoneNumber: "",
+      documents: undefined,
       additionalInfo: "",
     },
   });
@@ -182,6 +184,33 @@ const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
                   <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="documents"
+          render={({ field: { onChange, value, ...field } }) => (
+            <FormItem>
+              <FormLabel>Upload Documents (Optional)</FormLabel>
+              <FormControl>
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="file"
+                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                    multiple
+                    onChange={(e) => onChange(e.target.files)}
+                    {...field}
+                    className="cursor-pointer"
+                  />
+                  <Upload className="text-muted-foreground" size={20} />
+                </div>
+              </FormControl>
+              <p className="text-sm text-muted-foreground">
+                Accepted formats: PDF, DOC, DOCX, JPG, PNG
+              </p>
               <FormMessage />
             </FormItem>
           )}

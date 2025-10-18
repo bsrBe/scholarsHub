@@ -135,6 +135,12 @@ const Home = () => {
             towards your dream university.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/apply">
+              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+                Apply Now
+                <ArrowRight size={20} />
+              </Button>
+            </Link>
             <Link to="/book-consultation">
               <Button variant="secondary" size="lg" className="w-full sm:w-auto">
                 Book Free Consultation
