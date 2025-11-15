@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import ScrollToTop from "./components/ScrollToTop";
-
+//sta
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const Services = lazy(() => import("./pages/Services"));
