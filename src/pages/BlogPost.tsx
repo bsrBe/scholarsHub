@@ -1,11 +1,131 @@
-import { useParams, Link } from "react-router-dom";
-import { blogPosts } from "@/lib/constants";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, Tag } from "lucide-react";
+import { ArrowLeft, Calendar, Tag, Loader2 } from "lucide-react";
+import { getBlogPost, type BlogPost } from "@/services/blogService";
+import { useToast } from "@/components/ui/use-toast";
 
 const BlogPost = () => {
-  const { slug } = useParams<{ slug: string }>();
-  const post = blogPosts.find((p) => p.slug === slug);
+  const { id } = useParams<{ id: string }>();
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let isMounted = true;
+    
+    const fetchPost = async () => {
+      if (!id) return;
+      
+      try {
+        setLoading(true);
+        console.log('Starting to fetch blog post with ID:', id);
+        
+        // Direct fetch without any service
+        const response = await fetch(`http://localhost:5000/api/articles/${id}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+          credentials: 'include',
+        });
+        
+        console.log('Raw fetch response received. Status:', response.status);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Error response:', errorText);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json().catch(e => {
+          console.error('Error parsing JSON:', e);
+          throw new Error('Invalid JSON response from server');
+        });
+        
+        console.log('Successfully parsed response data:', data);
+        
+        if (isMounted) {
+          setPost({
+            _id: data._id,
+            title: data.title || 'No Title',
+            slug: data.slug || data._id,
+            content: data.content || '',
+            excerpt: data.excerpt || '',
+            category: data.category || 'Uncategorized',
+            thumbnail: data.thumbnail,
+            isPublished: data.isPublished !== false,
+            createdAt: data.createdAt || new Date().toISOString(),
+            updatedAt: data.updatedAt || new Date().toISOString(),
+            author: data.author ? {
+              _id: data.author._id || 'unknown',
+              name: data.author.name || 'Unknown Author',
+              avatar: data.author.avatar,
+            } : undefined,
+            tags: data.tags || [],
+          });
+        }
+      } catch (error) {
+        console.error('Error in fetchPost:', error);
+        if (isMounted) {
+          toast({
+            title: 'Error',
+            description: error instanceof Error ? error.message : 'Failed to load blog post',
+            variant: 'destructive',
+          });
+          navigate('/blog');
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+    
+    // Set a longer timeout for debugging
+    const timeoutId = setTimeout(() => {
+      if (isMounted) {
+        console.error('Fetch timeout reached. Current state:', {
+          loading,
+          post: post ? 'Post exists' : 'No post',
+          id,
+          timestamp: new Date().toISOString()
+        });
+        
+        // Try one more time before giving up
+        console.log('Attempting one more time...');
+        fetchPost();
+        
+        // If still no response after retry, show error
+        setTimeout(() => {
+          if (isMounted && !post) {
+            toast({
+              title: 'Timeout',
+              description: 'The server is taking too long to respond. Please try again later.',
+              variant: 'destructive',
+            });
+            navigate('/blog');
+          }
+        }, 5000);
+      }
+    }, 15000); // 15 second initial timeout
+    
+    fetchPost();
+    
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+    };
+  }, [id, navigate, toast]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   if (!post) {
     return (
@@ -21,12 +141,12 @@ const BlogPost = () => {
   }
 
   return (
-    <main>
+    <main className="min-h-screen py-12">
       <article className="section-padding">
         <div className="max-w-4xl mx-auto">
           <Link to="/blog">
             <Button variant="ghost" className="mb-6">
-              <ArrowLeft size={20} />
+              <ArrowLeft size={20} className="mr-2" />
               Back to Blog
             </Button>
           </Link>
@@ -34,53 +154,64 @@ const BlogPost = () => {
           <div className="flex items-center gap-4 text-muted-foreground mb-4">
             <div className="flex items-center gap-2">
               <Calendar size={18} />
-              <span>{new Date(post.date).toLocaleDateString()}</span>
+              <span>{new Date(post.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Tag size={18} />
-              <span>{post.category}</span>
-            </div>
+            {post.category && (
+              <div className="flex items-center gap-2">
+                <Tag size={18} />
+                <span>{post.category}</span>
+              </div>
+            )}
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
             {post.title}
           </h1>
 
-          <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
-            {post.excerpt}
-          </p>
-
-          {/* Article Content */}
-          <div className="prose prose-lg max-w-none">
-            <p className="text-lg leading-relaxed mb-6">
-              This is a placeholder for the full blog post content. In a real implementation,
-              this would be fetched from a CMS or markdown file and rendered here.
+          {post.excerpt && (
+            <p className="text-xl text-muted-foreground mb-8">
+              {post.excerpt}
             </p>
+          )}
 
-            <p className="text-lg leading-relaxed mb-6">
-              The article would include detailed information, tips, and insights related to
-              the topic "{post.title}". Content would be formatted with proper headings,
-              lists, images, and other rich media elements to provide comprehensive value
-              to readers.
-            </p>
+          {post.thumbnail && (
+            <div className="my-8 rounded-lg overflow-hidden">
+              <img 
+                src={post.thumbnail} 
+                alt={post.title} 
+                className="w-full h-auto rounded-lg"
+              />
+            </div>
+          )}
 
-            <h2 className="text-3xl font-bold mt-12 mb-6">Key Takeaways</h2>
-            <ul className="space-y-3 mb-6">
-              <li className="text-lg">Important point number one about the topic</li>
-              <li className="text-lg">Another crucial insight for students</li>
-              <li className="text-lg">Practical advice that can be immediately applied</li>
-              <li className="text-lg">Final key takeaway from this article</li>
-            </ul>
+          {post.content && (
+            <div 
+              className="prose prose-lg dark:prose-invert max-w-none mt-8"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
+          )}
 
-            <h2 className="text-3xl font-bold mt-12 mb-6">Conclusion</h2>
-            <p className="text-lg leading-relaxed mb-6">
-              In conclusion, understanding these aspects will help you make informed decisions
-              about your study abroad journey. For personalized guidance tailored to your
-              specific situation, book a free consultation with our expert counselors.
-            </p>
-          </div>
+          {post.author && (
+            <div className="mt-12 pt-8 border-t border-border">
+              <div className="flex items-center gap-4">
+                {post.author.avatar && (
+                  <img 
+                    src={post.author.avatar} 
+                    alt={post.author.name}
+                    className="w-16 h-16 rounded-full object-cover"
+                  />
+                )}
+                <div>
+                  <h3 className="text-lg font-semibold">{post.author.name}</h3>
+                </div>
+              </div>
+            </div>
+          )}
 
-          {/* CTA */}
           <div className="mt-16 p-8 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl text-center">
             <h3 className="text-2xl font-bold mb-4">Need Personalized Guidance?</h3>
             <p className="text-muted-foreground mb-6">

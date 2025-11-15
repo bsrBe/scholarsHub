@@ -3,12 +3,25 @@ import { destinations, countryDetails } from "@/lib/constants";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Calendar, GraduationCap, DollarSign, Building2, ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const DestinationDetail = () => {
   const { country } = useParams<{ country: string }>();
-  
   const destination = destinations.find((d) => d.id === country);
   const details = country ? countryDetails[country] : null;
+  const [shouldOpenChat, setShouldOpenChat] = useState(false);
+
+  // Effect to trigger chat opening when shouldOpenChat changes
+  useEffect(() => {
+    if (shouldOpenChat) {
+      // Find and click the chat button
+      const chatButton = document.querySelector('button[aria-label="Open chat"]') as HTMLButtonElement;
+      if (chatButton) {
+        chatButton.click();
+        setShouldOpenChat(false); // Reset the state
+      }
+    }
+  }, [shouldOpenChat]);
 
   if (!destination || !details) {
     return (
@@ -192,11 +205,13 @@ const DestinationDetail = () => {
             Start your application or book a free consultation with our experts.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to={`/apply?country=${encodeURIComponent(destination.name)}`}>
-              <Button variant="hero" size="lg">
-                Apply Now
-              </Button>
-            </Link>
+            <Button 
+              variant="hero" 
+              size="lg"
+              onClick={() => setShouldOpenChat(true)}
+            >
+              Message Admin
+            </Button>
             <Link to="/book-consultation">
               <Button variant="outline" size="lg">
                 Book Free Consultation

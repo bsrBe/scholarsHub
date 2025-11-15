@@ -1,6 +1,14 @@
 // Static data for Scholars Hub
+import type { IconName } from "./iconMap";
 
-export const services = [
+type Service = {
+  id: number;
+  title: string;
+  description: string;
+  icon: IconName;
+};
+
+export const services: Service[] = [
   {
     id: 1,
     title: "Document Review & Eligibility Check",
@@ -10,7 +18,7 @@ export const services = [
   {
     id: 2,
     title: "Language Test Preparation",
-    description: "Comprehensive guidance for IELTS, TOEFL, and other language proficiency tests.",
+    description: "Comprehensive guidance for IELTS, TOEFL,Duolingo and other language proficiency tests.",
     icon: "Languages",
   },
   {
@@ -94,6 +102,62 @@ export const destinations = [
     tagline: "Rich culture and renowned business schools",
     description: "France is known for its art, culture, and prestigious business and culinary programs.",
   },
+  {
+    id: "Italy",
+    name: "Italy",
+    flag: "🇮🇹",
+    tagline: "Rich heritage and affordable education",
+    description: "Italy combines world-class education with rich cultural heritage and affordable tuition at public universities.",
+  },
+  {
+    id: "Ireland",
+    name: "Ireland",
+    flag: "🇮🇪",
+    tagline: "Tech hub with strong industry connections",
+    description: "Ireland offers excellent education with strong focus on technology and great post-study work opportunities.",
+  },
+  {
+    id: "Cyprus",
+    name: "Cyprus",
+    flag: "🇨🇾",
+    tagline: "Mediterranean paradise with affordable education",
+    description: "Cyprus provides a safe, welcoming environment with modern universities and affordable living costs.",
+  },
+  {
+    id: "Finland",
+    name: "Finland",
+    flag: "🇫🇮",
+    tagline: "Innovation-focused education system",
+    description: "Finland offers world-leading education with emphasis on innovation, critical thinking, and student-centered learning.",
+  },
+  {
+    id: "Turkey",
+    name: "Turkey",
+    flag: "🇹🇷",
+    tagline: "Crossroads of cultures with affordable education",
+    description: "Turkey offers cost-effective education blending European standards with rich cultural history.",
+  },
+  {
+    id: "Spain",
+    name: "Spain",
+    flag: "🇪🇸",
+    tagline: "Vibrant culture and affordable living",
+    description: "Spain offers high-quality programs across many fields with a warm climate and rich cultural heritage.",
+  },
+  {
+    id: "NewZealand",
+    name: "New Zealand",
+    flag: "🇳🇿",
+    tagline: "Stunning landscapes with world-class education",
+    description: "New Zealand delivers research-driven education with high academic standards and stunning natural beauty.",
+  },
+  {
+    id: "Malta",
+    name: "Malta",
+    flag: "🇲🇹",
+    tagline: "Mediterranean lifestyle with English education",
+    description: "Malta offers modern, English-speaking education with affordable tuition and a welcoming Mediterranean lifestyle.",
+  },
 ];
 
 export const countryDetails: Record<string, {
@@ -112,12 +176,14 @@ export const countryDetails: Record<string, {
       "Rich history and cultural diversity",
       "Post-study work opportunities",
     ],
-    educationSystem: "The UK education system emphasizes independent learning and critical thinking with a wide range of courses.",
+    educationSystem: "The United Kingdom delivers a high-quality, globally respected education experience with efficient degree structures that save students time and money. UK universities combine academic rigor with real-world relevance, offering strong industry connections, practical learning, and excellent employment outcomes. International students benefit from a safe, multicultural environment and the opportunity to work during and after their studies through the Graduate Route. With its rich cultural heritage, world-class teaching, and supportive student services, the UK remains a top choice for learners seeking a fast, focused, and career-driven international education.  ",
     requirements: [
-      "IELTS 6.0-7.0 or equivalent",
+      "IELTS 6.0+",
+      "TOEFL 80+ or equivalent",
       "Academic transcripts",
       "Statement of purpose",
       "Letters of recommendation",
+      "Scholarships are available",
     ],
     intakes: ["September/October (Main)", "January/February (Limited)"],
     studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD"],
@@ -134,17 +200,19 @@ export const countryDetails: Record<string, {
       "Strong research and innovation culture",
       "Optional Practical Training (OPT) for work experience",
     ],
-    educationSystem: "US universities offer a liberal arts approach with major/minor flexibility and credit-based learning.",
+    educationSystem: "The United States offers a world-leading education system built on innovation, flexibility, and global recognition. Students gain access to top-ranked universities, modern research facilities, and industry-driven programs designed to prepare them for high-impact careers. With opportunities to customize courses, participate in cutting-edge research, and gain practical experience through internships and OPT, the U.S. provides a powerful platform for personal, academic, and professional growth. Its diverse campuses, advanced technology ecosystem, and unmatched career opportunities make it a premier destination for ambitious international students.",
     requirements: [
-      "TOEFL 80+ or IELTS 6.5+",
-      "SAT/ACT for undergrad, GRE/GMAT for grad",
+      "TOEFL 80+ or IELTS 5.5+",
+      "Duolingo 95+ or Medium of Instruction Letter",
       "Academic transcripts",
       "Essays and recommendation letters",
+      "Merit and need based Scholarships are available",
+      "Scholarships are available"
     ],
     intakes: ["Fall (August/September - Main)", "Spring (January)", "Summer (May - Limited)"],
-    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD"],
+    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD" ,"Pathway programs  "],
     estimatedCost: {
-      tuition: "$20,000 - $60,000 per year",
+      tuition: "$10,000 - $60,000 per year",
       living: "$10,000 - $18,000 per year",
     },
     topUniversities: ["Harvard University", "MIT", "Stanford University", "Yale University", "Princeton University"],
@@ -156,12 +224,14 @@ export const countryDetails: Record<string, {
       "Pathway to permanent residency",
       "Affordable compared to US and UK",
     ],
-    educationSystem: "Canadian education focuses on research and practical skills with co-op programs in many institutions.",
+    educationSystem: "Canada offers a highly respected, student-friendly education system known for academic excellence, modern research facilities, and a strong focus on practical, career-ready learning. International students benefit from a safe and welcoming multicultural environment, affordable tuition compared to other major destinations, and flexible programs that balance theory with real industry experience. With opportunities to work during studies, gain post-graduation work permits, and even explore long-term immigration pathways, Canada provides a clear route from quality education to meaningful career growth. It’s a destination that combines world-class learning, supportive communities, and strong professional opportunities  making it a top choice for students seeking a brighter future.",
     requirements: [
-      "IELTS 6.5+ or TOEFL 90+",
+       "TOEFL 80+ or IELTS 5.5+",
+      "Duolingo 95+ or Medium of Instruction Letter",
       "Academic transcripts",
-      "Statement of purpose",
-      "Proof of funds",
+      "Essays and recommendation letters",
+      "Merit and need based Scholarships are available",
+      "Scholarships are available"
     ],
     intakes: ["September (Main)", "January (Secondary)", "May (Limited)"],
     studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Diploma Programs"],
@@ -178,17 +248,18 @@ export const countryDetails: Record<string, {
       "Multicultural and student-friendly environment",
       "Strong focus on research and innovation",
     ],
-    educationSystem: "Australian universities emphasize practical learning with strong industry connections.",
+    educationSystem: "Australia provides a globally respected education system known for its high academic standards, innovative teaching methods, and strong focus on employability. Universities offer practical, industry-connected programs and access to world-class research facilities across fields like technology, health sciences, and business. International students benefit from a safe, inclusive society, excellent living standards, and generous work opportunities during and after their studies through the Post-Study Work Visa. With its stunning landscapes, multicultural campuses, and strong career pathways, Australia remains a top choice for students seeking a balanced and future-focused international education.",
     requirements: [
-      "IELTS 6.5+ or equivalent",
+      "IELTS 6.0+",
       "Academic transcripts",
       "Statement of purpose",
       "Proof of financial capacity",
+      "Scholarships are available"
     ],
     intakes: ["February (Main)", "July (Secondary)"],
     studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD"],
     estimatedCost: {
-      tuition: "AUD 20,000 - 45,000 per year",
+      tuition: "AUD 15,000 - 35,000 per year",
       living: "AUD 21,000 - 26,000 per year",
     },
     topUniversities: ["University of Melbourne", "ANU", "University of Sydney", "UNSW", "UQ"],
@@ -200,12 +271,13 @@ export const countryDetails: Record<string, {
       "Post-study work visa for 18 months",
       "Central location in Europe",
     ],
-    educationSystem: "German universities offer rigorous academic programs with a focus on research and applied sciences.",
+    educationSystem: "Germany is renowned for its academically strong and research-oriented education system, with many public universities offering low or even zero tuition fees. Students gain access to cutting-edge facilities, innovative engineering and technology programs, and strong industry ties especially in automotive, manufacturing, and STEM fields. The country’s practical, skills-focused approach helps students transition smoothly into the workforce, supported by generous post-study work opportunities. With a high standard of living, vibrant culture, and globally recognized degrees, Germany is an ideal destination for students seeking quality education at a highly affordable cost.",
     requirements: [
-      "IELTS 6.0+ or German proficiency (for German-taught programs)",
+      "IELTS 6.0+",
       "Academic transcripts",
       "Blocked account (€11,208 per year)",
       "Motivation letter",
+      "Scholarships are available",
     ],
     intakes: ["Winter Semester (September/October)", "Summer Semester (March/April)"],
     studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD"],
@@ -222,24 +294,225 @@ export const countryDetails: Record<string, {
       "Strong business and engineering schools",
       "Central location for European travel",
     ],
-    educationSystem: "French education combines theoretical knowledge with practical applications, especially in business schools.",
+    educationSystem: "France offers a prestigious and culturally rich education experience, combining world-class universities, elite “Grandes Écoles,” and highly affordable tuition costs. Students benefit from strong academic programs across arts, engineering, business, and science, supported by advanced research institutions and influential industry partnerships. The country’s emphasis on creativity, critical thinking, and innovation prepares graduates for global careers. With generous scholarships, a high standard of living, and exceptional cultural diversity, France provides an inspiring environment for international students seeking both academic excellence and personal growth.",
     requirements: [
-      "French proficiency (DELF/DALF) or IELTS for English programs",
+      "TOEFL 80+",
+      "IELTS 6.5+ or equivalent",
       "Academic transcripts",
       "Campus France application",
       "Motivation letter and CV",
+      "Scholarships are available",
     ],
     intakes: ["Fall (September)", "Spring (January/February - Limited)"],
     studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Grande École Programs"],
     estimatedCost: {
-      tuition: "€170 - €650 per year (public) / €3,000 - €20,000 (private)",
-      living: "€800 - €1,200 per month",
+      tuition: "€7,200 - €15,200 per year",
+      living: "€600 - €800 per month",
     },
-    topUniversities: ["Sorbonne University", "École Polytechnique", "HEC Paris", "Sciences Po", "ENS Paris"],
+    topUniversities: ["Paris Sorbonne University", "École Polytechnique", "HEC Paris", "Sciences Po", "ENS Paris"],
   },
+  Italy: {
+    whyStudy: [
+      "Affordable tuition at public universities",
+      "World-renowned art, culture, and cuisine",
+      "Strong business and engineering schools",
+      "Central location for European travel",
+    ],
+    educationSystem: "Italy combines rich cultural heritage with a reputable academic tradition, offering internationally recognized degrees in fields such as arts, design, engineering, business, and medicine. Many universities provide affordable tuition and Full scholarship opportunities, making high-quality education accessible to international students. The learning environment emphasizes both theoretical foundations and real-world application, supported by modern facilities and experienced faculty. With its warm lifestyle, historic cities, and welcoming student communities, Italy offers an inspiring and enriching environment to study, grow, and explore new opportunities.",
+    requirements: [
+      "TOEFL 80+",
+      "IELTS 6.5+ or equivalent",
+      "Academic transcripts",
+      "Campus France application",
+      "Motivation letter and CV",
+      "Scholarships are available",
+    ],
+    intakes: ["Fall (September)", "Spring (January/February - Limited)"],
+    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Grande École Programs"],
+    estimatedCost: {
+      tuition: "€0 - €2000 per month",
+      living: "€900 - €3500 per year",
+    },
+    topUniversities: ["University of Bologna", "University of Padua", "University of Rome", "University of Florence", "University of Naples"],
+  },
+  Ireland: {
+    whyStudy: [
+      "Affordable tuition at public universities",
+      "World-renowned art, culture, and cuisine",
+      "Strong business and engineering schools",
+    ],
+    educationSystem: "Ireland offers a high-quality education system rooted in innovation, technology, and strong industry collaboration, especially in IT, pharmaceuticals, and finance. Its universities emphasize practical learning, research excellence, and skill development, helping students stand out in competitive job markets. International students enjoy a friendly, English-speaking environment and access to work opportunities both during studies and after graduation through Ireland’s flexible post-study visa options. With its vibrant culture, modern campuses, and rapidly growing economy, Ireland provides a supportive and future-ready destination for global learners.",
+    requirements: [
+      "TOEFL 80+",
+      "IELTS 6.5+ or equivalent",
+      "Academic transcripts",
+      "Campus France application",
+      "Motivation letter and CV",
+      "Scholarships are available",
+    ],
+    intakes: ["Fall (September)", "Spring (January/February - Limited)"],
+    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Grande École Programs"],
+    estimatedCost: {
+      tuition: "€7,200 - €15,200 per year",
+      living: "€700 - €1,200 per month",
+    },
+    topUniversities: ["University of Dublin", "University of Cork", "University of Limerick", "University of Galway", "University of Waterford"],
+  },
+  Cyprus: {
+    whyStudy: [
+      "Affordable tuition at public universities",
+      "World-renowned art, culture, and cuisine",
+      "Strong business and engineering schools",
+      "Central location for European travel",
+    ],
+    educationSystem: "Cyprus provides a safe, welcoming, and student-friendly environment with modern universities offering internationally recognized degrees, especially in business, tourism, IT, and health sciences. The education system focuses on interactive learning, small class sizes, and strong academic support, ensuring students get personalized attention. Affordable tuition fees, generous scholarships, and opportunities to work during studies make Cyprus an appealing option for students seeking quality education at a manageable cost. Combined with its warm climate, multicultural atmosphere, and relaxed lifestyle, Cyprus is an excellent destination for international students.",
+    requirements: [
+      "TOEFL 80+",
+      "IELTS 6.5+ or equivalent",
+      "Academic transcripts",
+      "Campus France application",
+      "Motivation letter and CV",
+      "Scholarships are available",
+    ],
+    intakes: ["Fall (September)", "Spring (January/February - Limited)"],
+    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Grande École Programs"],
+    estimatedCost: {
+      tuition: "4000$-10,000$ per year",
+      living: "350$-600$ per month",
+    },
+    topUniversities: ["University of Cyprus", "University of Cyprus", "University of Cyprus", "University of Cyprus", "University of Cyprus"],
+  },
+  Finland: {
+    whyStudy: [
+      "Affordable tuition at public universities",
+      "World-renowned art, culture, and cuisine",
+      "Strong business and engineering schools",
+      "Central location for European travel",
+    ],
+    educationSystem: "Finland is known for its world-leading education system, emphasizing innovation, critical thinking, and student-centered learning. Universities offer cutting-edge programs in technology, engineering, sustainability, and design, backed by strong research environments and close industry collaboration. Students enjoy a high standard of living, safe communities, and modern campuses equipped with advanced facilities. English-taught programs, scholarship opportunities, and pathways to stay and work after graduation make Finland a top destination for students seeking a forward-thinking, high-quality, and future-ready education experience.",
+    requirements: [
+      "TOEFL 80+",
+      "IELTS 6.5+ or equivalent",
+      "Academic transcripts",
+      "Campus France application",
+      "Motivation letter and CV",
+      "Scholarships are available",
+    ],
+    intakes: ["Fall (September)", "Spring (January/February - Limited)"],
+    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Grande École Programs"],
+    estimatedCost: {
+      tuition: "€5,000 - €15,200 per year",
+      living: "€900 - €1000 per month",
+    },
+    topUniversities: ["University of Helsinki", "University of Helsinki", "University of Helsinki", "University of Helsinki", "University of Helsinki"],
+  },
+  Turkey: {
+    whyStudy: [
+      "Affordable tuition at public universities",
+      "World-renowned art, culture, and cuisine",
+      "Strong business and engineering schools",
+      "Central location for European travel",
+    ],
+    educationSystem: "Turkey offers a cost-effective and rapidly modernizing education system that blends European academic standards with rich cultural history. Universities provide a wide range of English-taught programs, strong engineering and medical faculties, and affordable tuition and living costs. International students enjoy a welcoming environment, modern campuses, and access to vibrant city life in destinations like Istanbul, Ankara, and Izmir. With growing research activity, strategic global location, and improving post-study opportunities, Turkey is an attractive destination for students seeking high value and diverse academic experiences.",
+    requirements: [
+      "TOEFL 80+",
+      "IELTS 6.5+ or equivalent",
+      "Academic transcripts",
+      "Campus France application",
+      "Motivation letter and CV",
+      "Scholarships are available",
+    ],
+    intakes: ["Fall (September)", "Spring (January/February - Limited)"],
+    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Grande École Programs"],
+    estimatedCost: {
+      tuition: "€2,000 - €5,000 per year",
+      living: "€400 - €650 per month",
+    },
+    topUniversities: ["Middle East Technical University", "Bogazici University", "Istanbul Technical University", "Istanbul University", "Istanbul University of Science and Technology"],
+  },
+  Spain: {
+    whyStudy: [
+      "Affordable tuition at public universities",
+      "World-renowned art, culture, and cuisine",
+      "Strong business and engineering schools",
+      "Central location for European travel",
+    ],
+    educationSystem: "Spain offers a vibrant, affordable, and academically strong education system that attracts students from around the world. Its universities provide high-quality programs across fields like business, engineering, arts, hospitality, and health sciences, with many degrees available in English. Students benefit from a warm climate, rich cultural heritage, and an active social environment, creating a balanced and enjoyable study experience. With reasonable tuition fees, scholarship opportunities, and a growing focus on innovation and research, Spain is an excellent destination for students seeking quality education paired with an enriching lifestyle.",
+    requirements: [
+      "TOEFL 80+",
+      "IELTS 6.5+ or equivalent",
+      "Academic transcripts",
+      "Campus France application",
+      "Motivation letter and CV",
+      "Scholarships are available",
+    ],
+    intakes: ["Fall (September)", "Spring (January/February - Limited)"],
+    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Grande École Programs"],
+    estimatedCost: {
+      tuition: "Public universities 3000$ private upto 20,000$",
+      living: "€700 - €1,300 per month",
+    },
+    topUniversities: ["Universidad Complutense de Madrid", "Universidad Autónoma de Madrid", "Universidad de Barcelona", "Universidad de Sevilla", "Universidad de Valencia"],
+  },
+  NewZealand: {
+    whyStudy: [
+      "Affordable tuition at public universities",
+      "World-renowned art, culture, and cuisine",
+      "Strong business and engineering schools",
+      "Central location for European travel",
+    ],
+    educationSystem: "New Zealand delivers a world-class, research-driven education system known for its high academic standards, modern facilities, and emphasis on practical, industry-aligned learning. Students enjoy a safe, welcoming environment with stunning natural landscapes and a strong focus on student well being. Universities offer globally recognized degrees, small class sizes, and excellent support for international learners. With generous post-study work options and opportunities to gain real-world experience, New Zealand provides a clear pathway from high-quality education to promising career growth in a stable and friendly environment.",
+    requirements: [
+      "TOEFL 80+",
+      "IELTS 6.5+ or equivalent",
+      "Academic transcripts",
+      "Campus France application",
+      "Motivation letter and CV",
+      "Scholarships are available",
+    ],
+    intakes: ["Fall (September)", "Spring (January/February - Limited)"],
+    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Grande École Programs"],
+    estimatedCost: {
+      tuition: "27,000$ - 75,000$ per year",
+      living: "12,000$ - 15,000$ per month",
+    },
+    topUniversities: ["University of Auckland", "University of Otago", "University of Canterbury", "University of Waikato", "University of Massey"],
+  },
+  Malta: {
+    whyStudy: [
+      "Affordable tuition at public universities",
+      "World-renowned art, culture, and cuisine",
+      "Strong business and engineering schools",
+      "Central location for European travel",
+    ],
+    educationSystem: "Malta offers a modern, English-speaking education system with internationally recognized universities, affordable tuition, and a welcoming Mediterranean lifestyle. Students benefit from high-quality programs in areas like business, IT, tourism, maritime studies, and healthcare, supported by small class sizes and strong academic guidance. The country provides a safe environment, a vibrant cultural scene, and excellent weather year-round, making it easy for students to balance studies and daily life. With growing opportunities for part-time work, practical learning, and career development, Malta is an attractive destination for students seeking quality education in a relaxed yet future-focused setting.",
+    requirements: [
+      "TOEFL 80+",
+      "IELTS 6.5+ or equivalent",
+      "Academic transcripts",
+      "Campus France application",
+      "Motivation letter and CV",
+      "Scholarships are available",
+    ],
+    intakes: ["Fall (September)", "Spring (January/February - Limited)"],
+    studyLevels: ["Bachelor's Degree", "Master's Degree", "PhD", "Grande École Programs"],
+    estimatedCost: {
+      tuition: "€4,000 - €8,000 per year",
+      living: "€500 - €800 per month",
+    },
+    topUniversities: ["Paris Sorbonne University", "École Polytechnique", "HEC Paris", "Sciences Po", "ENS Paris"],
+  },
+  
 };
 
-export const processSteps = [
+type ProcessStepData = {
+  step: number;
+  title: string;
+  description: string;
+  icon: IconName;
+};
+
+export const processSteps: ProcessStepData[] = [
   {
     step: 1,
     title: "Create Your Profile",

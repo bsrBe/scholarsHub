@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import NavUser from "./NavUser";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,7 @@ const Navbar = () => {
     { name: "Services", path: "/services" },
     { name: "Destinations", path: "/destinations" },
     { name: "How It Works", path: "/how-it-works" },
+    { name: "FAQ", path: "/faq" },
     { name: "Blog", path: "/blog" },
     { name: "Contact", path: "/contact" },
   ];
@@ -31,7 +33,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden xl:flex items-center space-x-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -47,19 +49,15 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:block">
-            <Link to="/book-consultation">
-              <Button variant="hero" size="default">
-                Book Consultation
-              </Button>
-            </Link>
+          {/* Auth Buttons */}
+          <div className="hidden xl:flex items-center space-x-3">
+            <NavUser />
           </div>
 
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 rounded-xl hover:bg-muted transition-colors"
+            className="xl:hidden p-2 rounded-xl hover:bg-muted transition-colors"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -68,7 +66,7 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden pb-4 animate-fade-in">
+          <div className="xl:hidden pb-4 animate-fade-in">
             <div className="flex flex-col space-y-2">
               {navLinks.map((link) => (
                 <Link
@@ -84,11 +82,9 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <Link to="/book-consultation" onClick={() => setIsOpen(false)}>
-                <Button variant="hero" size="default" className="w-full">
-                  Book Consultation
-                </Button>
-              </Link>
+              <div className="w-full p-2">
+                <NavUser />
+              </div>
             </div>
           </div>
         )}

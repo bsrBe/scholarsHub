@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import Chatbot from "./Chatbot";
 
 const Footer = () => {
   return (
@@ -91,39 +92,12 @@ const Footer = () => {
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Scholars Hub. All rights reserved.
           </p>
-          <div className="flex gap-4 mt-4 md:mt-0">
-            <a
-              href="https://wa.me/1234567890"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-primary transition-colors"
-              aria-label="WhatsApp"
-            >
-              <MessageCircle size={20} />
-            </a>
-            <a
-              href="https://t.me/scholarshub"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-primary transition-colors"
-              aria-label="Telegram"
-            >
-              <MessageCircle size={20} />
-            </a>
-          </div>
+ 
         </div>
       </div>
 
-      {/* Floating WhatsApp Button */}
-      <a
-        href="https://wa.me/1234567890"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 bg-primary text-primary-foreground p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 z-50"
-        aria-label="Chat on WhatsApp"
-      >
-        <MessageCircle size={24} />
-      </a>
+      {/* Chatbot Widget */}
+      <Chatbot />
     </footer>
   );
 };

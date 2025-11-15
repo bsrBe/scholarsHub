@@ -8,12 +8,16 @@ const Apply = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-accent py-20">
-        <div className="container mx-auto px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Start Your Application
+      <section className="relative overflow-hidden py-20 bg-secondary text-secondary-foreground">
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center justify-center px-6 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+            🎓 Start Your Journey
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            Study Abroad Application
           </h1>
-          <p className="text-lg text-white/90 max-w-2xl mx-auto">
+          <p className="text-lg opacity-90 max-w-2xl mx-auto">
             Fill out the form below and our team will get in touch with you to guide you through your study abroad journey.
           </p>
         </div>

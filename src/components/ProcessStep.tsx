@@ -1,15 +1,16 @@
-import * as Icons from "lucide-react";
+import { getIconByName, IconName } from "@/lib/iconMap";
+import { FileText } from "lucide-react";
 
 interface ProcessStepProps {
   step: number;
   title: string;
   description: string;
-  icon: string;
+  icon: IconName;
   isLast?: boolean;
 }
 
 const ProcessStep = ({ step, title, description, icon, isLast = false }: ProcessStepProps) => {
-  const IconComponent = Icons[icon as keyof typeof Icons] as React.ComponentType<{ size?: number; className?: string }>;
+  const IconComponent = getIconByName(icon) ?? FileText;
 
   return (
     <div className="relative flex flex-col items-center text-center">

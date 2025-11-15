@@ -44,17 +44,17 @@ const HowItWorks = () => {
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="flex gap-4">
-                  <div className="w-32 shrink-0 font-semibold text-primary">Week 1-2</div>
+                  <div className="w-32 shrink-0 font-semibold text-primary">Week 1</div>
                   <div>
                     <p className="font-semibold mb-1">Initial Setup & Planning</p>
                     <p className="text-muted-foreground">
-                      Create your profile, discuss your goals with counselors, and select target destinations.
+                      Create your profile, discuss your goals, preferred majors and countries  with counselors, then select target destinations.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
-                  <div className="w-32 shrink-0 font-semibold text-primary">Week 3-6</div>
+                  <div className="w-32 shrink-0 font-semibold text-primary">Week 2-3</div>
                   <div>
                     <p className="font-semibold mb-1">Document Preparation</p>
                     <p className="text-muted-foreground">
@@ -64,7 +64,7 @@ const HowItWorks = () => {
                 </div>
 
                 <div className="flex gap-4">
-                  <div className="w-32 shrink-0 font-semibold text-primary">Week 7-12</div>
+                  <div className="w-32 shrink-0 font-semibold text-primary">Week 4-10</div>
                   <div>
                     <p className="font-semibold mb-1">Application Submission</p>
                     <p className="text-muted-foreground">
@@ -74,7 +74,7 @@ const HowItWorks = () => {
                 </div>
 
                 <div className="flex gap-4">
-                  <div className="w-32 shrink-0 font-semibold text-primary">Week 13-16</div>
+                  <div className="w-32 shrink-0 font-semibold text-primary">Week 11-16</div>
                   <div>
                     <p className="font-semibold mb-1">Visa Process</p>
                     <p className="text-muted-foreground">
@@ -122,7 +122,14 @@ const HowItWorks = () => {
                 </p>
               </CardContent>
             </Card>
-
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">University Admission Support</h3>
+                <p className="text-muted-foreground">
+                  End-to-end assistance with university selection, partial and full scholarship application, and admission process.
+                </p>
+              </CardContent>
+            </Card>
             <Card>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-2">How long does the entire process take?</h3>
@@ -137,8 +144,7 @@ const HowItWorks = () => {
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-2">What if my visa gets rejected?</h3>
                 <p className="text-muted-foreground">
-                  With our 95% visa success rate, rejections are rare. If it happens, we'll reapply
-                  with improved documentation at no extra cost or help you find alternative options.
+                  With our 95% visa success rate, rejections are rare. If the application is Unsuccessful we offer other alternative routes or suitable options
                 </p>
               </CardContent>
             </Card>

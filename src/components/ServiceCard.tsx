@@ -1,14 +1,15 @@
-import * as Icons from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileText } from "lucide-react";
+import { getIconByName, IconName } from "@/lib/iconMap";
 
 interface ServiceCardProps {
   title: string;
   description: string;
-  icon: string;
+  icon: IconName;
 }
 
 const ServiceCard = ({ title, description, icon }: ServiceCardProps) => {
-  const IconComponent = Icons[icon as keyof typeof Icons] as React.ComponentType<{ size?: number; className?: string }>;
+  const IconComponent = getIconByName(icon) ?? FileText;
 
   return (
     <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary/50">

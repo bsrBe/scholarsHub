@@ -1,6 +1,7 @@
 import ContactForm from "@/components/ContactForm";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Mail, Phone, MapPin, MessageCircle, Navigation } from "lucide-react";
 
 const Contact = () => {
   return (
@@ -67,12 +68,17 @@ const Contact = () => {
                   <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0">
                     <MapPin className="text-primary" size={24} />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <h3 className="font-semibold text-lg mb-1">Office</h3>
-                    <p className="text-muted-foreground">
-                      123 Education Street<br />
-                      City Name, State 12345
-                    </p>
+                    <a
+                      href="https://maps.app.goo.gl/CBJ3PPRtNMa2JtfWA"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors block"
+                    >
+                      Garad Building, Wollo Sefer<br />
+                      Addis Ababa, Ethiopia
+                    </a>
                   </div>
                 </CardContent>
               </Card>
@@ -82,16 +88,16 @@ const Contact = () => {
                   <h3 className="font-semibold text-lg mb-4">Quick Chat</h3>
                   <div className="flex gap-4">
                     <a
-                      href="https://wa.me/1234567890"
+                      href="https://www.instagram.com/scholarshub_et?igsh=MThmZHB1N21hY2dmZQ=="
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors flex-1 justify-center font-medium"
                     >
                       <MessageCircle size={20} />
-                      WhatsApp
+                      Instagram
                     </a>
                     <a
-                      href="https://t.me/scholarshub"
+                      href="https://t.me/+rsmWfnxAWPZkYzlk"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 px-4 py-3 bg-secondary text-secondary-foreground rounded-xl hover:bg-secondary/90 transition-colors flex-1 justify-center font-medium"
@@ -138,14 +144,54 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Map Section (Placeholder) */}
+      {/* Map Section */}
       <section className="section-padding bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Visit Our Office</h2>
-          <div className="bg-muted rounded-2xl h-96 flex items-center justify-center">
-            <p className="text-muted-foreground">
-              Google Maps embed would be placed here
-            </p>
+          <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/10">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.7699046102534!2d38.77239697575623!3d8.993308289545155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b857e7b2eb3fb%3A0xaa2ab8ee1a1322b7!2zR2FyYWQgQnVpbGRpbmcgfCBXb2xsbyBTZWZlciB8IOGMi-GIq-GLtSDhiIXhipXhjLsgfCDhi4jhiI4g4Yig4Y2I4Yit!5e0!3m2!1sen!2set!4v1763129914999!5m2!1sen!2set"
+              width="100%"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full h-[450px] md:h-[500px] lg:h-[550px]"
+              title="Office Location - Garad Building, Wollo Sefer, Addis Ababa"
+              aria-label="Google Maps showing office location at Garad Building, Wollo Sefer, Addis Ababa"
+            />
+          </div>
+          <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button
+              asChild
+              variant="outline"
+              className="w-full sm:w-auto"
+            >
+              <a
+                href="https://maps.app.goo.gl/CBJ3PPRtNMa2JtfWA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2"
+              >
+                <MapPin size={18} />
+                Open in Google Maps
+              </a>
+            </Button>
+            <Button
+              asChild
+              className="w-full sm:w-auto"
+            >
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=8.993308289545155,38.77239697575623"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2"
+              >
+                <Navigation size={18} />
+                Get Directions
+              </a>
+            </Button>
           </div>
         </div>
       </section>

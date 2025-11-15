@@ -44,6 +44,10 @@ const HeroSection = () => {
               <CheckCircle className="text-primary" size={20} />
               <span className="font-medium">No Matric Required</span>
             </div>
+            <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm px-4 py-3 rounded-xl shadow-md">
+              <CheckCircle className="text-primary" size={20} />
+              <span className="font-medium">Fast Track Application</span>
+            </div>
           </div>
 
           {/* CTA Buttons */}
@@ -52,6 +56,12 @@ const HeroSection = () => {
               <Button variant="hero" size="lg" className="w-full sm:w-auto">
                 Book Free Consultation
                 <ArrowRight size={20} />
+              </Button>
+            </Link>
+            <Link to="/apply">
+              <Button variant="default" size="lg" className="w-full sm:w-auto bg-primary/90 hover:bg-primary">
+                Apply Now
+                <ArrowRight size={20} className="ml-2" />
               </Button>
             </Link>
             <Link to="/destinations">

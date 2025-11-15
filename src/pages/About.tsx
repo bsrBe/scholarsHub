@@ -78,21 +78,25 @@ const About = () => {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-8 text-center">Our Story</h2>
           <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-            <p>
-              Founded in 2010, Scholars Hub began with a simple mission: to help talented students
-              access world-class education opportunities abroad. What started as a small consultancy
-              has grown into a trusted partner for thousands of students worldwide.
-            </p>
-            <p>
-              Our founder, inspired by their own challenges while studying abroad, recognized the
-              need for comprehensive, honest, and affordable guidance. Today, we're proud to have
-              helped over 10,000 students achieve their academic dreams across 25+ countries.
-            </p>
-            <p>
-              We believe that education should be accessible to all, which is why we pioneered the
-              "No Initial Payment" model in the industry. Your success is our success, and we're
-              committed to supporting you every step of the way.
-            </p>
+           <p>
+  Founded in 2015, Scholars Hub started with one purpose: to make studying abroad easier,
+  clearer, and more accessible for every student. What began as a small advisory service has
+  grown into a trusted support system for students pursuing global education.
+</p>
+
+<p>
+  Driven by experience navigating the challenges of studying overseas,
+  saw the need for honest, reliable, and affordable guidance. Since then, we’ve helped many
+  students begin their academic journey across 15+ countries.
+</p>
+
+<p>
+  We believe that opportunity should never be limited by financial barriers. That’s why we
+  introduced a “No Initial Payment” approach — you only move forward when you’re confident
+  and ready. With 10+ years of experience and a 90% visa success rate, we’re committed to 
+  supporting you at every stage of the process.
+</p>
+
           </div>
         </div>
       </section>

@@ -3,6 +3,7 @@ import ServiceCard from "@/components/ServiceCard";
 import DestinationCard from "@/components/DestinationCard";
 import ProcessStep from "@/components/ProcessStep";
 import TestimonialSlider from "@/components/TestimonialSlider";
+import PartnerUniversities from "@/components/PartnerUniversities";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { services, destinations, processSteps } from "@/lib/constants";
@@ -77,6 +78,9 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Partner Universities */}
+      <PartnerUniversities />
+
       {/* How It Works */}
       <section className="section-padding">
         <div className="max-w-7xl mx-auto">
@@ -138,6 +142,12 @@ const Home = () => {
             <Link to="/apply">
               <Button variant="secondary" size="lg" className="w-full sm:w-auto">
                 Apply Now
+                <ArrowRight size={20} />
+              </Button>
+            </Link>
+            <Link to="/my-applications">
+              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+                View My Applications
                 <ArrowRight size={20} />
               </Button>
             </Link>

@@ -1,10 +1,36 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, Tag } from "lucide-react";
-import { blogPosts } from "@/lib/constants";
+import { ArrowRight, Calendar, Tag, Loader2 } from "lucide-react";
+import { getBlogPosts, BlogPost } from "@/services/blogService";
+import { useToast } from "@/components/ui/use-toast";
 
 const Blog = () => {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        setLoading(true);
+        const data = await getBlogPosts();
+        setPosts(data);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load blog posts. Please try again later.',
+          variant: 'destructive',
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogPosts();
+  }, [toast]);
   return (
     <main>
       {/* Hero Section */}
@@ -23,22 +49,33 @@ const Blog = () => {
       {/* Blog Posts Grid */}
       <section className="section-padding">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
+          {loading ? (
+            <div className="col-span-3 flex justify-center items-center p-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="col-span-3 text-center p-12 text-muted-foreground">
+              No blog posts found.
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {posts.map((post) => (
               <Card
-                key={post.id}
+                key={post._id}
                 className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50"
               >
                 <CardHeader>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                     <div className="flex items-center gap-1">
                       <Calendar size={16} />
-                      <span>{new Date(post.date).toLocaleDateString()}</span>
+                      <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Tag size={16} />
-                      <span>{post.category}</span>
-                    </div>
+                    {post.category && (
+                      <div className="flex items-center gap-1">
+                        <Tag size={16} />
+                        <span>{post.category}</span>
+                      </div>
+                    )}
                   </div>
                   <CardTitle className="text-2xl mb-2 group-hover:text-primary transition-colors">
                     {post.title}
@@ -48,7 +85,7 @@ const Blog = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Link to={`/blog/${post.slug}`}>
+                  <Link to={`/blog/${post._id}`}>
                     <Button variant="ghost" className="w-full group/btn">
                       Read More
                       <ArrowRight
@@ -59,8 +96,9 @@ const Blog = () => {
                   </Link>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

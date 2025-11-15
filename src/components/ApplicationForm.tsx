@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { toast } from "sonner";
 import { Send, Upload } from "lucide-react";
 import { destinations } from "@/lib/constants";
+import useAuth from "@/hooks/useAuth";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters").max(100),
@@ -31,6 +32,7 @@ interface ApplicationFormProps {
 
 const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { user } = useAuth();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -55,14 +57,24 @@ const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log("Application submitted:", data);
-    toast.success("Application submitted successfully! We'll contact you soon.");
-    form.reset();
-    setIsSubmitting(false);
+
+    try {
+      if (!user) {
+        const message = 'Please log in to submit your application.';
+        toast.error(message);
+        return;
+      }
+
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log("Application submitted:", data);
+      toast.success("Application submitted successfully! We'll contact you soon.");
+      form.reset();
+    } catch (error) {
+      toast.error("Failed to submit application. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

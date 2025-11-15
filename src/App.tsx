@@ -2,23 +2,141 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Suspense, lazy } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Services from "./pages/Services";
-import Destinations from "./pages/Destinations";
-import DestinationDetail from "./pages/DestinationDetail";
-import HowItWorks from "./pages/HowItWorks";
-import BookConsultation from "./pages/BookConsultation";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import Contact from "./pages/Contact";
-import Apply from "./pages/Apply";
-import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import { AuthProvider } from "./contexts/AuthContext";
+import ScrollToTop from "./components/ScrollToTop";
+
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Services = lazy(() => import("./pages/Services"));
+const Destinations = lazy(() => import("./pages/Destinations"));
+const DestinationDetail = lazy(() => import("./pages/DestinationDetail"));
+const HowItWorks = lazy(() => import("./pages/HowItWorks"));
+const BookConsultation = lazy(() => import("./pages/BookConsultation"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Apply = lazy(() => import("./pages/Apply"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const FormResponses = lazy(() => import("./pages/FormResponses"));
+const MeetingPage = lazy(() => import("./pages/MeetingPage"));
+const Tasks = lazy(() => import("./pages/Tasks"));
+const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
+const FormDetail = lazy(() => import("./pages/admin/FormDetail"));
+const AuthLayout = lazy(() => import("./layouts/AuthLayout"));
+const Login = lazy(() => import("./pages/auth/Login").then(module => ({ default: module.Login })));
+const Register = lazy(() => import("./pages/auth/Register").then(module => ({ default: module.Register })));
+const Profile = lazy(() => import("./pages/Profile"));
+const AdminLayout = lazy(() => import("./layouts/AdminLayout"));
+const UsersPage = lazy(() => import("./pages/admin/UsersPage"));
+const MeetingsPage = lazy(() => import("./pages/admin/MeetingsPage"));
+const FormsPage = lazy(() => import("./pages/admin/FormsPage"));
+const TaskApplicationsPage = lazy(() => import("./pages/admin/TaskApplicationsPage"));
+const FAQsPage = lazy(() => import("./pages/admin/FAQsPage"));
+const ArticlesPage = lazy(() => import("./pages/admin/ArticlesPage"));
 
 const queryClient = new QueryClient();
+
+const PageFallback = () => (
+  <div className="flex min-h-[40vh] items-center justify-center text-muted-foreground">
+    Loading...
+  </div>
+);
+
+const AppRoutes = () => {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <ScrollToTop />
+      {!isAdminRoute && <Navbar />}
+      <div className="flex-1">
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/destinations" element={<Destinations />} />
+          <Route path="/destinations/:country" element={<DestinationDetail />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/book-consultation" element={<BookConsultation />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/apply" element={<Apply />} />
+          <Route path="/meetings" element={<MeetingPage />} />
+          {/* Auth Routes */}
+          <Route path="/auth" element={<AuthLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+          </Route>
+          
+          {/* Redirect old routes to new auth routes */}
+          <Route path="/login" element={<Navigate to="/auth/login" replace />} />
+          <Route path="/register" element={<Navigate to="/auth/register" replace />} />
+
+          {/* Protected Routes */}
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/my-applications" 
+            element={
+              <ProtectedRoute>
+                <FormResponses />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/tasks" 
+            element={
+              <ProtectedRoute>
+                <Tasks />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Admin Routes */}
+          <Route
+            path="/admin/*"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="meetings" element={<MeetingsPage />} />
+            <Route path="users" element={<UsersPage />} />
+            <Route path="forms" element={<FormsPage />} />
+            <Route path="forms/:id" element={<FormDetail />} />
+            <Route path="task-applications" element={<TaskApplicationsPage />} />
+            <Route path="faqs" element={<FAQsPage />} />
+            <Route path="articles" element={<ArticlesPage />} />
+            <Route path="*" element={<Navigate to="/admin" replace />} />
+          </Route>
+          
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        </Suspense>
+      </div>
+      {!isAdminRoute && <Footer />}
+    </div>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -26,27 +144,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <div className="flex-1">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/destinations" element={<Destinations />} />
-              <Route path="/destinations/:country" element={<DestinationDetail />} />
-              <Route path="/how-it-works" element={<HowItWorks />} />
-              <Route path="/book-consultation" element={<BookConsultation />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/apply" element={<Apply />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
-          <Footer />
-        </div>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

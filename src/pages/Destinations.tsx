@@ -1,5 +1,7 @@
 import DestinationCard from "@/components/DestinationCard";
 import { destinations } from "@/lib/constants";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const Destinations = () => {
   return (
@@ -25,6 +27,9 @@ const Destinations = () => {
               <DestinationCard key={destination.id} {...destination} />
             ))}
           </div>
+          <p className="text-center text-muted-foreground mt-8 text-lg">
+            ...and more destinations available
+          </p>
         </div>
       </section>
 
@@ -38,16 +43,11 @@ const Destinations = () => {
             Not sure which destination is right for you? Our expert counselors can help
             you choose the perfect country based on your academic goals, budget, and preferences.
           </p>
-          <a
-            href="https://wa.me/1234567890"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block"
-          >
-            <button className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-semibold hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl">
+          <Link to="/book-consultation">
+            <Button variant="hero" size="lg">
               Chat with a Counselor
-            </button>
-          </a>
+            </Button>
+          </Link>
         </div>
       </section>
     </main>
