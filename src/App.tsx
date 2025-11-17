@@ -20,6 +20,7 @@ const BookConsultation = lazy(() => import("./pages/BookConsultation"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Contact = lazy(() => import("./pages/Contact"));
+const ContactPartners = lazy(() => import("./pages/ContactPartners"));
 const Apply = lazy(() => import("./pages/Apply"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -28,6 +29,7 @@ const MeetingPage = lazy(() => import("./pages/MeetingPage"));
 const Tasks = lazy(() => import("./pages/Tasks"));
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const FormDetail = lazy(() => import("./pages/admin/FormDetail"));
+const PartnershipRequestsPage = lazy(() => import("./pages/admin/PartnershipRequestsPage"));
 const AuthLayout = lazy(() => import("./layouts/AuthLayout"));
 const Login = lazy(() => import("./pages/auth/Login").then(module => ({ default: module.Login })));
 const Register = lazy(() => import("./pages/auth/Register").then(module => ({ default: module.Register })));
@@ -69,6 +71,7 @@ const AppRoutes = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/contact/partners" element={<ContactPartners />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/apply" element={<Apply />} />
           <Route path="/meetings" element={<MeetingPage />} />
@@ -123,6 +126,7 @@ const AppRoutes = () => {
             <Route path="forms" element={<FormsPage />} />
             <Route path="forms/:id" element={<FormDetail />} />
             <Route path="task-applications" element={<TaskApplicationsPage />} />
+            <Route path="partnerships" element={<PartnershipRequestsPage />} />
             <Route path="faqs" element={<FAQsPage />} />
             <Route path="articles" element={<ArticlesPage />} />
             <Route path="*" element={<Navigate to="/admin" replace />} />

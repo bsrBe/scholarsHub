@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import AdminLayout from '../layouts/AdminLayout';
-import { DashboardPage, MeetingsPage, UsersPage } from '../pages/admin';
+import { DashboardPage, MeetingsPage, UsersPage, PartnershipRequestsPage } from '../pages/admin';
 
 interface AdminRouteProps {
   children: React.ReactNode;
@@ -34,6 +34,7 @@ const AdminRoutes: React.FC = () => {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/meetings" element={<MeetingsPage />} />
           <Route path="/users" element={<UsersPage />} />
+          <Route path="/partnerships" element={<PartnershipRequestsPage />} />
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>
       </AdminLayout>

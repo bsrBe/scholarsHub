@@ -40,13 +40,13 @@ const HeroSection = () => {
               <CheckCircle className="text-primary" size={20} />
               <span className="font-medium">No Initial Payment</span>
             </div>
-            <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm px-4 py-3 rounded-xl shadow-md">
+                <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm px-4 py-3 rounded-xl shadow-md">
               <CheckCircle className="text-primary" size={20} />
-              <span className="font-medium">No Matric Required</span>
+              <span className="font-medium">Fast Track Application</span>
             </div>
             <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm px-4 py-3 rounded-xl shadow-md">
               <CheckCircle className="text-primary" size={20} />
-              <span className="font-medium">Fast Track Application</span>
+              <span className="font-medium">No Matric Required</span>
             </div>
           </div>
 

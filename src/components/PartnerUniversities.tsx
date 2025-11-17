@@ -28,7 +28,7 @@ const partnerUniversities: PartnerUniversity[] = [
   { id: "8", name: "St. Francis College", logo: "/St. Francis College.png", location: "New York, USA", city: "Brooklyn", state: "New York", country: "USA" },
   { id: "9", name: "University of the Cumberlands", logo: "/University of the Cumberlands.svg", location: "Kentucky, USA", city: "Williamsburg", state: "Kentucky", country: "USA" },
   { id: "10", name: "Wayland Baptist University", logo: "/Wayland Baptist University.png", location: "Texas, USA", city: "Plainview", state: "Texas", country: "USA" },
-  { id: "11", name: "Wittenberg University", logo: "/Wittenberg University.svg", location: "Springfield, Ohio, USA", city: "Springfield", state: "Ohio", country: "USA" },
+  { id: "11", name: "Wittenberg University", logo: "/Wittenberg University.svg", location: "Springfield, USA", city: "Springfield", state: "Ohio", country: "USA" },
   { id: "12", name: "Marshall University", logo: "/Marshall University.png", location: "West Virginia, USA", city: "Huntington", state: "West Virginia", country: "USA" },
   { id: "13", name: "The University of Toledo", logo: "/The University of Toledo.svg", location: "Ohio, USA", city: "Toledo", state: "Ohio", country: "USA" },
   { id: "14", name: "Murray State University", logo: "/Murray State University.png", location: "Kentucky, USA", city: "Murray", state: "Kentucky", country: "USA" },
@@ -38,20 +38,31 @@ const partnerUniversities: PartnerUniversity[] = [
   { id: "18", name: "Auburn University", logo: "/Auburn University.png", location: "Alabama, USA", city: "Auburn", state: "Alabama", country: "USA" },
   { id: "19", name: "University of Alabama", logo: "/University of Alabama.jpeg", location: "Alabama, USA", city: "Tuscaloosa", state: "Alabama", country: "USA" },
   { id: "20", name: "University of Kentucky", logo: "/University of Kentucky.png", location: "Kentucky, USA", city: "Lexington", state: "Kentucky", country: "USA" },
-  { id: "21", name: "Dublin Business School", logo: "/Dublin Business School.png", location: "Dublin, Ireland", city: "Dublin", state: "Dublin", country: "Ireland" },
-  { id: "22", name: "University of Limerick", logo: "/University of Limerick.png", location: "Limerick, Ireland", city: "Limerick", state: "Limerick", country: "Ireland" },
-  { id: "23", name: "IBAT college Dublin", logo: "/IBAT college Dublin.png", location: "Dublin, Ireland", city: "Dublin", state: "Dublin", country: "Ireland" },
-  { id: "24", name: "Federation University", logo: "/Federation University.png", location: "Berwick,Australia", city: "Berwick", state: "Berwick", country: "Australia" },
-  { id: "25", name: "Griffith University", logo: "/Griffith University.png", location: "Queensland,Australia", city: "Queensland", state: "Queensland", country: "Australia" },
-  { id: "26", name: "La Trobe University", logo: "/La Trobe University.png", location: "Melbourne,Australia", city: "Melbourne", state: "Melbourne", country: "Australia" },
-  { id: "27", name: "Deakin University", logo: "/Deakin University.png", location: "Melbourne,Australia", city: "Melbourne", state: "Melbourne", country: "Australia" },
-  { id: "28", name: "Haaha-Helia University of Applied Science", logo: "/Haaha-Helia University of Applied Science.png", location: "Helsinki,Finland", city: "Helsinki", state: "Helsinki", country: "Finland" },
-  { id: "29", name: "Auckland Institute of Studies", logo: "/Auckland Institute of Studies.png", location: "Auckland,New Zealand", city: "Auckland", state: "Auckland", country: "New Zealand" },
-  { id: "30", name: "International University of Applied Science", logo: "/International University of Applied Science.png", location: "Erfurt,Germany", city: "Erfurt", state: "Erfurt", country: "Germany" },
-  { id: "31", name: "SRH University Heidelberg", logo: "/SRH University Heidelberg.png", location: "Berlin,Germany", city: "Berlin", state: "Berlin", country: "Germany" },
-  { id: "32", name: "New European College", logo: "/New European College.png", location: "Munich,Germany", city: "Munich", state: "Munich", country: "Germany" },
-  { id: "33", name: "University of Europe for Applied Science", logo: "/University of Europe for Applied Science.png", location: "Berlin,Germany", city: "Berlin", state: "Berlin", country: "Germany" },
-  { id: "34", name: "Girne American University", logo: "/Girne American University.png", location: "Turkey", city: "Cyprus Karmi", state: "Cyprus Karmi", country: "Turkey" },
+  { id: "21", name: "University of Regina", logo: "/University of Regina.png", location: "Saskatchewan, Canada", city: "Regina", state: "Saskatchewan", country: "Canada" },
+  { id: "22", name: "Trent University", logo: "/Trent University.png", location: "Ontario, Canada", city: "Trent", state: "Ontario", country: "Canada" },
+  { id: "23", name: "Niagara College", logo: "/Niagara College.png", location: "Ontario, Canada", city: "Niagara", state: "Ontario", country: "Canada" },
+  { id: "24", name: "Algoma University", logo: "/Algoma University.png", location: "Ontario, Canada", city: "Algoma", state: "Ontario", country: "Canada" },
+  { id: "25", name: "Northeastern University", logo: "/Northeastern University.png", location: "Toronto, Canada", city: "Toronto", state: "Ontario", country: "Canada" },
+  { id: "26", name: "Cyprus International University", logo: "/Cyprus International University.png", location: "Nicosia, Cyprus", city: "Nicosia", state: "Nicosia", country: "Cyprus" },
+  { id: "27", name: "University of Roehampton", logo: "/University of Roehampton.png", location: "London, England", city: "London", state: "London", country: "England" },
+  { id: "28", name: "University of Wolverhampton", logo: "/University of Wolverhampton.png", location: "Walsall, England", city: "Walsall", state: "Walsall", country: "England" },
+  { id: "29", name: "Aberystwyth University", logo: "/Aberystwyth University.png", location: "Wales, England", city: "Wales", state: "Wales", country: "England" },
+  { id: "30", name: "University of Sunderland", logo: "/University of Sunderland.png", location: "Sunderland, England", city: "Sunderland", state: "Sunderland", country: "England" },
+  { id: "31", name: "C3S Business School", logo: "/C3S Business School.png", location: "Cape Town, South Africa", city: "Cape Town", state: "Cape Town", country: "South Africa" },
+  { id: "32", name: "Dublin Business School", logo: "/Dublin Business School.png", location: "Dublin, Ireland", city: "Dublin", state: "Dublin", country: "Ireland" },
+  { id: "33", name: "University of Limerick", logo: "/University of Limerick.png", location: "Limerick, Ireland", city: "Limerick", state: "Limerick", country: "Ireland" },
+  { id: "34", name: "IBAT College Dublin", logo: "/IBAT college Dublin.png", location: "Dublin, Ireland", city: "Dublin", state: "Dublin", country: "Ireland" },
+  { id: "35", name: "Federation University", logo: "/Federation University.png", location: "Berwick, Australia", city: "Berwick", state: "Berwick", country: "Australia" },
+  { id: "36", name: "Griffith University", logo: "/Griffith University.png", location: "Queensland, Australia", city: "Queensland", state: "Queensland", country: "Australia" },
+  { id: "37", name: "La Trobe University", logo: "/La Trobe University.png", location: "Melbourne, Australia", city: "Melbourne", state: "Melbourne", country: "Australia" },
+  { id: "38", name: "Deakin University", logo: "/Deakin University.png", location: "Melbourne, Australia", city: "Melbourne", state: "Melbourne", country: "Australia" },
+  { id: "39", name: "Haaha-Helia University of Applied Science", logo: "/Haaha-Helia University of Applied Science.png", location: "Helsinki, Finland", city: "Helsinki", state: "Helsinki", country: "Finland" },
+  { id: "40", name: "Auckland Institute of Studies", logo: "/Auckland Institute of Studies.png", location: "Auckland, New Zealand", city: "Auckland", state: "Auckland", country: "New Zealand" },
+  { id: "41", name: "International University of Applied Science", logo: "/International University of Applied Science.png", location: "Erfurt, Germany", city: "Erfurt", state: "Erfurt", country: "Germany" },
+  { id: "42", name: "SRH University Heidelberg", logo: "/SRH University Heidelberg.png", location: "Berlin, Germany", city: "Berlin", state: "Berlin", country: "Germany" },
+  { id: "43", name: "New European College", logo: "/New European College.png", location: "Munich, Germany", city: "Munich", state: "Munich", country: "Germany" },
+  { id: "44", name: "University of Europe for Applied Science", logo: "/University of Europe for Applied Science.png", location: "Berlin, Germany", city: "Berlin", state: "Berlin", country: "Germany" },
+  { id: "45", name: "Girne American University", logo: "/Girne American University.png", location: "Turkey, Cyprus", city: "Cyprus Karmi", state: "Cyprus Karmi", country: "Turkey" },
 ];
 
 const PartnerUniversities = () => {
@@ -88,10 +99,10 @@ const PartnerUniversities = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Some of our Partner <span className="gradient-text">Universities</span>
+             Partner <span className="gradient-text">Universities</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Explore our network of prestigious partner universities across the United States
+            Explore Some of our network of prestigious partner universities across the United States
           </p>
         </div>
 

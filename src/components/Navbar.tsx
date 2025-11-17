@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import NavUser from "./NavUser";
 
 const Navbar = () => {
@@ -16,7 +22,11 @@ const Navbar = () => {
     { name: "How It Works", path: "/how-it-works" },
     { name: "FAQ", path: "/faq" },
     { name: "Blog", path: "/blog" },
-    { name: "Contact", path: "/contact" },
+  ];
+
+  const contactOptions = [
+    { name: "For Users", path: "/contact" },
+    { name: "For Partners", path: "/contact/partners" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -47,6 +57,39 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
+            
+            {/* Contact Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    isActive("/contact") || isActive("/contact/partners")
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground hover:bg-muted"
+                  }`}
+                >
+                  Contact Us
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="bg-background border shadow-lg">
+                {contactOptions.map((option) => (
+                  <DropdownMenuItem key={option.path} asChild>
+                    <Link
+                      to={option.path}
+                      className={`w-full px-2 py-2 text-sm font-medium transition-colors ${
+                        isActive(option.path)
+                          ? "text-primary bg-primary/10"
+                          : "text-foreground hover:text-primary hover:bg-muted"
+                      }`}
+                    >
+                      {option.name}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Auth Buttons */}
@@ -82,6 +125,28 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
+              
+              {/* Contact Options for Mobile */}
+              <div className="px-4 py-2">
+                <p className="text-xs font-medium text-muted-foreground mb-2">Contact Us</p>
+                <div className="space-y-1">
+                  {contactOptions.map((option) => (
+                    <Link
+                      key={option.path}
+                      to={option.path}
+                      onClick={() => setIsOpen(false)}
+                      className={`block px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        isActive(option.path)
+                          ? "bg-primary text-primary-foreground"
+                          : "text-foreground hover:bg-muted"
+                      }`}
+                    >
+                      {option.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              
               <div className="w-full p-2">
                 <NavUser />
               </div>

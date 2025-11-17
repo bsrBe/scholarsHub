@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Layout, Menu, theme, Avatar, Dropdown, Typography, Badge } from 'antd';
 import type { MenuProps } from 'antd';
 import {
@@ -20,7 +20,7 @@ import { useAuth } from '../contexts/AuthContext';
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 
-const AdminLayout: React.FC = () => {
+const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,6 +46,12 @@ const AdminLayout: React.FC = () => {
       icon: <FileDoneOutlined />,
       label: 'Task Applications',
       onClick: () => navigate('/admin/task-applications'),
+    },
+    {
+      key: 'partnerships',
+      icon: <TeamOutlined />,
+      label: 'Partnership Requests',
+      onClick: () => navigate('/admin/partnerships'),
     },
     {
       key: 'meetings',
@@ -140,7 +146,7 @@ const AdminLayout: React.FC = () => {
           </div>
         </Header>
         <Content className="m-6 p-6 bg-white rounded-lg">
-          <Outlet />
+          {children}
         </Content>
       </Layout>
     </Layout>

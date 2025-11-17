@@ -134,7 +134,7 @@ const Chatbot = () => {
               </span>
             )}
           </div>
-          <span className="font-semibold text-sm whitespace-nowrap">Chat with Admins</span>
+          <span className="font-semibold text-sm whitespace-nowrap">Chat</span>
         </button>
       )}
 

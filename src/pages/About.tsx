@@ -143,11 +143,11 @@ const About = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-5xl font-bold mb-2">10K+</div>
-              <div className="text-lg opacity-90">Students Placed</div>
+              <div className="text-5xl font-bold mb-2">100%</div>
+              <div className="text-lg opacity-90">Students Satisfaction</div>
             </div>
             <div>
-              <div className="text-5xl font-bold mb-2">25+</div>
+              <div className="text-5xl font-bold mb-2">15+</div>
               <div className="text-lg opacity-90">Countries</div>
             </div>
             <div>
@@ -155,7 +155,7 @@ const About = () => {
               <div className="text-lg opacity-90">Visa Success Rate</div>
             </div>
             <div>
-              <div className="text-5xl font-bold mb-2">15+</div>
+              <div className="text-5xl font-bold mb-2">10+</div>
               <div className="text-lg opacity-90">Years Experience</div>
             </div>
           </div>

@@ -59,6 +59,7 @@ const BookConsultation = () => {
   const [activeMeeting, setActiveMeeting] = useState<{id: string; fullName: string} | null>(null);
   const [meetings, setMeetings] = useState<Meeting[]>([]);
 
+  // Auto-fill form data for authenticated users
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({
@@ -88,10 +89,8 @@ const BookConsultation = () => {
         setMeetings(normalized);
       } catch (err) {
         console.error('Error fetching meetings:', err);
-        // Only show message to non-authenticated users
-        if (!user) {
-          setError('You have no scheduled meetings yet. Login to book a meeting.');
-        }
+        // Show appropriate message based on authentication status
+        setError(user ? 'You have no scheduled meetings yet.' : 'You have no scheduled meetings yet. Book your first consultation above!');
         setMeetings([]);
       }
     };
@@ -132,8 +131,19 @@ const BookConsultation = () => {
     setIsLoading(true);
 
     try {
-      if (!user) {
-        const message = 'Please log in to book a consultation.';
+      // Validate form data
+      if (!formData.fullName.trim() || !formData.email.trim()) {
+        const message = 'Please provide your name and email address.';
+        toast.error(message);
+        setError(message);
+        setIsLoading(false);
+        return;
+      }
+
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        const message = 'Please provide a valid email address.';
         toast.error(message);
         setError(message);
         setIsLoading(false);
@@ -159,8 +169,8 @@ const BookConsultation = () => {
 
       const endDateTime = addMinutes(startDateTime, 60);
 
-      const bookingEmail = user.email?.toLowerCase() || '';
-      const bookingName = user.name || formData.fullName;
+      const bookingEmail = formData.email.toLowerCase();
+      const bookingName = formData.fullName;
 
       const alreadyScheduledSameDay = meetings.some((meeting) => {
         if (!meeting.hostEmail || !bookingEmail) return false;
@@ -214,8 +224,8 @@ const BookConsultation = () => {
         title: `Consultation for ${bookingName} with ScholarsHub`,
         description: `Scheduled consultation for ${bookingName}`,
         hostName: bookingName,
-        hostEmail: user.email,
-        participants: [user.email],
+        hostEmail: formData.email,
+        participants: [formData.email],
         startTime: startDateTime.toISOString(),
         endTime: endDateTime.toISOString(),
         timeZone: 'Africa/Addis_Ababa',
@@ -231,8 +241,8 @@ const BookConsultation = () => {
       setActiveTab('scheduled');
 
       setFormData({
-        fullName: user.name || '',
-        email: user.email || '',
+        fullName: user?.name || '',
+        email: user?.email || '',
         phoneNumber: '',
         preferredDate: new Date(),
         preferredTime: setHours(setMinutes(new Date(), 0), WORKING_HOURS.startHour),
@@ -378,8 +388,9 @@ const BookConsultation = () => {
                             type="text"
                             name="fullName"
                             value={formData.fullName}
-                            readOnly
-                            className="w-full p-3 border rounded-md bg-muted/30 text-muted-foreground"
+                            onChange={handleChange}
+                            readOnly={!!user}
+                            className={`w-full p-3 border rounded-md ${user ? 'bg-muted/30 text-muted-foreground' : 'bg-background'}`}
                             placeholder="Your full name"
                             required
                           />
@@ -393,8 +404,9 @@ const BookConsultation = () => {
                             type="email"
                             name="email"
                             value={formData.email}
-                            readOnly
-                            className="w-full p-3 border rounded-md bg-muted/30 text-muted-foreground"
+                            onChange={handleChange}
+                            readOnly={!!user}
+                            className={`w-full p-3 border rounded-md ${user ? 'bg-muted/30 text-muted-foreground' : 'bg-background'}`}
                             placeholder="your.email@example.com"
                             required
                           />
