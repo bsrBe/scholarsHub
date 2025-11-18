@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { Layout, Menu, theme, Avatar, Dropdown, Typography, Badge } from 'antd';
 import type { MenuProps } from 'antd';
 import {
@@ -20,7 +20,7 @@ import { useAuth } from '../contexts/AuthContext';
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 
-const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -146,7 +146,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </div>
         </Header>
         <Content className="m-6 p-6 bg-white rounded-lg">
-          {children}
+          {children ?? <Outlet />}
         </Content>
       </Layout>
     </Layout>

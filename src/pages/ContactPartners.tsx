@@ -71,7 +71,8 @@ const ContactPartners = () => {
     businessLicense: null,
     companyProfile: null,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [individualSubmitting, setIndividualSubmitting] = useState(false);
+  const [companySubmitting, setCompanySubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const partnershipOptions = [
@@ -127,7 +128,7 @@ const ContactPartners = () => {
 
   const handleIndividualSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setIndividualSubmitting(true);
 
     const formData = new FormData();
     formData.append('type', 'individual');
@@ -164,13 +165,13 @@ const ContactPartners = () => {
       console.error('Form submission error:', error);
       toast.error(error.message || 'Failed to submit form. Please try again.');
     } finally {
-      setIsSubmitting(false);
+      setIndividualSubmitting(false);
     }
   };
 
   const handleCompanySubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setCompanySubmitting(true);
 
     const formData = new FormData();
     formData.append('type', 'company');
@@ -209,7 +210,7 @@ const ContactPartners = () => {
       console.error('Form submission error:', error);
       toast.error(error.message || 'Failed to submit form. Please try again.');
     } finally {
-      setIsSubmitting(false);
+      setCompanySubmitting(false);
     }
   };
 
@@ -594,10 +595,10 @@ const ContactPartners = () => {
 
                     <Button 
                       type="submit" 
-                      disabled={isSubmitting || !individualForm.fullName || !individualForm.email || !individualForm.country || !individualForm.profession || individualForm.expertise.length === 0}
+                      disabled={individualSubmitting || !individualForm.fullName || !individualForm.email || !individualForm.country || !individualForm.profession || individualForm.expertise.length === 0}
                       className="w-full h-10"
                     >
-                      {isSubmitting ? (
+                      {individualSubmitting ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           Submitting...
@@ -843,10 +844,10 @@ const ContactPartners = () => {
 
                     <Button 
                       type="submit" 
-                      disabled={isSubmitting || !companyForm.organizationName || !companyForm.contactPerson || !companyForm.email || !companyForm.country || !companyForm.organizationType || companyForm.partnershipInterest.length === 0}
+                      disabled={companySubmitting || !companyForm.organizationName || !companyForm.contactPerson || !companyForm.email || !companyForm.country || !companyForm.organizationType || companyForm.partnershipInterest.length === 0}
                       className="w-full h-10"
                     >
-                      {isSubmitting ? (
+                      {companySubmitting ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           Submitting...
