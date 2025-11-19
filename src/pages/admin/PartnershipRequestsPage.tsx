@@ -49,6 +49,8 @@ interface PartnershipRequest {
     originalName: string;
     path: string;
     size: number;
+    public_id?: string;
+    url?: string;
   }[];
   submittedAt: string;
   status: 'pending' | 'reviewed' | 'approved' | 'rejected';
@@ -75,7 +77,9 @@ const PartnershipRequestsPage: React.FC = () => {
   // Download file mutation
   const downloadFile = async (filename: string, originalName: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/partners-contact/download/${filename}`);
+      // Use the full public_id as stored in the database, URL encoded
+      const encodedFilename = encodeURIComponent(filename);
+      const response = await fetch(`http://localhost:5000/api/partners-contact/download/${encodedFilename}`);
       if (!response.ok) {
         throw new Error('Failed to download file');
       }
@@ -90,9 +94,8 @@ const PartnershipRequestsPage: React.FC = () => {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      
-      message.success('File downloaded successfully');
     } catch (error) {
+      console.error('Download error:', error);
       message.error('Failed to download file');
     }
   };
@@ -363,8 +366,8 @@ const PartnershipRequestsPage: React.FC = () => {
             {selectedRequest.documents && selectedRequest.documents.length > 0 && (
               <Card title="Uploaded Documents" size="small">
                 <Space direction="vertical" style={{ width: '100%' }}>
-                  {selectedRequest.documents.map((doc, index) => (
-                    <div key={index} className="flex justify-between items-center p-3 border rounded">
+                  {selectedRequest.documents?.map((doc) => (
+                    <div key={doc.public_id || doc.filename} className="flex justify-between items-center p-3 border rounded">
                       <div>
                         <Text strong>{doc.type}</Text>
                         <br />
@@ -376,7 +379,7 @@ const PartnershipRequestsPage: React.FC = () => {
                         type="primary"
                         size="small"
                         icon={<DownloadOutlined />}
-                        onClick={() => downloadFile(doc.filename, doc.originalName)}
+                        onClick={() => downloadFile(doc.public_id || doc.filename, doc.originalName)}
                       >
                         Download
                       </Button>
