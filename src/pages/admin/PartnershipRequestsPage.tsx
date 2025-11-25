@@ -56,6 +56,8 @@ interface PartnershipRequest {
   status: 'pending' | 'reviewed' | 'approved' | 'rejected';
 }
 
+const apiBaseURL = process.env.VITE_API_BASE_URL;
+
 const PartnershipRequestsPage: React.FC = () => {
   const [selectedRequest, setSelectedRequest] = useState<PartnershipRequest | null>(null);
   const [detailDrawerVisible, setDetailDrawerVisible] = useState(false);
@@ -65,7 +67,7 @@ const PartnershipRequestsPage: React.FC = () => {
   const { data: requestsData, isLoading, error } = useQuery({
     queryKey: ['partnership-requests'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5000/api/partners-contact/requests');
+      const response = await fetch(`${apiBaseURL}/partners-contact/requests`);
       if (!response.ok) {
         throw new Error('Failed to fetch partnership requests');
       }
@@ -79,11 +81,11 @@ const PartnershipRequestsPage: React.FC = () => {
     try {
       // Use the full public_id as stored in the database, URL encoded
       const encodedFilename = encodeURIComponent(filename);
-      const response = await fetch(`http://localhost:5000/api/partners-contact/download/${encodedFilename}`);
+      const response = await fetch(`${apiBaseURL}/partners-contact/download/${encodedFilename}`);
       if (!response.ok) {
         throw new Error('Failed to download file');
       }
-      
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -270,7 +272,7 @@ const PartnershipRequestsPage: React.FC = () => {
                     {selectedRequest.type === 'individual' ? 'Individual' : 'Company'}
                   </Tag>
                 </div>
-                
+
                 {selectedRequest.type === 'individual' ? (
                   <>
                     <div>
@@ -330,24 +332,24 @@ const PartnershipRequestsPage: React.FC = () => {
                     )}
                   </>
                 )}
-                
+
                 <div>
                   <Text strong>Email: </Text>
                   <Text copyable>{selectedRequest.email}</Text>
                 </div>
-                
+
                 {selectedRequest.phone && (
                   <div>
                     <Text strong>Phone: </Text>
                     <Text>{selectedRequest.phone}</Text>
                   </div>
                 )}
-                
+
                 <div>
                   <Text strong>Country: </Text>
                   <Text>{selectedRequest.country}</Text>
                 </div>
-                
+
                 <div>
                   <Text strong>Submitted: </Text>
                   <Text>{new Date(selectedRequest.submittedAt).toLocaleString()}</Text>

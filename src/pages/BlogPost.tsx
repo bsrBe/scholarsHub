@@ -11,41 +11,41 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const navigate = useNavigate();
-
+  const apiBaseURL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     let isMounted = true;
-    
+
     const fetchPost = async () => {
       if (!id) return;
-      
+
       try {
         setLoading(true);
         console.log('Starting to fetch blog post with ID:', id);
-        
+
         // Direct fetch without any service
-        const response = await fetch(`http://localhost:5000/api/articles/${id}`, {
+        const response = await fetch(`${apiBaseURL}/articles/${id}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
           },
           credentials: 'include',
         });
-        
+
         console.log('Raw fetch response received. Status:', response.status);
-        
+
         if (!response.ok) {
           const errorText = await response.text();
           console.error('Error response:', errorText);
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json().catch(e => {
           console.error('Error parsing JSON:', e);
           throw new Error('Invalid JSON response from server');
         });
-        
+
         console.log('Successfully parsed response data:', data);
-        
+
         if (isMounted) {
           setPost({
             _id: data._id,
@@ -82,7 +82,7 @@ const BlogPost = () => {
         }
       }
     };
-    
+
     // Set a longer timeout for debugging
     const timeoutId = setTimeout(() => {
       if (isMounted) {
@@ -92,11 +92,11 @@ const BlogPost = () => {
           id,
           timestamp: new Date().toISOString()
         });
-        
+
         // Try one more time before giving up
         console.log('Attempting one more time...');
         fetchPost();
-        
+
         // If still no response after retry, show error
         setTimeout(() => {
           if (isMounted && !post) {
@@ -110,9 +110,9 @@ const BlogPost = () => {
         }, 5000);
       }
     }, 15000); // 15 second initial timeout
-    
+
     fetchPost();
-    
+
     return () => {
       isMounted = false;
       clearTimeout(timeoutId);
@@ -180,16 +180,16 @@ const BlogPost = () => {
 
           {post.thumbnail && (
             <div className="my-8 rounded-lg overflow-hidden">
-              <img 
-                src={post.thumbnail} 
-                alt={post.title} 
+              <img
+                src={post.thumbnail}
+                alt={post.title}
                 className="w-full h-auto rounded-lg"
               />
             </div>
           )}
 
           {post.content && (
-            <div 
+            <div
               className="prose prose-lg dark:prose-invert max-w-none mt-8"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
@@ -199,8 +199,8 @@ const BlogPost = () => {
             <div className="mt-12 pt-8 border-t border-border">
               <div className="flex items-center gap-4">
                 {post.author.avatar && (
-                  <img 
-                    src={post.author.avatar} 
+                  <img
+                    src={post.author.avatar}
                     alt={post.author.name}
                     className="w-16 h-16 rounded-full object-cover"
                   />

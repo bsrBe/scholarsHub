@@ -33,9 +33,9 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
 export const getBlogPost = async (id: string): Promise<BlogPost> => {
   try {
     console.log(`Fetching blog post from: /articles/${id}`);
-    
+    const apiBaseURL = process.env.VITE_API_BASE_URL;
     // Make a raw fetch request to bypass any axios interceptors that might be causing issues
-    const response = await fetch(`http://localhost:5000/api/articles/${id}`, {
+    const response = await fetch(`${apiBaseURL}/articles/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

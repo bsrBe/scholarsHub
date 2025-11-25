@@ -90,7 +90,7 @@ const ContactPartners = () => {
     { id: "marketing", label: "Marketing" },
     { id: "other", label: "Other" },
   ];
-
+  const apiBaseURL = import.meta.env.VITE_API_BASE_URL;
   const handleIndividualChange = (e) => {
     const { name, value } = e.target;
     setIndividualForm(prev => ({
@@ -139,7 +139,7 @@ const ContactPartners = () => {
     formData.append('country', individualForm.country);
     formData.append('message', individualForm.message);
     formData.append('expertise', JSON.stringify(individualForm.expertise));
-    
+
     if (individualDocuments.passport) {
       formData.append('passport', individualDocuments.passport);
     }
@@ -148,7 +148,7 @@ const ContactPartners = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/partners-contact/submit-individual', {
+      const response = await fetch(`${apiBaseURL}/api/partners-contact/submit-individual`, {
         method: 'POST',
         body: formData,
       });
@@ -184,7 +184,7 @@ const ContactPartners = () => {
     formData.append('website', companyForm.website);
     formData.append('message', companyForm.message);
     formData.append('partnershipInterest', JSON.stringify(companyForm.partnershipInterest));
-    
+
     if (companyDocuments.businessLicense) {
       formData.append('businessLicense', companyDocuments.businessLicense);
     }
@@ -193,7 +193,7 @@ const ContactPartners = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/partners-contact/submit-company', {
+      const response = await fetch(`${apiBaseURL}/partners-contact/submit-company`, {
         method: 'POST',
         body: formData,
       });
@@ -231,7 +231,7 @@ const ContactPartners = () => {
                 <p className="text-muted-foreground">
                   In the meantime, feel free to explore our <Link to="/about" className="underline hover:text-primary">about page</Link> to learn more about ScholarsHub.
                 </p>
-                <Button 
+                <Button
                   onClick={() => {
                     setIsSubmitted(false);
                     setIndividualForm({
@@ -280,7 +280,7 @@ const ContactPartners = () => {
               Partner with <span className="gradient-text">ScholarsHub</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              Join us in transforming international education. Together, we can create 
+              Join us in transforming international education. Together, we can create
               amazing opportunities for students worldwide.
             </p>
           </div>
@@ -296,7 +296,7 @@ const ContactPartners = () => {
               Discover the benefits of collaborating with a leading international education platform
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="text-center p-6 border-2 hover:border-primary/50 transition-colors">
               <CardContent className="pt-6">
@@ -351,16 +351,16 @@ const ContactPartners = () => {
               </h2>
               <p className="text-2xl text-primary font-semibold mb-8">Be a Part of Us</p>
             </div>
-            
+
             <div className="bg-card rounded-2xl shadow-lg p-8 md:p-12 text-left space-y-6">
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Scholars Hub was founded in 2015 and has grown into a trusted study-abroad support platform connecting students with universities, colleges, and educational partners worldwide. As we continue to expand our global network and strengthen our international presence, we welcome collaborations that help students access quality education across 15+ countries.
               </p>
-              
+
               <p className="text-lg text-muted-foreground leading-relaxed">
                 We invite qualified educational institutions, language schools, training centers, consultancy firms, and individual partners to join our network and work with us to guide students toward meaningful academic opportunities.
               </p>
-              
+
               <div className="mt-8 pt-8 border-t border-border">
                 <h3 className="text-xl font-semibold mb-4 text-primary">How to Join Us</h3>
                 <div className="space-y-3">
@@ -593,8 +593,8 @@ const ContactPartners = () => {
                       )}
                     </div>
 
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       disabled={individualSubmitting || !individualForm.fullName || !individualForm.email || !individualForm.country || !individualForm.profession || individualForm.expertise.length === 0}
                       className="w-full h-10"
                     >
@@ -842,8 +842,8 @@ const ContactPartners = () => {
                       )}
                     </div>
 
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       disabled={companySubmitting || !companyForm.organizationName || !companyForm.contactPerson || !companyForm.email || !companyForm.country || !companyForm.organizationType || companyForm.partnershipInterest.length === 0}
                       className="w-full h-10"
                     >
