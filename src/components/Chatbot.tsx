@@ -8,11 +8,12 @@ import { taskApplicationService, TaskApplication } from '@/services/taskApplicat
 import useAuth from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useChat } from '@/contexts/ChatContext';
 
 const LAST_VIEWED_KEY = 'chatbot_last_viewed';
 
 const Chatbot = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, openChat, closeChat } = useChat();
   const [isMinimized, setIsMinimized] = useState(false);
   const [message, setMessage] = useState('');
   const { user, isAuthenticated } = useAuth();
@@ -122,7 +123,7 @@ const Chatbot = () => {
       {/* Chat Button */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={openChat}
           className="fixed bottom-6 right-6 bg-primary text-primary-foreground px-5 py-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 z-50 group flex items-center gap-3"
           aria-label="Open chat"
         >
@@ -166,7 +167,7 @@ const Chatbot = () => {
                 <Minimize2 size={16} />
               </button>
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={closeChat}
                 className="hover:bg-primary-foreground/20 p-1 rounded transition-colors"
                 aria-label="Close"
               >

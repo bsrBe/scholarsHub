@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
 import { Send } from "lucide-react";
+import { contactApi } from "@/services/api";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
@@ -15,12 +16,12 @@ const formSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters").max(1000),
 });
 
-type FormData = z.infer<typeof formSchema>;
+type ContactFormData = z.infer<typeof formSchema>;
 
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<FormData>({
+  const form = useForm<ContactFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -29,16 +30,21 @@ const ContactForm = () => {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log("Contact form submitted:", data);
-    toast.success("Thank you! We'll get back to you soon.");
-    form.reset();
-    setIsSubmitting(false);
+
+    try {
+      await contactApi.submitContactForm(data as Required<ContactFormData>);
+      console.log("Contact form submitted:", data);
+      toast.success("Thank you! We'll get back to you soon.");
+      form.reset();
+    } catch (error: any) {
+      console.error("Error submitting contact form:", error);
+      const errorMessage = error.response?.data?.message || "Failed to send message. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

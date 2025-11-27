@@ -25,16 +25,16 @@ const baseSchema = z.object({
   national_identity_card: z.instanceof(FileList).optional(),
   highschool_certificates: z.instanceof(FileList).refine((files) => files.length > 0, "High school certificates are required"),
   transcripts: z.instanceof(FileList).refine((files) => files.length > 0, "Transcripts are required"),
-  recommendation_letter_1: z.instanceof(FileList).refine((files) => files.length > 0, "Recommendation letter 1 is required"),
-  recommendation_letter_2: z.instanceof(FileList).refine((files) => files.length > 0, "Recommendation letter 2 is required"),
-  student_cv_resume: z.instanceof(FileList).refine((files) => files.length > 0, "Student CV/Resume is required"),
-  statement_of_purpose: z.instanceof(FileList).refine((files) => files.length > 0, "Statement of purpose is required"),
-  birth_certificate: z.instanceof(FileList).refine((files) => files.length > 0, "Birth certificate is required"),
+  recommendation_letter_1: z.instanceof(FileList).optional(),
+  recommendation_letter_2: z.instanceof(FileList).optional(),
+  student_cv_resume: z.instanceof(FileList).optional(),
+  statement_of_purpose: z.instanceof(FileList).optional(),
+  birth_certificate: z.instanceof(FileList).optional(),
   english_proficiency: z.instanceof(FileList).optional(),
 });
 
 const mastersSchema = baseSchema.extend({
-  recommendation_letter_3: z.instanceof(FileList).refine((files) => files.length > 0, "Recommendation letter 3 is required"),
+  recommendation_letter_3: z.instanceof(FileList).optional(),
   bachelors_degree_certificate: z.instanceof(FileList).refine((files) => files.length > 0, "Bachelor's degree certificate is required"),
   bachelors_degree_transcript: z.instanceof(FileList).refine((files) => files.length > 0, "Bachelor's degree transcript is required"),
   diploma: z.instanceof(FileList).optional(),
@@ -90,12 +90,24 @@ const Tasks = () => {
         passport: data.passport[0],
         highschool_certificates: data.highschool_certificates[0],
         transcripts: data.transcripts[0],
-        recommendation_letter_1: data.recommendation_letter_1[0],
-        recommendation_letter_2: data.recommendation_letter_2[0],
-        student_cv_resume: data.student_cv_resume[0],
-        statement_of_purpose: data.statement_of_purpose[0],
-        birth_certificate: data.birth_certificate[0],
       };
+
+      // Add optional base documents if provided
+      if (data.recommendation_letter_1?.[0]) {
+        payload.recommendation_letter_1 = data.recommendation_letter_1[0];
+      }
+      if (data.recommendation_letter_2?.[0]) {
+        payload.recommendation_letter_2 = data.recommendation_letter_2[0];
+      }
+      if (data.student_cv_resume?.[0]) {
+        payload.student_cv_resume = data.student_cv_resume[0];
+      }
+      if (data.statement_of_purpose?.[0]) {
+        payload.statement_of_purpose = data.statement_of_purpose[0];
+      }
+      if (data.birth_certificate?.[0]) {
+        payload.birth_certificate = data.birth_certificate[0];
+      }
 
       if (data.national_identity_card?.[0]) {
         payload.national_identity_card = data.national_identity_card[0];
@@ -149,7 +161,7 @@ const Tasks = () => {
   }) => {
     const isImage = name.includes("passport") || name.includes("birth_certificate") || name.includes("national_identity_card");
     const error = errors[name as keyof typeof errors];
-    
+
     return (
       <div className="space-y-2">
         <Label htmlFor={name}>
@@ -268,33 +280,28 @@ const Tasks = () => {
                       <FileUploadField
                         name="recommendation_letter_1"
                         label="Recommendation Letter 1"
-                        required
-                        description="PDF file"
+                        description="PDF file (optional)"
                       />
                       <FileUploadField
                         name="recommendation_letter_2"
                         label="Recommendation Letter 2"
-                        required
-                        description="PDF file"
+                        description="PDF file (optional)"
                       />
                       <FileUploadField
                         name="student_cv_resume"
                         label="Student CV/Resume"
-                        required
-                        description="PDF file"
+                        description="PDF file (optional)"
                       />
                       <FileUploadField
                         name="statement_of_purpose"
                         label="Statement of Purpose"
-                        required
-                        description="PDF file"
+                        description="PDF file (optional)"
                       />
                       <FileUploadField
                         name="birth_certificate"
                         label="Birth Certificate"
-                        required
                         accept="image/*"
-                        description="Image file"
+                        description="Image file (optional)"
                       />
                       <FileUploadField
                         name="english_proficiency"
@@ -307,8 +314,7 @@ const Tasks = () => {
                           <FileUploadField
                             name="recommendation_letter_3"
                             label="Recommendation Letter 3"
-                            required
-                            description="PDF file"
+                            description="PDF file (optional)"
                           />
                           <FileUploadField
                             name="bachelors_degree_certificate"

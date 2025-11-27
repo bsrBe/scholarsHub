@@ -4,6 +4,8 @@ import { ChevronDown, HelpCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getFAQs } from '@/services/faqService';
+import { Link } from 'react-router-dom';
+import { useChat } from '@/contexts/ChatContext';
 import { useToast } from '@/components/ui/use-toast';
 
 interface FAQ {
@@ -21,6 +23,7 @@ const FAQ = () => {
   const [loading, setLoading] = useState(true);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { toast } = useToast();
+  const { openChat } = useChat();
 
   useEffect(() => {
     const fetchFAQs = async () => {
@@ -85,39 +88,39 @@ const FAQ = () => {
                 <div className="divide-y divide-border">
                   <AnimatePresence initial={false}>
                     {faqs.map((faq: FAQ, index: number) => (
-                    <div key={index} className="overflow-hidden">
-                      <button
-                        onClick={() => toggleFAQ(index)}
-                        className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-muted/30 transition-colors"
-                        aria-expanded={openIndex === index}
-                        aria-controls={`faq-${index}`}
-                      >
-                        <span className="font-medium text-lg">{faq.question}</span>
-                        <motion.span
-                          animate={{ rotate: openIndex === index ? 180 : 0 }}
-                          transition={{ duration: 0.3 }}
+                      <div key={index} className="overflow-hidden">
+                        <button
+                          onClick={() => toggleFAQ(index)}
+                          className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-muted/30 transition-colors"
+                          aria-expanded={openIndex === index}
+                          aria-controls={`faq-${index}`}
                         >
-                          <ChevronDown className="h-5 w-5 text-muted-foreground" />
-                        </motion.span>
-                      </button>
-                      
-                      <AnimatePresence>
-                        {openIndex === index && (
-                          <motion.div
-                            id={`faq-${index}`}
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
+                          <span className="font-medium text-lg">{faq.question}</span>
+                          <motion.span
+                            animate={{ rotate: openIndex === index ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
-                            className="overflow-hidden"
                           >
-                            <div className="px-6 pb-5 pt-0 text-muted-foreground">
-                              {faq.answer}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
+                            <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                          </motion.span>
+                        </button>
+
+                        <AnimatePresence>
+                          {openIndex === index && (
+                            <motion.div
+                              id={`faq-${index}`}
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-6 pb-5 pt-0 text-muted-foreground">
+                                {faq.answer}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     ))}
                   </AnimatePresence>
                 </div>
@@ -132,20 +135,22 @@ const FAQ = () => {
               If you can't find the answer to your question, our support team is here to help.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button size="lg" className="gap-2">
+              <Button size="lg" className="gap-2" onClick={openChat}>
                 Contact Support
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                 </svg>
               </Button>
-              <Button variant="outline" size="lg" className="gap-2">
-                Book a Consultation
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
+              <Button variant="outline" size="lg" className="gap-2" asChild>
+                <Link to="/book-consultation">
+                  Book a Consultation
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </Link>
               </Button>
             </div>
           </div>

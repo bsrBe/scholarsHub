@@ -117,4 +117,9 @@ export const authApi = {
   getProfile: () => api.get('/auth/me'),
 };
 
+// Contact related API calls
+export const contactApi = {
+  submitContactForm: (data: { name: string; email: string; message: string }) => api.post('/contact', data),
+};
+
 export default api;

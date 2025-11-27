@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ChatProvider } from "./contexts/ChatContext";
 import ScrollToTop from "./components/ScrollToTop";
 //sta
 const Home = lazy(() => import("./pages/Home"));
@@ -61,80 +62,80 @@ const AppRoutes = () => {
       <div className="flex-1">
         <Suspense fallback={<PageFallback />}>
           <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/destinations" element={<Destinations />} />
-          <Route path="/destinations/:country" element={<DestinationDetail />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
-          <Route path="/book-consultation" element={<BookConsultation />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<BlogPost />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/contact/partners" element={<ContactPartners />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/apply" element={<Apply />} />
-          <Route path="/meetings" element={<MeetingPage />} />
-          {/* Auth Routes */}
-          <Route path="/auth" element={<AuthLayout />}>
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-          </Route>
-          
-          {/* Redirect old routes to new auth routes */}
-          <Route path="/login" element={<Navigate to="/auth/login" replace />} />
-          <Route path="/register" element={<Navigate to="/auth/register" replace />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/destinations" element={<Destinations />} />
+            <Route path="/destinations/:country" element={<DestinationDetail />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/book-consultation" element={<BookConsultation />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/contact/partners" element={<ContactPartners />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/apply" element={<Apply />} />
+            <Route path="/meetings" element={<MeetingPage />} />
+            {/* Auth Routes */}
+            <Route path="/auth" element={<AuthLayout />}>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Route>
 
-          {/* Protected Routes */}
-          <Route 
-            path="/profile" 
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/my-applications" 
-            element={
-              <ProtectedRoute>
-                <FormResponses />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/tasks" 
-            element={
-              <ProtectedRoute>
-                <Tasks />
-              </ProtectedRoute>
-            } 
-          />
+            {/* Redirect old routes to new auth routes */}
+            <Route path="/login" element={<Navigate to="/auth/login" replace />} />
+            <Route path="/register" element={<Navigate to="/auth/register" replace />} />
 
-          {/* Admin Routes */}
-          <Route
-            path="/admin/*"
-            element={
-              <ProtectedRoute adminOnly>
-                <AdminLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="meetings" element={<MeetingsPage />} />
-            <Route path="users" element={<UsersPage />} />
-            <Route path="forms" element={<FormsPage />} />
-            <Route path="forms/:id" element={<FormDetail />} />
-            <Route path="task-applications" element={<TaskApplicationsPage />} />
-            <Route path="partnerships" element={<PartnershipRequestsPage />} />
-            <Route path="faqs" element={<FAQsPage />} />
-            <Route path="articles" element={<ArticlesPage />} />
-            <Route path="*" element={<Navigate to="/admin" replace />} />
-          </Route>
-          
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            {/* Protected Routes */}
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/my-applications"
+              element={
+                <ProtectedRoute>
+                  <FormResponses />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tasks"
+              element={
+                <ProtectedRoute>
+                  <Tasks />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Admin Routes */}
+            <Route
+              path="/admin/*"
+              element={
+                <ProtectedRoute adminOnly>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="meetings" element={<MeetingsPage />} />
+              <Route path="users" element={<UsersPage />} />
+              <Route path="forms" element={<FormsPage />} />
+              <Route path="forms/:id" element={<FormDetail />} />
+              <Route path="task-applications" element={<TaskApplicationsPage />} />
+              <Route path="partnerships" element={<PartnershipRequestsPage />} />
+              <Route path="faqs" element={<FAQsPage />} />
+              <Route path="articles" element={<ArticlesPage />} />
+              <Route path="*" element={<Navigate to="/admin" replace />} />
+            </Route>
+
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </Suspense>
       </div>
       {!isAdminRoute && <Footer />}
@@ -149,7 +150,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <AppRoutes />
+          <ChatProvider>
+            <AppRoutes />
+          </ChatProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

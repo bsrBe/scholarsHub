@@ -11,7 +11,7 @@ const Footer = () => {
           <div>
             <h3 className="text-2xl font-bold mb-4 gradient-text">Scholars Hub</h3>
             <p className="text-sm text-muted-foreground">
-              Your trusted partner for studying abroad. No initial payment. No Matric required.
+              Your trusted partner for studying abroad. No initial payment. High Visa Success Rate.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ const Footer = () => {
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Scholars Hub. All rights reserved.
           </p>
- 
+
         </div>
       </div>
 

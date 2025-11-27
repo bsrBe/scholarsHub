@@ -62,7 +62,7 @@ const partnerUniversities: PartnerUniversity[] = [
   { id: "42", name: "SRH University Heidelberg", logo: "/SRH University Heidelberg.png", location: "Berlin, Germany", city: "Berlin", state: "Berlin", country: "Germany" },
   { id: "43", name: "New European College", logo: "/New European College.png", location: "Munich, Germany", city: "Munich", state: "Munich", country: "Germany" },
   { id: "44", name: "University of Europe for Applied Science", logo: "/University of Europe for Applied Science.png", location: "Berlin, Germany", city: "Berlin", state: "Berlin", country: "Germany" },
-  { id: "45", name: "Girne American University", logo: "/Girne American University.png", location: "Turkey, Cyprus", city: "Cyprus Karmi", state: "Cyprus Karmi", country: "Turkey" },
+  { id: "45", name: "Girne American University", logo: "/Girne American University.png", location: "Karmi, Cyprus", city: "Cyprus Karmi", state: "Cyprus Karmi", country: "Turkey" },
 ];
 
 const PartnerUniversities = () => {
@@ -99,10 +99,10 @@ const PartnerUniversities = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-             Partner <span className="gradient-text">Universities</span>
+            Partner <span className="gradient-text">Universities</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Explore Some of our network of prestigious partner universities across the United States
+            Explore Some of our network of prestigious partner universities
           </p>
         </div>
 
@@ -177,7 +177,7 @@ const PartnerUniversities = () => {
               </Card>
             ))}
           </div>
-          
+
           <p className="text-center text-muted-foreground mt-6 text-lg">
             ...and more prestigious universities
           </p>
