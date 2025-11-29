@@ -34,6 +34,7 @@ const PartnershipRequestsPage = lazy(() => import("./pages/admin/PartnershipRequ
 const AuthLayout = lazy(() => import("./layouts/AuthLayout"));
 const Login = lazy(() => import("./pages/auth/Login").then(module => ({ default: module.Login })));
 const Register = lazy(() => import("./pages/auth/Register").then(module => ({ default: module.Register })));
+const EmailConfirmation = lazy(() => import("./pages/auth/EmailConfirmation"));
 const Profile = lazy(() => import("./pages/Profile"));
 const AdminLayout = lazy(() => import("./layouts/AdminLayout"));
 const UsersPage = lazy(() => import("./pages/admin/UsersPage"));
@@ -80,6 +81,7 @@ const AppRoutes = () => {
             <Route path="/auth" element={<AuthLayout />}>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
+              <Route path="confirm-email" element={<EmailConfirmation />} />
             </Route>
 
             {/* Redirect old routes to new auth routes */}

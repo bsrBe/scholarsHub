@@ -37,7 +37,7 @@ const useAuth = () => {
         setUser(null);
         
         // Only redirect if not on a public page
-        const publicPaths = ['/auth/login', '/auth/register', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/apply'];
+        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/apply'];
         const isPublicPath = publicPaths.some(path => location.pathname === path || location.pathname.startsWith(path + '/'));
         if (!isPublicPath) {
           console.log('checkAuth: Redirecting to login');
@@ -63,7 +63,8 @@ const useAuth = () => {
           // If we're on the auth pages, redirect appropriately
           if (location.pathname === '/auth/login' || location.pathname === '/auth/register') {
             const defaultRedirect = userData.role === 'admin' ? '/admin' : '/';
-            const requestedPath = location.state?.from?.pathname;
+            const from = location.state?.from;
+            const requestedPath = from ? `${from.pathname}${from.search}` : null;
             let target = requestedPath || defaultRedirect;
 
             if (userData.role !== 'admin' && target?.startsWith('/admin')) {
@@ -86,7 +87,7 @@ const useAuth = () => {
         setUser(null);
         
         // If we're not on a public page, redirect to login
-        const publicPaths = ['/auth/login', '/auth/register', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/apply'];
+        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/apply'];
         const isPublicPath = publicPaths.some(path => location.pathname === path || location.pathname.startsWith(path + '/'));
         if (!isPublicPath) {
           console.log('checkAuth: Redirecting to login after token verification failed');
@@ -138,7 +139,8 @@ const useAuth = () => {
       // Update state
       setUser(response.user);
       
-      const requestedPath = location.state?.from?.pathname;
+      const from = location.state?.from;
+      const requestedPath = from ? `${from.pathname}${from.search}` : null;
       const defaultRedirect = response.user.role === 'admin' ? '/admin' : '/';
       let target = requestedPath || defaultRedirect;
 
