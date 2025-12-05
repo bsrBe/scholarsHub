@@ -31,7 +31,6 @@ const partnerUniversities: PartnerUniversity[] = [
   { id: "11", name: "Wittenberg University", logo: "/Wittenberg University.svg", location: "Springfield, USA", city: "Springfield", state: "Ohio", country: "USA" },
   { id: "12", name: "Marshall University", logo: "/Marshall University.png", location: "West Virginia, USA", city: "Huntington", state: "West Virginia", country: "USA" },
   { id: "13", name: "The University of Toledo", logo: "/The University of Toledo.svg", location: "Ohio, USA", city: "Toledo", state: "Ohio", country: "USA" },
-  { id: "14", name: "Murray State University", logo: "/Murray State University.png", location: "Kentucky, USA", city: "Murray", state: "Kentucky", country: "USA" },
   { id: "15", name: "University of Louisville", logo: "/University of Louisville.png", location: "Kentucky, USA", city: "Louisville", state: "Kentucky", country: "USA" },
   { id: "16", name: "University of South Alabama", logo: "/University of South Alabama.png", location: "Alabama, USA", city: "Mobile", state: "Alabama", country: "USA" },
   { id: "17", name: "University of Central Florida", logo: "/University of Central Florida.png", location: "Florida, USA", city: "Orlando", state: "Florida", country: "USA" },
