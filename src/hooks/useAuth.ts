@@ -37,7 +37,7 @@ const useAuth = () => {
         setUser(null);
         
         // Only redirect if not on a public page
-        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/apply'];
+        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/auth/forgot-password', '/auth/reset-password', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/apply'];
         const isPublicPath = publicPaths.some(path => location.pathname === path || location.pathname.startsWith(path + '/'));
         if (!isPublicPath) {
           console.log('checkAuth: Redirecting to login');
@@ -87,7 +87,7 @@ const useAuth = () => {
         setUser(null);
         
         // If we're not on a public page, redirect to login
-        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/apply'];
+        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/auth/forgot-password', '/auth/reset-password', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/apply'];
         const isPublicPath = publicPaths.some(path => location.pathname === path || location.pathname.startsWith(path + '/'));
         if (!isPublicPath) {
           console.log('checkAuth: Redirecting to login after token verification failed');
@@ -222,6 +222,26 @@ const useAuth = () => {
     }
   };
 
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const result = await authService.changePassword(currentPassword, newPassword);
+      
+      if (result.success) {
+        return { success: true, message: result.message };
+      }
+      
+      return { success: false, error: result.message };
+    } catch (error) {
+      setError(error.message || 'Failed to change password');
+      return { success: false, error: error.message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const isAuthenticated = !!user;
   const isAdmin = user?.role === 'admin';
 
@@ -234,6 +254,7 @@ const useAuth = () => {
     login,
     register,
     logout,
+    changePassword,
     setError,
   };
 };

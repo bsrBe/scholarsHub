@@ -111,7 +111,7 @@ export function Login() {
                   Password
                 </label>
                 <Link 
-                  to="/forgot-password" 
+                  to="/auth/forgot-password" 
                   className="text-sm text-primary hover:underline"
                 >
                   Forgot password?
@@ -139,7 +139,7 @@ export function Login() {
             <p className="text-sm text-center text-gray-600">
               Don't have an account?{' '}
               <Link 
-                to="/register" 
+                to="/auth/register" 
                 state={{ from: location.state?.from }}
                 className="text-primary hover:underline"
               >

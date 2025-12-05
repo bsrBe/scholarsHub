@@ -204,6 +204,29 @@ export const authService = {
     } catch (error: unknown) {
       throw new Error(extractErrorMessage(error, 'Failed to confirm email'));
     }
+  },
+
+  // Change password
+  async changePassword(currentPassword: string, newPassword: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+      
+      const response = await api.put('/auth/changePassword', { 
+        currentPassword, 
+        newPassword 
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error: unknown) {
+      throw new Error(extractErrorMessage(error, 'Failed to change password'));
+    }
   }
 };
 

@@ -34,8 +34,11 @@ const PartnershipRequestsPage = lazy(() => import("./pages/admin/PartnershipRequ
 const AuthLayout = lazy(() => import("./layouts/AuthLayout"));
 const Login = lazy(() => import("./pages/auth/Login").then(module => ({ default: module.Login })));
 const Register = lazy(() => import("./pages/auth/Register").then(module => ({ default: module.Register })));
+const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
 const EmailConfirmation = lazy(() => import("./pages/auth/EmailConfirmation"));
 const Profile = lazy(() => import("./pages/Profile"));
+const ChangePassword = lazy(() => import("./pages/ChangePassword"));
 const AdminLayout = lazy(() => import("./layouts/AdminLayout"));
 const UsersPage = lazy(() => import("./pages/admin/UsersPage"));
 const MeetingsPage = lazy(() => import("./pages/admin/MeetingsPage"));
@@ -43,6 +46,7 @@ const FormsPage = lazy(() => import("./pages/admin/FormsPage"));
 const TaskApplicationsPage = lazy(() => import("./pages/admin/TaskApplicationsPage"));
 const FAQsPage = lazy(() => import("./pages/admin/FAQsPage"));
 const ArticlesPage = lazy(() => import("./pages/admin/ArticlesPage"));
+const ChatManagement = lazy(() => import("./pages/admin/ChatManagement"));
 
 const queryClient = new QueryClient();
 
@@ -81,12 +85,15 @@ const AppRoutes = () => {
             <Route path="/auth" element={<AuthLayout />}>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
+              <Route path="forgot-password" element={<ForgotPassword />} />
+              <Route path="reset-password" element={<ResetPassword />} />
               <Route path="confirm-email" element={<EmailConfirmation />} />
             </Route>
 
             {/* Redirect old routes to new auth routes */}
             <Route path="/login" element={<Navigate to="/auth/login" replace />} />
             <Route path="/register" element={<Navigate to="/auth/register" replace />} />
+            <Route path="/forgot-password" element={<Navigate to="/auth/forgot-password" replace />} />
 
             {/* Protected Routes */}
             <Route
@@ -94,6 +101,14 @@ const AppRoutes = () => {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/change-password"
+              element={
+                <ProtectedRoute>
+                  <ChangePassword />
                 </ProtectedRoute>
               }
             />
@@ -130,6 +145,7 @@ const AppRoutes = () => {
               <Route path="forms/:id" element={<FormDetail />} />
               <Route path="task-applications" element={<TaskApplicationsPage />} />
               <Route path="partnerships" element={<PartnershipRequestsPage />} />
+              <Route path="chat" element={<ChatManagement />} />
               <Route path="faqs" element={<FAQsPage />} />
               <Route path="articles" element={<ArticlesPage />} />
               <Route path="*" element={<Navigate to="/admin" replace />} />

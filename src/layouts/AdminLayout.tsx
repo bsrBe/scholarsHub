@@ -14,6 +14,7 @@ import {
   FileDoneOutlined,
   QuestionCircleOutlined,
   BookOutlined,
+  MessageOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -64,6 +65,12 @@ const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => 
       icon: <TeamOutlined />,
       label: 'Users',
       onClick: () => navigate('/admin/users'),
+    },
+    {
+      key: 'chat',
+      icon: <MessageOutlined />,
+      label: 'Chat',
+      onClick: () => navigate('/admin/chat'),
     },
     {
       key: 'faqs',

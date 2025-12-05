@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User, Settings, FileText, Video, ClipboardList } from "lucide-react";
+import { LogOut, User, FileText, Video, ClipboardList } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
 
@@ -86,12 +86,6 @@ export default function NavUser() {
           <Link to="/book-consultation" className="w-full">
             <Video className="mr-2 h-4 w-4" />
             <span>My Scheduled Consultations</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link to="/settings" className="w-full">
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

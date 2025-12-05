@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { MessageCircle, X, Send, Minimize2, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
-import { taskApplicationService, TaskApplication } from '@/services/taskApplicationService';
 import useAuth from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useChat } from '@/contexts/ChatContext';
+import { chatService, ChatMessage } from '@/services/chatService';
 
 const LAST_VIEWED_KEY = 'chatbot_last_viewed';
 
@@ -22,31 +22,17 @@ const Chatbot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Get all user's task applications to aggregate messages
-  // Always fetch when authenticated to show unread count even when chat is closed
-  const { data: taskApplications, isLoading } = useQuery<TaskApplication[]>({
-    queryKey: ['user-task-applications'],
-    queryFn: () => taskApplicationService.getMyTaskApplications(),
+  // Get user's chat messages
+  const { data: messages, isLoading } = useQuery<ChatMessage[]>({
+    queryKey: ['chat-messages'],
+    queryFn: () => chatService.getUserMessages(),
     enabled: isAuthenticated,
     refetchInterval: isOpen ? 5000 : 30000, // Poll every 5s when open, 30s when closed
   });
 
-  // Aggregate all messages from all applications
-  const allMessages = useMemo(() => {
-    return taskApplications
-      ?.flatMap((app) =>
-        (app.messages || []).map((msg) => ({
-          ...msg,
-          applicationId: app._id,
-          applicationType: app.applicant_type,
-        }))
-      )
-      .sort((a, b) => new Date(a.sent_at).getTime() - new Date(b.sent_at).getTime()) || [];
-  }, [taskApplications]);
-
   // Get last viewed timestamp from localStorage
   const getLastViewed = (): Date => {
-    const stored = localStorage.getItem(LAST_VIEWED_KEY);
+    const stored = localStorage.getItem('chatbot_last_viewed');
     return stored ? new Date(stored) : new Date(0); // Default to epoch if not set
   };
 
@@ -54,12 +40,9 @@ const Chatbot = () => {
   const [lastViewed, setLastViewed] = useState<Date>(() => getLastViewed());
 
   // Calculate unread messages (admin messages sent after last viewed)
-  const unreadMessages = useMemo(() => {
-    if (!user) return [];
-    return allMessages.filter(
-      (msg) => msg.from === 'admin' && new Date(msg.sent_at) > lastViewed
-    );
-  }, [allMessages, user, lastViewed]);
+  const unreadMessages = messages?.filter(
+    (msg) => msg.from === 'admin' && new Date(msg.sent_at) > lastViewed
+  ) || [];
 
   // Update last viewed when chat is opened and not minimized
   useEffect(() => {
@@ -70,23 +53,15 @@ const Chatbot = () => {
     }
   }, [isOpen, isMinimized, user]);
 
-  // Get the most recent application for sending new messages
-  const mostRecentApplication = taskApplications?.[0];
-
   const { mutate: sendMessage, isPending } = useMutation({
-    mutationFn: (msg: string) => {
-      if (!mostRecentApplication) {
-        throw new Error('No application found. Please submit a task application first.');
-      }
-      return taskApplicationService.addMessage(mostRecentApplication._id, msg);
-    },
+    mutationFn: (msg: string) => chatService.sendMessage(msg),
     onSuccess: () => {
       toast({
         title: 'Success',
         description: 'Message sent successfully',
       });
       setMessage('');
-      queryClient.invalidateQueries({ queryKey: ['user-task-applications'] });
+      queryClient.invalidateQueries({ queryKey: ['chat-messages'] });
     },
     onError: (error: any) => {
       toast({
@@ -116,7 +91,7 @@ const Chatbot = () => {
     if (isOpen && !isMinimized) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [allMessages, isOpen, isMinimized]);
+  }, [messages, isOpen, isMinimized]);
 
   return (
     <>
@@ -187,16 +162,16 @@ const Chatbot = () => {
                   <div className="flex items-center justify-center h-full">
                     <Loader2 className="h-6 w-6 animate-spin text-primary" />
                   </div>
-                ) : allMessages.length === 0 ? (
+                ) : messages && messages.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
                     <MessageCircle size={48} className="mb-4 opacity-50" />
                     <p className="text-sm">
-                      No messages yet. signup and Login to start a conversation with the admin!
+                      No messages yet. Start a conversation with the admin!
                     </p>
                   </div>
                 ) : (
                   <>
-                    {allMessages.map((msg) => (
+                    {messages?.map((msg) => (
                       <div
                         key={msg._id}
                         className={cn(
@@ -231,18 +206,14 @@ const Chatbot = () => {
                     <Textarea
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder={
-                        mostRecentApplication
-                          ? 'Type your message...'
-                          : 'Submit a task application to start messaging'
-                      }
+                      placeholder="Type your message..."
                       rows={2}
-                      disabled={isPending || !mostRecentApplication}
+                      disabled={isPending}
                       className="resize-none flex-1"
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
                           e.preventDefault();
-                          if (message.trim() && !isPending && mostRecentApplication) {
+                          if (message.trim() && !isPending) {
                             handleSubmit(e);
                           }
                         }
@@ -250,7 +221,7 @@ const Chatbot = () => {
                     />
                     <Button
                       type="submit"
-                      disabled={isPending || !message.trim() || !mostRecentApplication}
+                      disabled={isPending || !message.trim()}
                       size="default"
                       className="self-end h-auto px-4 py-2"
                     >

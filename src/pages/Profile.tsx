@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Mail, User as UserIcon, LogOut } from "lucide-react";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const { user, logout } = useAuth();
@@ -84,24 +85,23 @@ export default function Profile() {
             </CardContent>
           </Card>
 
-          <Card className="border-destructive/20">
-            <CardHeader>
-              <CardTitle className="text-destructive">Danger Zone</CardTitle>
-              <CardDescription>
-                Be careful with these actions as they cannot be undone.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button 
-                variant="outline" 
-                className="text-destructive border-destructive/50 hover:bg-destructive/10"
-                onClick={handleLogout}
-              >
-                <LogOut className="mr-2 h-4 w-4" />
-                Sign Out
-              </Button>
-            </CardContent>
-          </Card>
+          <div className="flex justify-center mt-6 space-x-4">
+            <Button 
+              variant="outline" 
+              asChild
+            >
+              <Link to="/change-password">
+                Change Password
+              </Link>
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={handleLogout}
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </Button>
+          </div>
         </div>
       </div>
     </div>
