@@ -205,13 +205,19 @@ const DestinationDetail = () => {
             Start your application or book a free consultation with our experts.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
+            {/* <Button 
               variant="hero" 
               size="lg"
               onClick={() => setShouldOpenChat(true)}
             >
               Message Admin
-            </Button>
+            </Button> */}
+            <Link to="/apply">
+              <Button variant="hero" size="lg">
+                Apply now
+              </Button>
+            </Link>
+
             <Link to="/book-consultation">
               <Button variant="outline" size="lg">
                 Book Free Consultation
