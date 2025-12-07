@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, Tag, Loader2 } from "lucide-react";
 import { getBlogPost, type BlogPost } from "@/services/blogService";
@@ -12,8 +12,11 @@ const BlogPost = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const apiBaseURL = import.meta.env.VITE_API_BASE_URL;
+  const isLoadedRef = useRef(false);
+
   useEffect(() => {
     let isMounted = true;
+    isLoadedRef.current = false;
 
     const fetchPost = async () => {
       if (!id) return;
@@ -47,6 +50,7 @@ const BlogPost = () => {
         console.log('Successfully parsed response data:', data);
 
         if (isMounted) {
+          isLoadedRef.current = true;
           setPost({
             _id: data._id,
             title: data.title || 'No Title',
@@ -85,7 +89,7 @@ const BlogPost = () => {
 
     // Set a longer timeout for debugging
     const timeoutId = setTimeout(() => {
-      if (isMounted) {
+      if (isMounted && !isLoadedRef.current) {
         console.error('Fetch timeout reached. Current state:', {
           loading,
           post: post ? 'Post exists' : 'No post',
@@ -99,7 +103,7 @@ const BlogPost = () => {
 
         // If still no response after retry, show error
         setTimeout(() => {
-          if (isMounted && !post) {
+          if (isMounted && !isLoadedRef.current) {
             toast({
               title: 'Timeout',
               description: 'The server is taking too long to respond. Please try again later.',
