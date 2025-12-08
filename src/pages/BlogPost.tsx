@@ -2,11 +2,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, Tag, Loader2 } from "lucide-react";
-import remarkGfm from 'remark-gfm';
 import { getBlogPost, type BlogPost } from "@/services/blogService";
 import { useToast } from "@/components/ui/use-toast";
-import ReactMarkdown from 'react-markdown';
-import remarkBreaks from 'remark-breaks';
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -197,12 +194,9 @@ const BlogPost = () => {
 
           {post.content && (
             <div
-              className="prose prose-lg dark:prose-invert max-w-none mt-8 whitespace-pre-wrap leading-relaxed"
-            >
-              <ReactMarkdown remarkPlugins={[remarkBreaks, remarkGfm]}>
-                {post.content}
-              </ReactMarkdown>
-            </div>
+              className="prose prose-lg dark:prose-invert max-w-none mt-8 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
           )}
 
           {post.author && (

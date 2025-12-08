@@ -199,7 +199,7 @@ const Tasks = () => {
             📋 Document Submission
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Task Applications
+            My Applications
           </h1>
           <p className="text-lg opacity-90 max-w-2xl mx-auto">
             Upload all required documents for your application. Please ensure all files are clear and legible.

@@ -5,7 +5,7 @@ export type TaskApplicationStatus = 'pending' | 'in_review' | 'approved' | 'reje
 
 export interface TaskApplication {
   _id: string;
-  user_id: {
+  user_id?: {
     _id: string;
     name: string;
     email: string;

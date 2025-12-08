@@ -30,6 +30,31 @@ import {
 import type { UploadFile } from 'antd/es/upload/interface';
 import { getBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost, BlogPost } from '@/services/blogService';
 import dayjs from 'dayjs';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+// Custom styles for Quill editor
+const quillStyles = `
+  .quill-editor-container .ql-editor {
+    min-height: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+  .quill-editor-container .ql-toolbar {
+    border-top: 1px solid #d9d9d9;
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+  }
+  .quill-editor-container .ql-container {
+    border-top: none;
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    border-radius: 0 0 6px 6px;
+  }
+`;
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -42,6 +67,36 @@ const categoryOptions = [
   { label: 'Other', value: 'other' },
 ];
 
+// Quill editor modules configuration
+const quillModules = {
+  toolbar: [
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    [{ 'font': [] }],
+    [{ 'size': ['small', false, 'large', 'huge'] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+    [{ 'direction': 'rtl' }],
+    [{ 'align': [] }],
+    ['link', 'image', 'video'],
+    ['blockquote', 'code-block'],
+    ['clean']
+  ],
+};
+
+// Quill editor formats configuration
+const quillFormats = [
+  'header', 'font', 'size',
+  'bold', 'italic', 'underline', 'strike',
+  'color', 'background',
+  'script',
+  'list', 'bullet', 'indent',
+  'direction', 'align',
+  'link', 'image', 'video',
+  'blockquote', 'code-block'
+];
+
 const ArticlesPage: React.FC = () => {
   const [articles, setArticles] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(false);
@@ -50,6 +105,18 @@ const ArticlesPage: React.FC = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [previewImage, setPreviewImage] = useState<string | undefined>();
+  const [content, setContent] = useState<string>('');
+
+  // Inject custom styles
+  useEffect(() => {
+    const styleElement = document.createElement('style');
+    styleElement.textContent = quillStyles;
+    document.head.appendChild(styleElement);
+    
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
 
   useEffect(() => {
     fetchArticles();
@@ -73,6 +140,7 @@ const ArticlesPage: React.FC = () => {
     form.resetFields();
     setFileList([]);
     setPreviewImage(undefined);
+    setContent(''); // Reset content
     setModalVisible(true);
   };
 
@@ -82,12 +150,14 @@ const ArticlesPage: React.FC = () => {
     const publishDate = (article as any).publishDate || (article as any).publishedAt;
     form.setFieldsValue({
       title: article.title,
-      content: article.content,
       excerpt: article.excerpt,
       category: article.category,
       featured: (article as any).featured || false,
       publishDate: publishDate ? dayjs(publishDate).format('YYYY-MM-DDTHH:mm') : undefined,
     });
+    
+    // Set the content state for ReactQuill
+    setContent(article.content || '');
     
     if (article.thumbnail) {
       setPreviewImage(article.thumbnail);
@@ -118,11 +188,20 @@ const ArticlesPage: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
+      // Validate content separately first
+      if (!content || content.trim() === '<p><br></p>' || content.trim() === '') {
+        message.error('Please enter article content');
+        return;
+      }
+      
+      // Set the content in the form field for validation
+      form.setFieldsValue({ content });
+      
       const values = await form.validateFields();
       
       const formData = new FormData();
       formData.append('title', values.title);
-      formData.append('content', values.content);
+      formData.append('content', content); // Use the content state
       formData.append('excerpt', values.excerpt || '');
       formData.append('category', values.category || 'other');
       formData.append('readTime', values.readTime || '');
@@ -156,6 +235,7 @@ const ArticlesPage: React.FC = () => {
       form.resetFields();
       setFileList([]);
       setPreviewImage(undefined);
+      setContent(''); // Reset content
       fetchArticles();
     } catch (error: any) {
       if (error?.errorFields) {
@@ -172,6 +252,7 @@ const ArticlesPage: React.FC = () => {
     form.resetFields();
     setFileList([]);
     setPreviewImage(undefined);
+    setContent(''); // Reset content
   };
 
   const handleFileChange = (info: any) => {
@@ -394,15 +475,23 @@ const ArticlesPage: React.FC = () => {
           <Form.Item
             name="content"
             label="Content"
-            rules={[
-              { required: true, message: 'Please enter article content' },
-            ]}
+            hidden
           >
-            <TextArea
-              rows={10}
-              placeholder="Enter article content"
-              showCount
-            />
+            <Input />
+          </Form.Item>
+          
+          <Form.Item label="Content" required>
+            <div className="quill-editor-container">
+              <ReactQuill
+                theme="snow"
+                value={content}
+                onChange={setContent}
+                modules={quillModules}
+                formats={quillFormats}
+                placeholder="Write your article content here..."
+                style={{ minHeight: '300px' }}
+              />
+            </div>
           </Form.Item>
 
           <Form.Item

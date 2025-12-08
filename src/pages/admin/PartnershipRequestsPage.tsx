@@ -56,7 +56,7 @@ interface PartnershipRequest {
   status: 'pending' | 'reviewed' | 'approved' | 'rejected';
 }
 
-const apiBaseURL = process.env.VITE_API_BASE_URL;
+const apiBaseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 const PartnershipRequestsPage: React.FC = () => {
   const [selectedRequest, setSelectedRequest] = useState<PartnershipRequest | null>(null);

@@ -190,9 +190,9 @@ const TaskApplicationsPage = () => {
       key: 'applicant',
       render: (_: any, record: TaskApplication) => (
         <div>
-          <div>{record.user_id.name}</div>
+          <div>{record.user_id?.name || 'Unknown User'}</div>
           <Text type="secondary" style={{ fontSize: 12 }}>
-            {record.user_id.email}
+            {record.user_id?.email || 'No email'}
           </Text>
         </div>
       ),
@@ -419,7 +419,7 @@ const TaskApplicationsPage = () => {
         title={
           <Space>
             <MessageOutlined style={{ color: '#1677ff' }} />
-            <span>Application Details - {fullApplication?.user_id?.name || 'Unknown'}</span>
+            <span>Application Details - {fullApplication?.user_id?.name || 'Unknown User'}</span>
             {fullApplication?.messages && (() => {
               const unreadInDrawer = fullApplication.messages.filter(
                 (msg: any) => msg.from === 'user' && !readMessages.has(msg._id)
@@ -461,7 +461,7 @@ const TaskApplicationsPage = () => {
           <Space direction="vertical" size="large" style={{ width: '100%' }}>
             <Descriptions bordered column={1}>
               <Descriptions.Item label="Applicant">
-                {fullApplication.user_id.name} ({fullApplication.user_id.email})
+                {fullApplication.user_id?.name || 'Unknown User'} ({fullApplication.user_id?.email || 'No email'})
               </Descriptions.Item>
               <Descriptions.Item label="Type">
                 <Tag color="blue">
