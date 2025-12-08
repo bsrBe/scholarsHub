@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, Tag, Loader2 } from "lucide-react";
 import { getBlogPost, type BlogPost } from "@/services/blogService";
 import { useToast } from "@/components/ui/use-toast";
+import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -193,10 +195,11 @@ const BlogPost = () => {
           )}
 
           {post.content && (
-            <div
-              className="prose prose-lg dark:prose-invert max-w-none mt-8"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+            <div className="prose prose-lg dark:prose-invert max-w-none mt-8">
+              <ReactMarkdown remarkPlugins={[remarkBreaks]}>
+                {post.content}
+              </ReactMarkdown>
+            </div>
           )}
 
           {post.author && (
