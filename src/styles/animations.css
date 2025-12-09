@@ -1,0 +1,98 @@
+/* @keyframes wave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  display: inline-block;
+  animation: float 6s ease-in-out infinite;
+}
+
+.flag-wave {
+  display: inline-block;
+  transform-origin: center 70%;
+  animation: wave 3s ease-in-out infinite;
+} */
+
+/* Smooth, natural waving motion */
+@keyframes wave {
+  0% {
+    transform: rotate(0deg) skewY(0deg);
+  }
+  25% {
+    transform: rotate(1deg) skewY(2deg);
+  }
+  50% {
+    transform: rotate(0deg) skewY(1deg);
+  }
+  75% {
+    transform: rotate(-1deg) skewY(2deg);
+  }
+  100% {
+    transform: rotate(0deg) skewY(0deg);
+  }
+}
+
+/* Gentle floating motion (slower & smoother) */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Optional: subtle scaling for a more dynamic look */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Flag wave class */
+.flag-wave {
+  display: inline-block;
+  transform-origin: center 70%;
+  animation: wave 2.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Floating effect */
+.animate-float {
+  display: inline-block;
+  animation: float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* When you want both wave + float */
+.flag-animate {
+  display: inline-block;
+  animation: 
+    wave 3s ease-in-out infinite,
+    float 7s ease-in-out infinite;
+  transform-origin: center 70%;
+  will-change: transform;
+}
