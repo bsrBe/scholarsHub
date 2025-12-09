@@ -55,7 +55,7 @@ export default function ForgotPassword() {
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center">Check your email</CardTitle>
             <CardDescription className="text-center text-green-600">
-              We've sent a password reset link to {email}. Please check your inbox and follow the instructions.
+              We've sent a password reset link.Please check your inbox and follow the instructions.
             </CardDescription>
           </CardHeader>
           <CardFooter className="flex justify-center">

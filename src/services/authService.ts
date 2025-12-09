@@ -189,7 +189,7 @@ export const authService = {
   // Reset password
   async resetPassword(token: string, password: string): Promise<{ success: boolean; message: string }> {
     try {
-      const response = await api.put(`/auth/resetPassword/${token}`, { password });
+      const response = await api.put('/auth/resetPassword', { token, password });
       return response.data;
     } catch (error: unknown) {
       throw new Error(extractErrorMessage(error, 'Failed to reset password'));

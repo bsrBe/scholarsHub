@@ -33,50 +33,6 @@
 //   // Get all meetings (admin view)
 //   async getAllMeetings(): Promise<Meeting[]> {
 //     try {
-//       const response = await api.get('/admin/meetings');
-//       return response.data;
-//     } catch (error) {
-//       console.error('Error fetching meetings:', error);
-//       throw error;
-//     }
-//   },
-
-//   // Update meeting status
-//   async updateMeetingStatus(meetingId: string, status: string): Promise<Meeting> {
-//     try {
-//       const response = await api.put(`/admin/meetings/${meetingId}/status`, { status });
-//       return response.data;
-//     } catch (error) {
-//       console.error('Error updating meeting status:', error);
-//       throw error;
-//     }
-//   },
-
-//   // Get all users
-//   async getAllUsers(): Promise<User[]> {
-//     try {
-//       const response = await api.get('/admin/users');
-//       return response.data;
-//     } catch (error) {
-//       console.error('Error fetching users:', error);
-//       throw error;
-//     }
-//   },
-
-//   // Update user role
-//   async updateUserRole(userId: string, role: string): Promise<User> {
-//     try {
-//       const response = await api.put(`/admin/users/${userId}/role`, { role });
-//       return response.data;
-//     } catch (error) {
-//       console.error('Error updating user role:', error);
-//       throw error;
-//     }
-//   },
-
-//   // Get system statistics
-//   async getStats(): Promise<Stats> {
-//     try {
 //       const response = await api.get('/admin/stats');
 //       return response.data;
 //     } catch (error) {
@@ -117,35 +73,75 @@ export interface UserItem {
 }
 
 const adminService = {
+  // Dashboard
   async getOverview(): Promise<{ stats: AdminStats; activities: ActivityItem[] }> {
     const { data } = await api.get('/admin/overview');
     return data;
   },
+  
   async getStats(): Promise<AdminStats> {
     const { data } = await api.get('/admin/stats');
     return data;
   },
+  
   async getRecentActivities(limit = 20): Promise<ActivityItem[]> {
     const { data } = await api.get('/admin/activities', { params: { limit } });
     return data;
   },
-  // Users (admin-only)
+  
+  // User Management
   async getUsers(params?: { search?: string; role?: string; page?: number; limit?: number }):
     Promise<{ items: UserItem[]; total: number; page: number; limit: number }> {
     const { data } = await api.get('/users', { params });
     return data;
   },
+  
   async getUser(userId: string): Promise<UserItem> {
     const { data } = await api.get(`/users/${userId}`);
     return data;
   },
+  
   async updateUser(userId: string, updates: Partial<UserItem>): Promise<UserItem> {
     const { data } = await api.patch(`/users/${userId}`, updates);
     return data;
   },
+  
   async deleteUser(userId: string): Promise<{ success: boolean }> {
     const { data } = await api.delete(`/users/${userId}`);
     return data;
+  },
+  
+  // Password Management
+  async changePassword(currentPassword: string, newPassword: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const { data } = await api.put('/admin/change-password', {
+        currentPassword,
+        password: newPassword
+      });
+      return data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to change password');
+    }
+  },
+
+  async forgotPassword(email: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const { data } = await api.post('/admin/forgot-password', { email });
+      return data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to process password reset request');
+    }
+  },
+
+  async resetPassword(token: string, password: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const { data } = await api.put(`/admin/reset-password/${token}`, { 
+        password 
+      });
+      return data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error || 'Failed to reset password');
+    }
   }
 };
 
