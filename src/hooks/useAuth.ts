@@ -9,6 +9,7 @@ interface User {
   role: string;
   profileImageUrl?: string;
   isEmailConfirmed?: boolean;
+  createdAt?: string;
 }
 
 const useAuth = () => {

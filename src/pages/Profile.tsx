@@ -78,7 +78,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm font-medium">Account Created</p>
                   <p className="text-sm text-muted-foreground">
-                    {format(new Date(), 'MMMM d, yyyy')}
+                    {user.createdAt ? format(new Date(user.createdAt), 'MMMM d, yyyy') : 'N/A'}
                   </p>
                 </div>
               </div>
@@ -86,16 +86,16 @@ export default function Profile() {
           </Card>
 
           <div className="flex justify-center mt-6 space-x-4">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               asChild
             >
               <Link to="/change-password">
                 Change Password
               </Link>
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={handleLogout}
             >
               <LogOut className="mr-2 h-4 w-4" />

@@ -8,6 +8,7 @@ interface User {
   role: string;
   profileImageUrl?: string;
   isEmailConfirmed?: boolean;
+  createdAt?: string;
 }
 
 interface LoginResponse {
@@ -102,6 +103,7 @@ export const authService = {
         role: response.data.user.role,
         profileImageUrl: response.data.user.profileImageUrl,
         isEmailConfirmed: response.data.user.isEmailConfirmed,
+        createdAt: response.data.user.createdAt,
       };
 
       if (!normalizedUser.id) {
