@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import AdminLayout from '../layouts/AdminLayout';
-import { DashboardPage, MeetingsPage, UsersPage, PartnershipRequestsPage } from '../pages/admin';
+import { DashboardPage, MeetingsPage, UsersPage, PartnershipRequestsPage, TestimonialPage } from '../pages/admin';
 import ChatManagement from '../pages/admin/ChatManagement';
 
 interface AdminRouteProps {
@@ -37,6 +37,7 @@ const AdminRoutes: React.FC = () => {
           <Route path="/users" element={<UsersPage />} />
           <Route path="/partnerships" element={<PartnershipRequestsPage />} />
           <Route path="/chat" element={<ChatManagement />} />
+          <Route path="testimonials" element={<TestimonialPage />} />
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>
       </AdminLayout>

@@ -154,12 +154,6 @@ const FormResponses = () => {
             </p>
           </div>
           <div className="flex gap-2">
-            <Link to="/apply">
-              <Button variant="outline">
-                <FileText className="mr-2 h-4 w-4" />
-                New Application
-              </Button>
-            </Link>
             <Link to="/tasks">
               <Button>
                 <ClipboardList className="mr-2 h-4 w-4" />
@@ -178,9 +172,6 @@ const FormResponses = () => {
                 You haven't submitted any applications yet.
               </p>
               <div className="flex gap-2 justify-center">
-                <Link to="/apply">
-                  <Button variant="outline">Start New Application</Button>
-                </Link>
                 <Link to="/tasks">
                   <Button>Submit Task Application</Button>
                 </Link>
@@ -191,10 +182,10 @@ const FormResponses = () => {
           <Tabs defaultValue="forms" className="w-full">
             <TabsList>
               <TabsTrigger value="forms">
-                Study Applications ({forms?.length || 0})
+                Task Applications
               </TabsTrigger>
               <TabsTrigger value="tasks">
-                Task Applications ({taskApplications?.length || 0})
+                submitted Applications ({taskApplications?.length || 0})
               </TabsTrigger>
             </TabsList>
             <TabsContent value="forms" className="space-y-4 mt-4">
@@ -203,7 +194,7 @@ const FormResponses = () => {
                   <CardContent className="py-12 text-center">
                     <FileText className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
                     <h3 className="text-lg font-medium mb-2">No study applications</h3>
-                    <Link to="/apply">
+                    <Link to="/tasks">
                       <Button>Start New Application</Button>
                     </Link>
                   </CardContent>

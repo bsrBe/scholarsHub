@@ -212,7 +212,7 @@ const DestinationDetail = () => {
             >
               Message Admin
             </Button> */}
-            <Link to="/apply">
+            <Link to="/tasks">
               <Button variant="hero" size="lg">
                 Apply now
               </Button>

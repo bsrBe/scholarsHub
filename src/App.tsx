@@ -22,7 +22,7 @@ const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Contact = lazy(() => import("./pages/Contact"));
 const ContactPartners = lazy(() => import("./pages/ContactPartners"));
-const Apply = lazy(() => import("./pages/Apply"));
+
 const FAQ = lazy(() => import("./pages/FAQ"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const FormResponses = lazy(() => import("./pages/FormResponses"));
@@ -47,6 +47,7 @@ const TaskApplicationsPage = lazy(() => import("./pages/admin/TaskApplicationsPa
 const FAQsPage = lazy(() => import("./pages/admin/FAQsPage"));
 const ArticlesPage = lazy(() => import("./pages/admin/ArticlesPage"));
 const ChatManagement = lazy(() => import("./pages/admin/ChatManagement"));
+const TestimonialPage = lazy(() => import("./pages/admin/TestimonialPage"));
 
 const queryClient = new QueryClient();
 
@@ -79,7 +80,7 @@ const AppRoutes = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/contact/partners" element={<ContactPartners />} />
             <Route path="/faq" element={<FAQ />} />
-            <Route path="/apply" element={<Apply />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/meetings" element={<MeetingPage />} />
             {/* Auth Routes */}
             <Route path="/auth" element={<AuthLayout />}>
@@ -148,6 +149,7 @@ const AppRoutes = () => {
               <Route path="chat" element={<ChatManagement />} />
               <Route path="faqs" element={<FAQsPage />} />
               <Route path="articles" element={<ArticlesPage />} />
+              <Route path="testimonials" element={<TestimonialPage />} />
               <Route path="*" element={<Navigate to="/admin" replace />} />
             </Route>
 

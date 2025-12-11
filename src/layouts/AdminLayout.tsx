@@ -15,6 +15,7 @@ import {
   QuestionCircleOutlined,
   BookOutlined,
   MessageOutlined,
+  StarOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -77,6 +78,12 @@ const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => 
       icon: <QuestionCircleOutlined />,
       label: 'FAQs',
       onClick: () => navigate('/admin/faqs'),
+    },
+    {
+      key: 'testimonials',
+      icon: <StarOutlined />,
+      label: 'Testimonials',
+      onClick: () => navigate('/admin/testimonials'),
     },
     {
       key: 'articles',

@@ -58,7 +58,7 @@ const HeroSection = () => {
                 <ArrowRight size={20} />
               </Button>
             </Link>
-            <Link to="/apply">
+            <Link to="/tasks">
               <Button variant="default" size="lg" className="w-full sm:w-auto bg-primary/90 hover:bg-primary">
                 Apply Now
                 <ArrowRight size={20} className="ml-2" />
