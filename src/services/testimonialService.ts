@@ -40,6 +40,7 @@ export const createTestimonial = async (data: FormData) => {
   try {
     const response = await api.post('/testimonials', data, {
       headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 60000, // 60 seconds for image upload
     });
     return response.data;
   } catch (error) {
@@ -52,6 +53,7 @@ export const updateTestimonial = async (id: string, data: FormData) => {
   try {
     const response = await api.put(`/testimonials/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 60000, // 60 seconds for image upload
     });
     return response.data;
   } catch (error) {

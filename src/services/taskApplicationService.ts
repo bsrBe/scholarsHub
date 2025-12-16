@@ -26,6 +26,8 @@ export interface TaskApplication {
   bachelors_degree_transcript?: string;
   diploma?: string;
   thesis?: string;
+  additional_documents_pdf?: string[];
+  additional_documents_images?: string[];
   status: TaskApplicationStatus;
   admin_response?: string;
   reviewed_at?: string;
@@ -140,5 +142,17 @@ export const taskApplicationService = {
     const { data } = await api.post(`/task-applications/${id}/message`, { message });
     return data;
   },
-};
 
+  async uploadAdditionalDocuments(id: string, formData: FormData) {
+    try {
+      const response = await api.put(`/task-applications/${id}/documents`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        timeout: 120000, // 2 minutes for multiple file uploads
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error uploading additional documents:', error);
+      throw error;
+    }
+  },
+};

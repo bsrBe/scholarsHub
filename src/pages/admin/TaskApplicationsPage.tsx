@@ -284,7 +284,7 @@ const TaskApplicationsPage = () => {
     if (drawerVisible && fullApplication?.messages) {
       const newReadMessages = new Set(readMessages);
       let hasNewReads = false;
-      
+
       fullApplication.messages.forEach((msg) => {
         if (msg.from === 'user' && !readMessages.has(msg._id)) {
           newReadMessages.add(msg._id);
@@ -515,6 +515,47 @@ const TaskApplicationsPage = () => {
               </Space>
             </Card>
 
+            {(fullApplication.additional_documents_pdf?.length > 0 || fullApplication.additional_documents_images?.length > 0) && (
+              <Card title="Additional Documents" size="small">
+                <Space direction="vertical" style={{ width: '100%' }}>
+                  {fullApplication.additional_documents_pdf?.length > 0 && (
+                    <div>
+                      <Text strong>Additional PDFs:</Text>
+                      <Space direction="vertical" style={{ marginTop: 8, width: '100%' }}>
+                        {fullApplication.additional_documents_pdf.map((url: string, index: number) => (
+                          <div key={index}>
+                            <Text>PDF {index + 1}:</Text>{' '}
+                            <a href={url} target="_blank" rel="noopener noreferrer">
+                              <Button icon={<DownloadOutlined />} size="small">
+                                Download
+                              </Button>
+                            </a>
+                          </div>
+                        ))}
+                      </Space>
+                    </div>
+                  )}
+                  {fullApplication.additional_documents_images?.length > 0 && (
+                    <div>
+                      <Text strong>Additional Images:</Text>
+                      <Space direction="vertical" style={{ marginTop: 8, width: '100%' }}>
+                        {fullApplication.additional_documents_images.map((url: string, index: number) => (
+                          <div key={index}>
+                            <Text>Image {index + 1}:</Text>{' '}
+                            <a href={url} target="_blank" rel="noopener noreferrer">
+                              <Button icon={<DownloadOutlined />} size="small">
+                                Download
+                              </Button>
+                            </a>
+                          </div>
+                        ))}
+                      </Space>
+                    </div>
+                  )}
+                </Space>
+              </Card>
+            )}
+
             {fullApplication.admin_response && (
               <Card title="Admin Response" size="small">
                 <Text>{fullApplication.admin_response}</Text>
@@ -545,8 +586,8 @@ const TaskApplicationsPage = () => {
                 </Space>
               }
               size="small"
-              style={{ 
-                border: '2px solid #1677ff', 
+              style={{
+                border: '2px solid #1677ff',
                 borderRadius: 8,
                 backgroundColor: focusMessages ? '#f0f7ff' : 'transparent',
                 transition: 'background-color 0.3s'
@@ -575,9 +616,9 @@ const TaskApplicationsPage = () => {
                           }}
                         >
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, alignItems: 'center' }}>
-                            <Text 
-                              strong 
-                              style={{ 
+                            <Text
+                              strong
+                              style={{
                                 color: msg.from === 'admin' ? '#fff' : '#1677ff',
                                 fontSize: 13,
                                 fontWeight: 600
@@ -585,8 +626,8 @@ const TaskApplicationsPage = () => {
                             >
                               {msg.from === 'admin' ? 'You (Admin)' : msg.sent_by?.name || 'User'}
                             </Text>
-                            <Text 
-                              style={{ 
+                            <Text
+                              style={{
                                 color: msg.from === 'admin' ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.6)',
                                 fontSize: 11,
                                 marginLeft: 8
@@ -595,7 +636,7 @@ const TaskApplicationsPage = () => {
                               {format(new Date(msg.sent_at), 'MMM d, h:mm a')}
                             </Text>
                           </div>
-                          <Text style={{ 
+                          <Text style={{
                             color: msg.from === 'admin' ? '#fff' : '#000',
                             fontSize: 14,
                             lineHeight: 1.5,

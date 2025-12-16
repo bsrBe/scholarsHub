@@ -1,15 +1,20 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useAuth from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
-import { Loader2, FileText, CheckCircle, XCircle, Clock, Download, ClipboardList } from 'lucide-react';
+import { Loader2, FileText, CheckCircle, XCircle, Clock, Download, ClipboardList, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formService, UserForm } from '@/services/formService';
 import { taskApplicationService, TaskApplication } from '@/services/taskApplicationService';
+import { useState } from 'react';
 
 const getStatusBadge = (status: string) => {
   switch (status) {
@@ -36,11 +41,66 @@ const getStatusIcon = (status: string) => {
 };
 
 const TaskApplicationCard = ({ application }: { application: TaskApplication }) => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [additionalPdfs, setAdditionalPdfs] = useState<FileList | null>(null);
+  const [additionalImages, setAdditionalImages] = useState<FileList | null>(null);
+
   const { data: fullApplication } = useQuery({
     queryKey: ['task-application', application._id],
     queryFn: () => taskApplicationService.getTaskApplication(application._id),
     initialData: application,
   });
+
+  const uploadMutation = useMutation({
+    mutationFn: (formData: FormData) => taskApplicationService.uploadAdditionalDocuments(application._id, formData),
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Additional documents uploaded successfully!",
+      });
+      setIsModalOpen(false);
+      setAdditionalPdfs(null);
+      setAdditionalImages(null);
+      queryClient.invalidateQueries({ queryKey: ['task-application', application._id] });
+      queryClient.invalidateQueries({ queryKey: ['user-task-applications'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.response?.data?.error || "Failed to upload documents",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleUpload = () => {
+    if ((!additionalPdfs || additionalPdfs.length === 0) && (!additionalImages || additionalImages.length === 0)) {
+      toast({
+        title: "No files selected",
+        description: "Please select at least one file to upload",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const formData = new FormData();
+
+    if (additionalPdfs) {
+      for (let i = 0; i < Math.min(additionalPdfs.length, 4); i++) {
+        formData.append('additional_documents_pdf', additionalPdfs[i]);
+      }
+    }
+
+    if (additionalImages) {
+      for (let i = 0; i < Math.min(additionalImages.length, 4); i++) {
+        formData.append('additional_documents_images', additionalImages[i]);
+      }
+    }
+
+    uploadMutation.mutate(formData);
+  };
 
   return (
     <Card className="hover:shadow-md transition-shadow">
@@ -88,6 +148,63 @@ const TaskApplicationCard = ({ application }: { application: TaskApplication }) 
             </div>
           )}
 
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm" className="w-full">
+                <Upload className="mr-2 h-4 w-4" />
+                Upload Additional Documents
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Upload Additional Documents</DialogTitle>
+                <DialogDescription>
+                  Upload up to 4 PDFs and 4 images as additional supporting documents.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <Label>Additional PDFs (Max 4)</Label>
+                  <Input
+                    type="file"
+                    accept=".pdf"
+                    multiple
+                    onChange={(e) => setAdditionalPdfs(e.target.files)}
+                    className="cursor-pointer"
+                  />
+                  <p className="text-sm text-muted-foreground">Select up to 4 PDF files.</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Additional Images (Max 4)</Label>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) => setAdditionalImages(e.target.files)}
+                    className="cursor-pointer"
+                  />
+                  <p className="text-sm text-muted-foreground">Select up to 4 image files.</p>
+                </div>
+
+                <Button
+                  onClick={handleUpload}
+                  disabled={uploadMutation.isPending}
+                  className="w-full"
+                >
+                  {uploadMutation.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Uploading...
+                    </>
+                  ) : (
+                    'Upload Documents'
+                  )}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
         </div>
       </CardContent>
     </Card>
@@ -96,6 +213,12 @@ const TaskApplicationCard = ({ application }: { application: TaskApplication }) 
 
 const FormResponses = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [headerUploadOpen, setHeaderUploadOpen] = useState(false);
+  const [selectedAppId, setSelectedAppId] = useState<string>("");
+  const [headerPdfs, setHeaderPdfs] = useState<FileList | null>(null);
+  const [headerImages, setHeaderImages] = useState<FileList | null>(null);
 
   const {
     data: forms,
@@ -160,6 +283,12 @@ const FormResponses = () => {
                 New Task
               </Button>
             </Link>
+            {hasTaskApplications && (
+              <Button onClick={() => setHeaderUploadOpen(true)} variant="default">
+                <Upload className="mr-2 h-4 w-4" />
+                Upload Documents
+              </Button>
+            )}
           </div>
         </div>
 
@@ -307,6 +436,112 @@ const FormResponses = () => {
             </TabsContent>
           </Tabs>
         )}
+
+        {/* Header Upload Modal */}
+        <Dialog open={headerUploadOpen} onOpenChange={setHeaderUploadOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Upload Additional Documents</DialogTitle>
+              <DialogDescription>
+                Select an application and upload up to 4 PDFs and 4 images.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Select Application</Label>
+                <select
+                  value={selectedAppId}
+                  onChange={(e) => setSelectedAppId(e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                >
+                  <option value="">Choose an application...</option>
+                  {taskApplications?.map((app) => (
+                    <option key={app._id} value={app._id}>
+                      {app.applicant_type.charAt(0).toUpperCase() + app.applicant_type.slice(1)} Application - {format(new Date(app.createdAt), 'MMM d, yyyy')}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {selectedAppId && (
+                <>
+                  <div className="space-y-2">
+                    <Label>Additional PDFs (Max 4)</Label>
+                    <Input
+                      type="file"
+                      accept=".pdf"
+                      multiple
+                      onChange={(e) => setHeaderPdfs(e.target.files)}
+                      className="cursor-pointer"
+                    />
+                    <p className="text-sm text-muted-foreground">Select up to 4 PDF files.</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Additional Images (Max 4)</Label>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={(e) => setHeaderImages(e.target.files)}
+                      className="cursor-pointer"
+                    />
+                    <p className="text-sm text-muted-foreground">Select up to 4 image files.</p>
+                  </div>
+
+                  <Button
+                    onClick={async () => {
+                      if ((!headerPdfs || headerPdfs.length === 0) && (!headerImages || headerImages.length === 0)) {
+                        toast({
+                          title: "No files selected",
+                          description: "Please select at least one file to upload",
+                          variant: "destructive",
+                        });
+                        return;
+                      }
+
+                      const formData = new FormData();
+
+                      if (headerPdfs) {
+                        for (let i = 0; i < Math.min(headerPdfs.length, 4); i++) {
+                          formData.append('additional_documents_pdf', headerPdfs[i]);
+                        }
+                      }
+
+                      if (headerImages) {
+                        for (let i = 0; i < Math.min(headerImages.length, 4); i++) {
+                          formData.append('additional_documents_images', headerImages[i]);
+                        }
+                      }
+
+                      try {
+                        await taskApplicationService.uploadAdditionalDocuments(selectedAppId, formData);
+                        toast({
+                          title: "Success",
+                          description: "Additional documents uploaded successfully!",
+                        });
+                        setHeaderUploadOpen(false);
+                        setSelectedAppId("");
+                        setHeaderPdfs(null);
+                        setHeaderImages(null);
+                        queryClient.invalidateQueries({ queryKey: ['user-task-applications'] });
+                      } catch (error: any) {
+                        toast({
+                          title: "Error",
+                          description: error.response?.data?.error || "Failed to upload documents",
+                          variant: "destructive",
+                        });
+                      }
+                    }}
+                    className="w-full"
+                  >
+                    Upload Documents
+                  </Button>
+                </>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

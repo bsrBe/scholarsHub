@@ -27,6 +27,7 @@ import {
     toggleTestimonialStatus,
     Testimonial,
 } from '@/services/testimonialService';
+import imageCompression from 'browser-image-compression';
 
 const TestimonialPage: React.FC = () => {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -138,8 +139,13 @@ const TestimonialPage: React.FC = () => {
         }
     };
 
+    const [submitting, setSubmitting] = useState(false);
+
+
+
     const handleSubmit = async () => {
         try {
+            setSubmitting(true);
             const values = await form.validateFields();
             const formData = new FormData();
             formData.append('name', values.name);
@@ -149,7 +155,27 @@ const TestimonialPage: React.FC = () => {
             formData.append('rating', values.rating?.toString() ?? '0');
             formData.append('isActive', values.isActive ? 'true' : 'false');
             if (fileList.length > 0 && fileList[0].originFileObj) {
-                formData.append('image', fileList[0].originFileObj);
+                const file = fileList[0].originFileObj;
+                console.log(`Original file size: ${file.size / 1024 / 1024} MB`);
+
+                const options = {
+                    maxSizeMB: 0.8, // Compress to ~800KB
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                };
+
+                try {
+                    const compressedFile = await imageCompression(file, options);
+                    console.log(`Compressed file size: ${compressedFile.size / 1024 / 1024} MB`);
+                    console.log(`Appending file to FormData: ${file.name}`);
+                    formData.append('image', compressedFile, file.name);
+                } catch (error) {
+                    console.error("Image compression failed:", error);
+                    formData.append('image', file); // Fallback
+                }
+            } else if (editing && editing.image?.url && fileList.length === 0) {
+                // Image was removed
+                formData.append('removeImage', 'true');
             }
             if (editing) {
                 await updateTestimonial(editing._id, formData);
@@ -163,6 +189,8 @@ const TestimonialPage: React.FC = () => {
         } catch (err) {
             console.error(err);
             message.error('Save failed');
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -230,6 +258,7 @@ const TestimonialPage: React.FC = () => {
                 onOk={handleSubmit}
                 onCancel={() => setModalVisible(false)}
                 okText={editing ? 'Update' : 'Create'}
+                confirmLoading={submitting}
                 destroyOnClose
             >
                 <Form form={form} layout="vertical">
