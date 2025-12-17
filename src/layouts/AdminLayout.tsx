@@ -6,18 +6,17 @@ import {
   DashboardOutlined,
   TeamOutlined,
   CalendarOutlined,
-  SettingOutlined,
   LogoutOutlined,
   UserOutlined,
-  BellOutlined,
-  FileTextOutlined,
-  FileDoneOutlined,
   QuestionCircleOutlined,
   BookOutlined,
   MessageOutlined,
   StarOutlined,
+  FileDoneOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
+import { useQuery } from '@tanstack/react-query';
+import { chatService } from '@/services/chatService';
 
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
@@ -29,6 +28,15 @@ const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  // Poll for unread messages
+  const { data: unreadData } = useQuery({
+    queryKey: ['chat-unread-count'],
+    queryFn: () => chatService.getUnreadCount(),
+    refetchInterval: 3600000, // 1 hour
+  });
+
+  const unreadCount = unreadData?.unreadCount || 0;
 
   const menuItems = [
     {
@@ -65,7 +73,12 @@ const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => 
     {
       key: 'chat',
       icon: <MessageOutlined />,
-      label: 'Chat',
+      label: (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>Chat</span>
+          {unreadCount > 0 && <Badge count={unreadCount} size="small" />}
+        </div>
+      ),
       onClick: () => navigate('/admin/chat'),
     },
     {
@@ -96,6 +109,7 @@ const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => 
     if (location.pathname.startsWith('/admin/task-applications')) return 'task-applications';
     if (location.pathname.startsWith('/admin/faqs')) return 'faqs';
     if (location.pathname.startsWith('/admin/articles')) return 'articles';
+    if (location.pathname.startsWith('/admin/chat')) return 'chat';
     return 'dashboard';
   }, [location.pathname]);
 
