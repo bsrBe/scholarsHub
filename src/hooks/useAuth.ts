@@ -257,6 +257,7 @@ const useAuth = () => {
     logout,
     changePassword,
     setError,
+    refreshUser: checkAuth,
   };
 };
 

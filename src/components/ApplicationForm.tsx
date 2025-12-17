@@ -127,7 +127,7 @@ const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
           name="phoneNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone Number (Optional)</FormLabel>
+              <FormLabel>Phone Number</FormLabel>
               <FormControl>
                 <Input type="tel" placeholder="+1234567890" {...field} />
               </FormControl>
@@ -165,7 +165,14 @@ const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
                 <SelectContent>
                   {destinations.map((dest) => (
                     <SelectItem key={dest.id} value={dest.name}>
-                      {dest.flag} {dest.name}
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={dest.flagUrl}
+                          alt={dest.name}
+                          className="w-6 h-4 object-cover rounded shadow-sm"
+                        />
+                        <span>{dest.name}</span>
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -206,7 +213,7 @@ const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
           name="documents"
           render={({ field: { onChange, value, ...field } }) => (
             <FormItem>
-              <FormLabel>Upload Documents (Optional)</FormLabel>
+              <FormLabel>Upload Documents</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
                   <Input
@@ -233,7 +240,7 @@ const ApplicationForm = ({ preSelectedCountry }: ApplicationFormProps) => {
           name="additionalInfo"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Additional Information (Optional)</FormLabel>
+              <FormLabel>Additional Information</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell us more about your study abroad goals..."

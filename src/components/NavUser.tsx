@@ -11,9 +11,24 @@ import {
 import { LogOut, User, FileText, Video, ClipboardList } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { formService } from "@/services/formService";
+import { taskApplicationService } from "@/services/taskApplicationService";
 
 export default function NavUser() {
   const { user, logout } = useAuth();
+
+  const { data: userForms } = useQuery({
+    queryKey: ['user-forms'],
+    queryFn: () => formService.getMyForms(),
+    enabled: !!user,
+  });
+
+  const { data: userTasks } = useQuery({
+    queryKey: ['user-task-applications'],
+    queryFn: () => taskApplicationService.getMyTaskApplications(),
+    enabled: !!user,
+  });
 
   if (!user) {
     return (
@@ -44,6 +59,12 @@ export default function NavUser() {
     }
   };
 
+
+
+  const hasUnread =
+    userForms?.some(f => f.isRead === false) ||
+    userTasks?.some(t => t.isRead === false);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -73,7 +94,12 @@ export default function NavUser() {
         <DropdownMenuItem asChild>
           <Link to="/my-applications" className="w-full">
             <FileText className="mr-2 h-4 w-4" />
-            <span>My Applications</span>
+            <span className="flex items-center">
+              My Applications
+              {hasUnread && (
+                <span className="ml-2 h-2 w-2 rounded-full bg-red-600" />
+              )}
+            </span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

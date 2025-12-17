@@ -29,7 +29,7 @@ const FormResponses = lazy(() => import("./pages/FormResponses"));
 const MeetingPage = lazy(() => import("./pages/MeetingPage"));
 const Tasks = lazy(() => import("./pages/Tasks"));
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
-const FormDetail = lazy(() => import("./pages/admin/FormDetail"));
+
 const PartnershipRequestsPage = lazy(() => import("./pages/admin/PartnershipRequestsPage"));
 const AuthLayout = lazy(() => import("./layouts/AuthLayout"));
 const Login = lazy(() => import("./pages/auth/Login").then(module => ({ default: module.Login })));
@@ -42,7 +42,7 @@ const ChangePassword = lazy(() => import("./pages/ChangePassword"));
 const AdminLayout = lazy(() => import("./layouts/AdminLayout"));
 const UsersPage = lazy(() => import("./pages/admin/UsersPage"));
 const MeetingsPage = lazy(() => import("./pages/admin/MeetingsPage"));
-const FormsPage = lazy(() => import("./pages/admin/FormsPage"));
+
 const TaskApplicationsPage = lazy(() => import("./pages/admin/TaskApplicationsPage"));
 const FAQsPage = lazy(() => import("./pages/admin/FAQsPage"));
 const ArticlesPage = lazy(() => import("./pages/admin/ArticlesPage"));
@@ -142,8 +142,7 @@ const AppRoutes = () => {
               <Route index element={<Dashboard />} />
               <Route path="meetings" element={<MeetingsPage />} />
               <Route path="users" element={<UsersPage />} />
-              <Route path="forms" element={<FormsPage />} />
-              <Route path="forms/:id" element={<FormDetail />} />
+
               <Route path="task-applications" element={<TaskApplicationsPage />} />
               <Route path="partnerships" element={<PartnershipRequestsPage />} />
               <Route path="chat" element={<ChatManagement />} />

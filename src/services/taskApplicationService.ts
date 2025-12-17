@@ -29,6 +29,7 @@ export interface TaskApplication {
   additional_documents_pdf?: string[];
   additional_documents_images?: string[];
   status: TaskApplicationStatus;
+  isRead?: boolean;
   admin_response?: string;
   reviewed_at?: string;
   reviewed_by?: {
@@ -36,6 +37,7 @@ export interface TaskApplication {
     name: string;
     email: string;
   };
+  admin_response_documents?: string[];
   messages: Array<{
     _id: string;
     from: 'user' | 'admin';
@@ -133,9 +135,23 @@ export const taskApplicationService = {
     return data;
   },
 
-  async respondToTaskApplication(id: string, payload: RespondPayload) {
-    const { data } = await api.put(`/task-applications/${id}/respond`, payload);
-    return data;
+  async respondToTaskApplication(id: string, data: { status: TaskApplicationStatus; response: string; admin_response_documents?: File[] }) {
+    const formData = new FormData();
+    formData.append('status', data.status);
+    formData.append('response', data.response);
+    
+    if (data.admin_response_documents) {
+      data.admin_response_documents.forEach(file => {
+        formData.append('admin_response_documents', file);
+      });
+    }
+
+    const response = await api.put<TaskApplication>(`/task-applications/${id}/respond`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
   },
 
   async addMessage(id: string, message: string) {
@@ -154,5 +170,9 @@ export const taskApplicationService = {
       console.error('Error uploading additional documents:', error);
       throw error;
     }
+  },
+  async markAsRead() {
+    const { data } = await api.put('/task-applications/mark-read');
+    return data;
   },
 };

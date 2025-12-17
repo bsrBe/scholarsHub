@@ -97,7 +97,7 @@ const Contact = () => {
                       Instagram
                     </a>
                     <a
-                      href="https://t.me/+rsmWfnxAWPZkYzlk"
+                      href="https://t.me/scholarshubglobal"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 px-4 py-3 bg-secondary text-secondary-foreground rounded-xl hover:bg-secondary/90 transition-colors flex-1 justify-center font-medium"

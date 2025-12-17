@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -15,12 +15,14 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { taskApplicationService, ApplicantType } from "@/services/taskApplicationService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Upload, FileText, Image as ImageIcon, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { destinations } from "@/lib/constants";
 
 const baseSchema = z.object({
   applicant_type: z.enum(['undergraduate', 'masters', 'phd']),
+  destination: z.string().optional(),
   passport: z.instanceof(FileList).refine((files) => files.length > 0, "Passport is required"),
   national_identity_card: z.instanceof(FileList).optional(),
   highschool_certificates: z.instanceof(FileList).refine((files) => files.length > 0, "High school certificates are required"),
@@ -55,8 +57,13 @@ type FormData = z.infer<typeof baseSchema> & {
 const Tasks = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [applicantType, setApplicantType] = useState<ApplicantType | "">("");
+
+  // Get pre-selected country from URL
+  const selectedCountryId = searchParams.get("country");
+  const preSelectedDestination = destinations.find(d => d.id === selectedCountryId)?.name;
 
   const getSchema = () => {
     if (applicantType === "phd") return phdSchema;
@@ -73,7 +80,17 @@ const Tasks = () => {
   } = useForm<FormData>({
     resolver: zodResolver(getSchema()),
     mode: "onChange",
+    defaultValues: {
+      destination: preSelectedDestination || "",
+    }
   });
+
+  // Effect to update destination if URL param changes
+  useEffect(() => {
+    if (preSelectedDestination) {
+      setValue("destination", preSelectedDestination);
+    }
+  }, [preSelectedDestination, setValue]);
 
   const watchedApplicantType = watch("applicant_type");
 
@@ -87,6 +104,7 @@ const Tasks = () => {
     try {
       const payload: any = {
         applicant_type: data.applicant_type,
+        destination: data.destination,
         passport: data.passport[0],
         highschool_certificates: data.highschool_certificates[0],
         transcripts: data.transcripts[0],
@@ -219,6 +237,25 @@ const Tasks = () => {
             <CardContent>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-2">
+                  <Label htmlFor="destination">Destination Country</Label>
+                  <Select
+                    onValueChange={(value) => setValue("destination", value)}
+                    defaultValue={preSelectedDestination}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a destination" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {destinations.map((dest) => (
+                        <SelectItem key={dest.id} value={dest.name}>
+                          {dest.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="applicant_type">
                     Applicant Type <span className="text-destructive">*</span>
                   </Label>
@@ -263,7 +300,7 @@ const Tasks = () => {
                         name="national_identity_card"
                         label="National Identity Card"
                         accept="image/*"
-                        description="Image file (optional)"
+                        description="Image file"
                       />
                       <FileUploadField
                         name="highschool_certificates"
@@ -280,33 +317,33 @@ const Tasks = () => {
                       <FileUploadField
                         name="recommendation_letter_1"
                         label="Recommendation Letter 1"
-                        description="PDF file (optional)"
+                        description="PDF file"
                       />
                       <FileUploadField
                         name="recommendation_letter_2"
                         label="Recommendation Letter 2"
-                        description="PDF file (optional)"
+                        description="PDF file"
                       />
                       <FileUploadField
                         name="student_cv_resume"
                         label="Student CV/Resume"
-                        description="PDF file (optional)"
+                        description="PDF file"
                       />
                       <FileUploadField
                         name="statement_of_purpose"
                         label="Statement of Purpose"
-                        description="PDF file (optional)"
+                        description="PDF file"
                       />
                       <FileUploadField
                         name="birth_certificate"
                         label="Birth Certificate"
                         accept="image/*"
-                        description="Image file (optional)"
+                        description="Image file"
                       />
                       <FileUploadField
                         name="english_proficiency"
                         label="English Proficiency (IELTS/DUOLINGO/MOI)"
-                        description="PDF file (optional but recommended)"
+                        description="PDF file"
                       />
 
                       {(applicantType === "masters" || applicantType === "phd") && (
@@ -314,7 +351,7 @@ const Tasks = () => {
                           <FileUploadField
                             name="recommendation_letter_3"
                             label="Recommendation Letter 3"
-                            description="PDF file (optional)"
+                            description="PDF file"
                           />
                           <FileUploadField
                             name="bachelors_degree_certificate"
@@ -331,7 +368,7 @@ const Tasks = () => {
                           <FileUploadField
                             name="diploma"
                             label="Diploma"
-                            description="PDF file (optional)"
+                            description="PDF file"
                           />
                         </>
                       )}

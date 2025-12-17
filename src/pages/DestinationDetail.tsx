@@ -49,7 +49,13 @@ const DestinationDetail = () => {
           </Link>
 
           <div className="flex items-center gap-6 mb-6">
-            <div className="text-8xl">{destination.flag}</div>
+            <div className="w-32 h-24 relative">
+              <img
+                src={destination.flagUrl}
+                alt={`${destination.name} flag`}
+                className="w-full h-full object-cover rounded shadow-md"
+              />
+            </div>
             <div>
               <h1 className="text-5xl md:text-6xl font-bold mb-4">{destination.name}</h1>
               <p className="text-2xl text-primary font-medium">{destination.tagline}</p>
@@ -212,7 +218,7 @@ const DestinationDetail = () => {
             >
               Message Admin
             </Button> */}
-            <Link to="/tasks">
+            <Link to={`/tasks?country=${destination.id}`}>
               <Button variant="hero" size="lg">
                 Apply now
               </Button>

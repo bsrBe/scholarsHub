@@ -17,7 +17,9 @@ import {
   Descriptions,
   Badge,
 } from 'antd';
-import { SearchOutlined, ReloadOutlined, EyeOutlined, FilterOutlined, DownloadOutlined, MessageOutlined } from '@ant-design/icons';
+import { SearchOutlined, ReloadOutlined, EyeOutlined, FilterOutlined, DownloadOutlined, MessageOutlined, UploadOutlined } from '@ant-design/icons';
+import { Upload } from 'antd';
+import type { UploadFile } from 'antd/es/upload/interface';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { taskApplicationService, TaskApplication, TaskApplicationStatus, ApplicantType } from '@/services/taskApplicationService';
@@ -59,6 +61,7 @@ const TaskApplicationsPage = () => {
   const [responseModalVisible, setResponseModalVisible] = useState(false);
   const [focusMessages, setFocusMessages] = useState(false);
   const [responseForm] = Form.useForm();
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const queryClient = useQueryClient();
 
   // Track which messages admin has read
@@ -92,7 +95,7 @@ const TaskApplicationsPage = () => {
   });
 
   const respondMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: { status: TaskApplicationStatus; response: string } }) =>
+    mutationFn: ({ id, data }: { id: string; data: { status: TaskApplicationStatus; response: string; admin_response_documents?: File[] } }) =>
       taskApplicationService.respondToTaskApplication(id, data),
     onSuccess: () => {
       message.success('Response submitted successfully');
@@ -164,14 +167,21 @@ const TaskApplicationsPage = () => {
       status: application.status,
       response: application.admin_response || '',
     });
+    setFileList([]);
     setResponseModalVisible(true);
   };
 
   const handleSubmitResponse = (values: { status: TaskApplicationStatus; response: string }) => {
     if (!selectedApplication) return;
+
+    const files = fileList.map(f => f.originFileObj).filter(Boolean) as File[];
+
     respondMutation.mutate({
       id: selectedApplication._id,
-      data: values,
+      data: {
+        ...values,
+        admin_response_documents: files
+      },
     });
   };
 
@@ -559,6 +569,25 @@ const TaskApplicationsPage = () => {
             {fullApplication.admin_response && (
               <Card title="Admin Response" size="small">
                 <Text>{fullApplication.admin_response}</Text>
+
+                {fullApplication.admin_response_documents && fullApplication.admin_response_documents.length > 0 && (
+                  <div style={{ marginTop: 16 }}>
+                    <Text strong>Attached Documents:</Text>
+                    <Space direction="vertical" style={{ marginTop: 8, width: '100%' }}>
+                      {fullApplication.admin_response_documents.map((url: string, index: number) => (
+                        <div key={index}>
+                          <Text>Document {index + 1}:</Text>{' '}
+                          <a href={url} target="_blank" rel="noopener noreferrer">
+                            <Button icon={<DownloadOutlined />} size="small">
+                              Download
+                            </Button>
+                          </a>
+                        </div>
+                      ))}
+                    </Space>
+                  </div>
+                )}
+
                 {fullApplication.reviewed_at && (
                   <div style={{ marginTop: 8 }}>
                     <Text type="secondary" style={{ fontSize: 12 }}>
@@ -730,6 +759,23 @@ const TaskApplicationsPage = () => {
           >
             <TextArea rows={6} placeholder="Enter your response to the applicant..." />
           </Form.Item>
+
+          <Form.Item
+            label="Attachments"
+            extra="Max 10 files (PDF or Images)"
+          >
+            <Upload
+              fileList={fileList}
+              onChange={({ fileList }) => setFileList(fileList)}
+              beforeUpload={() => false}
+              maxCount={10}
+              multiple
+              accept=".pdf,.jpg,.jpeg,.png"
+            >
+              <Button icon={<UploadOutlined />}>Select Files</Button>
+            </Upload>
+          </Form.Item>
+
           <Form.Item>
             <Space>
               <Button

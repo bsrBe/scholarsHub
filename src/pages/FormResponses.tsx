@@ -14,7 +14,7 @@ import { Loader2, FileText, CheckCircle, XCircle, Clock, Download, ClipboardList
 import { Link } from 'react-router-dom';
 import { formService, UserForm } from '@/services/formService';
 import { taskApplicationService, TaskApplication } from '@/services/taskApplicationService';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const getStatusBadge = (status: string) => {
   switch (status) {
@@ -138,6 +138,23 @@ const TaskApplicationCard = ({ application }: { application: TaskApplication }) 
                   <p className="text-sm text-muted-foreground">
                     {application.admin_response}
                   </p>
+
+                  {application.admin_response_documents && application.admin_response_documents.length > 0 && (
+                    <div className="mt-3">
+                      <p className="text-sm font-medium mb-2">Attached Documents:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {application.admin_response_documents.map((url, index) => (
+                          <Button asChild key={index} variant="outline" size="sm" className="h-8">
+                            <a href={url} target="_blank" rel="noopener noreferrer">
+                              <Download className="mr-2 h-3.5 w-3.5" />
+                              Attachment {index + 1}
+                            </a>
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {application.reviewed_at && (
                     <p className="text-xs text-muted-foreground mt-2">
                       Updated on {format(new Date(application.reviewed_at), 'MMM d, yyyy')}
@@ -240,6 +257,24 @@ const FormResponses = () => {
     enabled: !!user,
   });
 
+  useEffect(() => {
+    if (user) {
+      const markRead = async () => {
+        try {
+          await Promise.all([
+            formService.markAsRead(),
+            taskApplicationService.markAsRead()
+          ]);
+          queryClient.invalidateQueries({ queryKey: ['user-forms'] });
+          queryClient.invalidateQueries({ queryKey: ['user-task-applications'] });
+        } catch (error) {
+          console.error("Failed to mark as read:", error);
+        }
+      };
+      markRead();
+    }
+  }, [user, queryClient]);
+
   const isLoading = formsLoading || tasksLoading;
   const error = formsError || tasksError;
 
@@ -308,7 +343,7 @@ const FormResponses = () => {
             </CardContent>
           </Card>
         ) : (
-          <Tabs defaultValue="forms" className="w-full">
+          <Tabs defaultValue="tasks" className="w-full">
             <TabsList>
               <TabsTrigger value="forms">
                 Task Applications
@@ -403,6 +438,23 @@ const FormResponses = () => {
                               <p className="text-sm text-muted-foreground">
                                 {form.admin_response}
                               </p>
+
+                              {form.admin_response_documents && form.admin_response_documents.length > 0 && (
+                                <div className="mt-3">
+                                  <p className="text-sm font-medium mb-2">Attached Documents:</p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {form.admin_response_documents.map((url, index) => (
+                                      <Button asChild key={index} variant="outline" size="sm" className="h-8">
+                                        <a href={url} target="_blank" rel="noopener noreferrer">
+                                          <Download className="mr-2 h-3.5 w-3.5" />
+                                          Attachment {index + 1}
+                                        </a>
+                                      </Button>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
                               {form.reviewed_at && (
                                 <p className="text-xs text-muted-foreground mt-2">
                                   Updated on {format(new Date(form.reviewed_at), 'MMM d, yyyy')}

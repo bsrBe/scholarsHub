@@ -10,6 +10,7 @@ export interface FormListItem {
   destination_country: string;
   educational_status: string;
   status: FormStatus;
+  isRead?: boolean;
   admin_response?: string;
   client_document?: string;
   createdAt: string;
@@ -22,6 +23,7 @@ export interface FormListItem {
   };
   telegram_user_name?: string;
   additional_information?: string;
+  admin_response_documents?: string[];
 }
 
 export type UserForm = FormListItem;
@@ -82,9 +84,23 @@ export const formService = {
     return data;
   },
 
-  async respondToForm(id: string, payload: RespondPayload) {
-    const { data } = await api.put(`/forms/${id}/respond`, payload);
-    return data;
+  respondToForm: async (id: string, data: { status: FormStatus; response: string; admin_response_documents?: File[] }) => {
+    const formData = new FormData();
+    formData.append('status', data.status);
+    formData.append('response', data.response);
+    
+    if (data.admin_response_documents) {
+      data.admin_response_documents.forEach(file => {
+        formData.append('admin_response_documents', file);
+      });
+    }
+
+    const response = await api.put<UserForm>(`/forms/${id}/respond`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
   },
 
   async getMyForms(): Promise<UserForm[]> {
@@ -102,5 +118,9 @@ export const formService = {
       responseType: 'blob',
     });
     return response;
+  },
+  async markAsRead() {
+    const { data } = await api.put('/forms/mark-read');
+    return data;
   },
 };

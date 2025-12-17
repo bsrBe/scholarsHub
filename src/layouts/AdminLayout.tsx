@@ -37,12 +37,7 @@ const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => 
       label: 'Dashboard',
       onClick: () => navigate('/admin'),
     },
-    {
-      key: 'forms',
-      icon: <FileTextOutlined />,
-      label: 'Forms',
-      onClick: () => navigate('/admin/forms'),
-    },
+
     {
       key: 'task-applications',
       icon: <FileDoneOutlined />,
@@ -91,18 +86,13 @@ const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => 
       label: 'Articles',
       onClick: () => navigate('/admin/articles'),
     },
-    {
-      key: 'settings',
-      icon: <SettingOutlined />,
-      label: 'Settings',
-      onClick: () => navigate('/admin/settings'),
-    },
+
   ];
 
   const selectedKey = React.useMemo(() => {
     if (location.pathname.startsWith('/admin/meetings')) return 'meetings';
     if (location.pathname.startsWith('/admin/users')) return 'users';
-    if (location.pathname.startsWith('/admin/forms')) return 'forms';
+
     if (location.pathname.startsWith('/admin/task-applications')) return 'task-applications';
     if (location.pathname.startsWith('/admin/faqs')) return 'faqs';
     if (location.pathname.startsWith('/admin/articles')) return 'articles';

@@ -229,6 +229,27 @@ export const authService = {
     } catch (error: unknown) {
       throw new Error(extractErrorMessage(error, 'Failed to change password'));
     }
+  },
+
+  // Update user details
+  async updateDetails(data: FormData): Promise<{ success: boolean; data: User }> {
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      const response = await api.put('/auth/updatedetails', data, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      throw new Error(extractErrorMessage(error, 'Failed to update profile'));
+    }
   }
 };
 
