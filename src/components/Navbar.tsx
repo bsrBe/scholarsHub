@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import NavUser from "./NavUser";
 
+import logo from "@/assets/scholarshubgloballogo.png";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -33,12 +35,16 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 bg-card shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[75%] mx-auto px-2 sm:px-4 lg:px-6">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="text-3xl font-bold gradient-text">
-              Scholars Hub
+          <Link to="/" className="flex items-center group -ml-2 sm:-ml-4">
+            <div className="relative h-14 sm:h-20 transition-transform duration-300 group-hover:scale-105">
+              <img
+                src={logo}
+                alt="Scholars Hub Logo"
+                className="h-full w-auto object-contain"
+              />
             </div>
           </Link>
 
@@ -48,26 +54,24 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                  isActive(link.path)
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground hover:bg-muted"
-                }`}
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive(link.path)
+                  ? "bg-primary text-primary-foreground"
+                  : "text-foreground hover:bg-muted"
+                  }`}
               >
                 {link.name}
               </Link>
             ))}
-            
+
             {/* Contact Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                    isActive("/contact") || isActive("/contact/partners")
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-muted"
-                  }`}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive("/contact") || isActive("/contact/partners")
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground hover:bg-muted"
+                    }`}
                 >
                   Contact Us
                   <ChevronDown className="ml-1 h-4 w-4" />
@@ -78,11 +82,10 @@ const Navbar = () => {
                   <DropdownMenuItem key={option.path} asChild>
                     <Link
                       to={option.path}
-                      className={`w-full px-2 py-2 text-sm font-medium transition-colors ${
-                        isActive(option.path)
-                          ? "text-primary bg-primary/10"
-                          : "text-foreground hover:text-primary hover:bg-muted"
-                      }`}
+                      className={`w-full px-2 py-2 text-sm font-medium transition-colors ${isActive(option.path)
+                        ? "text-primary bg-primary/10"
+                        : "text-foreground hover:text-primary hover:bg-muted"
+                        }`}
                     >
                       {option.name}
                     </Link>
@@ -116,16 +119,15 @@ const Navbar = () => {
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsOpen(false)}
-                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                    isActive(link.path)
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-muted"
-                  }`}
+                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive(link.path)
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground hover:bg-muted"
+                    }`}
                 >
                   {link.name}
                 </Link>
               ))}
-              
+
               {/* Contact Options for Mobile */}
               <div className="px-4 py-2">
                 <p className="text-xs font-medium text-muted-foreground mb-2">Contact Us</p>
@@ -135,18 +137,17 @@ const Navbar = () => {
                       key={option.path}
                       to={option.path}
                       onClick={() => setIsOpen(false)}
-                      className={`block px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        isActive(option.path)
-                          ? "bg-primary text-primary-foreground"
-                          : "text-foreground hover:bg-muted"
-                      }`}
+                      className={`block px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive(option.path)
+                        ? "bg-primary text-primary-foreground"
+                        : "text-foreground hover:bg-muted"
+                        }`}
                     >
                       {option.name}
                     </Link>
                   ))}
                 </div>
               </div>
-              
+
               <div className="w-full p-2">
                 <NavUser />
               </div>

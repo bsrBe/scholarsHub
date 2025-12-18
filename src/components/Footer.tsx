@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
+import logo from "@/assets/scholarshubgloballogo.png";
 import Chatbot from "./Chatbot";
 
 const Footer = () => {
@@ -9,7 +10,15 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 gradient-text">Scholars Hub</h3>
+            <div className="mb-4">
+              <div className="h-16 w-auto overflow-hidden">
+                <img
+                  src={logo}
+                  alt="Scholars Hub Logo"
+                  className="h-full w-auto object-contain"
+                />
+              </div>
+            </div>
             <p className="text-sm text-muted-foreground">
               Your trusted partner for studying abroad. No initial payment. High Visa Success Rate.
             </p>
