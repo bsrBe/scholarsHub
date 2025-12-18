@@ -70,20 +70,20 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <Mail size={16} className="text-primary" />
-                <a href="mailto:info@scholarshub.com" className="hover:text-primary transition-colors">
-                  info@scholarshub.com
+                <a href="mailto:contact@scholarshubglobal.com" className="hover:text-primary transition-colors">
+                  contact@scholarshubglobal.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={16} className="text-primary" />
-                <a href="tel:+1234567890" className="hover:text-primary transition-colors">
-                  +1 (234) 567-890
+                <a href="tel:+251943948464" className="hover:text-primary transition-colors">
+                  +251 94 394 8464
                 </a>
               </li>
-              <li className="flex items-center gap-2">
+              {/* <li className="flex items-center gap-2">
                 <MapPin size={16} className="text-primary" />
                 <span>123 Education Street, City</span>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

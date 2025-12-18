@@ -177,12 +177,12 @@ const Tasks = () => {
     accept?: string;
     description?: string;
   }) => {
-    const isImage = name.includes("passport") || name.includes("birth_certificate") || name.includes("national_identity_card");
+    const isImageOrPdf = name.includes("passport") || name.includes("birth_certificate") || name.includes("national_identity_card");
     const error = errors[name as keyof typeof errors];
 
     return (
       <div className="space-y-2">
-        <Label htmlFor={name}>
+        <Label htmlFor={String(name)}>
           {label} {required && <span className="text-destructive">*</span>}
         </Label>
         {description && (
@@ -190,16 +190,21 @@ const Tasks = () => {
         )}
         <div className="flex items-center gap-4">
           <Input
-            id={name}
+            id={String(name)}
             type="file"
-            accept={isImage ? "image/*" : accept}
+            accept={accept}
             {...register(name as any)}
             className="cursor-pointer"
           />
-          {isImage ? (
-            <ImageIcon className="h-5 w-5 text-muted-foreground" />
-          ) : (
+          {isImageOrPdf ? (
+            <div className="flex gap-1">
+              <ImageIcon className="h-5 w-5 text-muted-foreground" />
+              <FileText className="h-5 w-5 text-muted-foreground" />
+            </div>
+          ) : name.includes("certificate") || name.includes("transcript") || name.includes("resume") || name.includes("purpose") ? (
             <FileText className="h-5 w-5 text-muted-foreground" />
+          ) : (
+            <ImageIcon className="h-5 w-5 text-muted-foreground" />
           )}
         </div>
         {error && (
@@ -282,9 +287,9 @@ const Tasks = () => {
                     <Alert>
                       <AlertCircle className="h-4 w-4" />
                       <AlertDescription>
-                        {applicantType === "undergraduate" && "Please upload all required documents for undergraduate applicants."}
-                        {applicantType === "masters" && "Please upload all required documents for masters applicants, including bachelor's degree documents."}
-                        {applicantType === "phd" && "Please upload all required documents for PhD applicants, including bachelor's degree documents and thesis."}
+                        {applicantType === "undergraduate" && "Please upload all required clear,scanned copy documents for undergraduate applicants."}
+                        {applicantType === "masters" && "Please upload all required clear,scanned copy documents for masters applicants, including bachelor's degree documents."}
+                        {applicantType === "phd" && "Please upload all required clear,scanned copy documents for PhD applicants, including bachelor's degree documents and thesis."}
                       </AlertDescription>
                     </Alert>
 
@@ -293,14 +298,14 @@ const Tasks = () => {
                         name="passport"
                         label="Passport"
                         required
-                        accept="image/*"
-                        description="Image file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        description="PDF or image file"
                       />
                       <FileUploadField
                         name="national_identity_card"
                         label="National Identity Card"
-                        accept="image/*"
-                        description="Image file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        description="PDF or image file"
                       />
                       <FileUploadField
                         name="highschool_certificates"
@@ -337,8 +342,8 @@ const Tasks = () => {
                       <FileUploadField
                         name="birth_certificate"
                         label="Birth Certificate"
-                        accept="image/*"
-                        description="Image file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        description="PDF or image file"
                       />
                       <FileUploadField
                         name="english_proficiency"

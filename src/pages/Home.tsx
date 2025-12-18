@@ -6,6 +6,7 @@ import TestimonialSlider from "@/components/TestimonialSlider";
 import PartnerUniversities from "@/components/PartnerUniversities";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import DestinationSlider from "@/components/DestinationSlider";
 import { services, destinations, processSteps } from "@/lib/constants";
 import { ArrowRight } from "lucide-react";
 
@@ -61,22 +62,7 @@ const Home = () => {
       </section>
 
       {/* Top Destinations */}
-      <section className="section-padding bg-muted/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Top Study Destinations</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Explore world-class education opportunities in leading countries
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {destinations.map((destination) => (
-              <DestinationCard key={destination.id} {...destination} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <DestinationSlider />
 
       {/* Partner Universities */}
       <PartnerUniversities />

@@ -878,7 +878,7 @@ const ContactPartners = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
               <Card className="text-center p-6 border-2 hover:border-primary/50 transition-colors">
                 <CardContent className="pt-6">
                   <Mail className="mx-auto h-12 w-12 text-primary mb-4" />
@@ -887,10 +887,10 @@ const ContactPartners = () => {
                     For partnership inquiries
                   </p>
                   <a
-                    href="mailto:partners@scholarshub.com"
+                    href="mailto:partners@scholarshubglobal.com"
                     className="text-primary hover:underline font-medium"
                   >
-                    partners@scholarshub.com
+                    partners@scholarshubglobal.com
                   </a>
                 </CardContent>
               </Card>
@@ -900,28 +900,26 @@ const ContactPartners = () => {
                   <Phone className="mx-auto h-12 w-12 text-primary mb-4" />
                   <h3 className="font-semibold text-lg mb-2">Phone</h3>
                   <p className="text-sm text-muted-foreground mb-2">
-                    Mon-Fri, 9AM-6PM EST
+                    Available 24/7
                   </p>
                   <a
-                    href="tel:+1234567890"
+                    href="tel:+251943948464"
                     className="text-primary hover:underline font-medium"
                   >
-                    +1 (234) 567-890
+                    +251 94 394 8464
                   </a>
                 </CardContent>
               </Card>
-
+              {/* 
               <Card className="text-center p-6 border-2 hover:border-primary/50 transition-colors">
                 <CardContent className="pt-6">
                   <MapPin className="mx-auto h-12 w-12 text-primary mb-4" />
                   <h3 className="font-semibold text-lg mb-2">Office</h3>
                   <p className="text-sm text-muted-foreground">
-                    123 Education Street<br />
-                    New York, NY 10001<br />
-                    United States
+                    Addis Ababa, Ethiopia
                   </p>
                 </CardContent>
-              </Card>
+              </Card> */}
             </div>
           </div>
         </div>

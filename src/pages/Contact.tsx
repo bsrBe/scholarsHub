@@ -37,10 +37,10 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Email</h3>
                     <a
-                      href="mailto:info@scholarshub.com"
+                      href="mailto:contact@scholarshubglobal.com"
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
-                      info@scholarshub.com
+                      contact@scholarshubglobal.com
                     </a>
                   </div>
                 </CardContent>
@@ -54,15 +54,15 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Phone</h3>
                     <a
-                      href="tel:+1234567890"
+                      href="tel:+251943948464"
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
-                      +1 (234) 567-890
+                      +251 94 394 8464
                     </a>
                   </div>
                 </CardContent>
               </Card>
-
+              {/* 
               <Card className="border-2 hover:border-primary/50 transition-colors">
                 <CardContent className="p-6 flex items-start gap-4">
                   <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0">
@@ -81,7 +81,7 @@ const Contact = () => {
                     </a>
                   </div>
                 </CardContent>
-              </Card>
+              </Card> */}
 
               <Card className="border-2 bg-gradient-to-br from-primary/10 to-accent/10">
                 <CardContent className="p-6">
@@ -116,11 +116,11 @@ const Contact = () => {
                   <div className="space-y-2 text-muted-foreground">
                     <div className="flex justify-between">
                       <span>Monday - Friday</span>
-                      <span className="font-medium">9:00 AM - 6:00 PM</span>
+                      <span className="font-medium">8:00 AM - 9:00 PM</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Saturday</span>
-                      <span className="font-medium">10:00 AM - 4:00 PM</span>
+                      <span className="font-medium">8:00 AM - 5:00 PM</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Sunday</span>
@@ -145,7 +145,7 @@ const Contact = () => {
       </section>
 
       {/* Map Section */}
-      <section className="section-padding bg-muted/30">
+      {/* <section className="section-padding bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Visit Our Office</h2>
           <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/10">
@@ -194,7 +194,7 @@ const Contact = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 };

@@ -121,4 +121,8 @@ All colors MUST be HSL.
   .section-padding {
     @apply py-10 sm:py-14 lg:py-20 px-4 md:px-8 lg:px-16;
   }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
 }
