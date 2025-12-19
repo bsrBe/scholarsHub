@@ -10,6 +10,8 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ChatProvider } from "./contexts/ChatContext";
 import ScrollToTop from "./components/ScrollToTop";
+import SEO from "./components/SEO";
+
 //sta
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -24,6 +26,9 @@ const Contact = lazy(() => import("./pages/Contact"));
 const ContactPartners = lazy(() => import("./pages/ContactPartners"));
 
 const FAQ = lazy(() => import("./pages/FAQ"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+
 const NotFound = lazy(() => import("./pages/NotFound"));
 const FormResponses = lazy(() => import("./pages/FormResponses"));
 const MeetingPage = lazy(() => import("./pages/MeetingPage"));
@@ -63,7 +68,9 @@ const AppRoutes = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <SEO />
       <ScrollToTop />
+
       {!isAdminRoute && <Navbar />}
       <div className="flex-1">
         <Suspense fallback={<PageFallback />}>
@@ -80,7 +87,9 @@ const AppRoutes = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/contact/partners" element={<ContactPartners />} />
             <Route path="/faq" element={<FAQ />} />
-            <Route path="/faq" element={<FAQ />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+
             <Route path="/meetings" element={<MeetingPage />} />
             {/* Auth Routes */}
             <Route path="/auth" element={<AuthLayout />}>

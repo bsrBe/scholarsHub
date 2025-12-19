@@ -221,11 +221,18 @@ const BlogPost = () => {
             <p className="text-muted-foreground mb-6">
               Our expert counselors are here to help you navigate your study abroad journey.
             </p>
-            <Link to="/book-consultation">
-              <Button variant="hero" size="lg">
-                Book Free Consultation
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/book-consultation">
+                <Button variant="hero" size="lg" className="w-full sm:w-auto">
+                  Book Free Consultation
+                </Button>
+              </Link>
+              <Link to="/services">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                  Explore Our Services
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </article>

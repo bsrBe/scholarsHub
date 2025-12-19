@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import NavUser from "./NavUser";
 
-import logo from "@/assets/scholarshubgloballogo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,16 +34,12 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 bg-card shadow-md">
-      <div className="max-w-[75%] mx-auto px-2 sm:px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center group -ml-2 sm:-ml-4">
-            <div className="relative h-14 sm:h-20 transition-transform duration-300 group-hover:scale-105">
-              <img
-                src={logo}
-                alt="Scholars Hub Logo"
-                className="h-full w-auto object-contain"
-              />
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="text-3xl font-bold gradient-text">
+              Scholars Hub
             </div>
           </Link>
 

@@ -97,11 +97,16 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-muted mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Scholars Hub. All rights reserved.
-          </p>
-
+        <div className="border-t border-muted mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} Scholars Hub. All rights reserved.</p>
+          <div className="flex gap-4 mt-4 md:mt-0">
+            <Link to="/privacy-policy" className="hover:text-primary transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms-of-service" className="hover:text-primary transition-colors">
+              Terms and Conditions
+            </Link>
+          </div>
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Calendar, GraduationCap, DollarSign, Building2, ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
+import SEO from "@/components/SEO";
 
 const DestinationDetail = () => {
   const { country } = useParams<{ country: string }>();
@@ -38,6 +39,12 @@ const DestinationDetail = () => {
 
   return (
     <main>
+      <SEO
+        title={`${destination.name} | Study Abroad & Scholarships | Scholarshub Global`}
+        description={`Learn about studying in ${destination.name}. Explore education systems, requirements, costs, and top universities. ${destination.tagline}`}
+        url={`https://scholarshubglobal.com/destinations/${country}`}
+      />
+
       {/* Hero Section */}
       <section className="section-padding bg-gradient-to-b from-primary/10 to-background">
         <div className="max-w-7xl mx-auto">
@@ -201,8 +208,43 @@ const DestinationDetail = () => {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* FAQ Section */}
       <section className="section-padding">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Can I study in {destination.name} without an initial payment?</h3>
+                <p className="text-muted-foreground">
+                  Yes! With Scholarshub Global, you can start your journey to {destination.name} with no initial payment. We believe in your dreams and only charge after successful placement.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">What are the main intake periods for {destination.name}?</h3>
+                <p className="text-muted-foreground">
+                  The primary intake periods for {destination.name} are {details.intakes.join(" and ")}. However, timelines vary by university.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Are scholarships available for international students in {destination.name}?</h3>
+                <p className="text-muted-foreground">
+                  Yes, many universities in {destination.name} offer merit-based and need-based scholarships. Our counselors will help you identify and apply for these opportunities.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="section-padding bg-muted/30">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Apply to {destination.name}?
@@ -211,13 +253,6 @@ const DestinationDetail = () => {
             Start your application or book a free consultation with our experts.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* <Button 
-              variant="hero" 
-              size="lg"
-              onClick={() => setShouldOpenChat(true)}
-            >
-              Message Admin
-            </Button> */}
             <Link to={`/tasks?country=${destination.id}`}>
               <Button variant="hero" size="lg">
                 Apply now

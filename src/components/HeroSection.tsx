@@ -12,6 +12,7 @@ const HeroSection = () => {
           src={heroImage}
           alt="Happy international students studying together"
           className="w-full h-full object-cover"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/70" />
       </div>

@@ -38,7 +38,7 @@ const useAuth = () => {
         setUser(null);
         
         // Only redirect if not on a public page
-        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/auth/forgot-password', '/auth/reset-password', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation'];
+        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/auth/forgot-password', '/auth/reset-password', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/privacy-policy', '/terms-of-service', '/og-logo.png'];
         const isPublicPath = publicPaths.some(path => location.pathname === path || location.pathname.startsWith(path + '/'));
         if (!isPublicPath) {
           console.log('checkAuth: Redirecting to login');
@@ -88,7 +88,7 @@ const useAuth = () => {
         setUser(null);
         
         // If we're not on a public page, redirect to login
-        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/auth/forgot-password', '/auth/reset-password', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation'];
+        const publicPaths = ['/auth/login', '/auth/register', '/auth/confirm-email', '/auth/forgot-password', '/auth/reset-password', '/', '/about', '/services', '/how-it-works', '/destinations', '/blog', '/contact', '/faq', '/book-consultation', '/privacy-policy', '/terms-of-service', '/og-logo.png'];
         const isPublicPath = publicPaths.some(path => location.pathname === path || location.pathname.startsWith(path + '/'));
         if (!isPublicPath) {
           console.log('checkAuth: Redirecting to login after token verification failed');

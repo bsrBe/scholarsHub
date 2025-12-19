@@ -49,8 +49,14 @@ const Services = () => {
               </Button>
             </Link>
             <Link to="/how-it-works">
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto">
                 See How It Works
+                <ArrowRight size={20} />
+              </Button>
+            </Link>
+            <Link to="/blog">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                Read Our Blog
                 <ArrowRight size={20} />
               </Button>
             </Link>

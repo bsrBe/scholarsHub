@@ -95,19 +95,19 @@ export const destinations = [
     tagline: "Affordable education with strong engineering focus",
     description: "Germany offers tuition-free education at public universities with world-class programs in engineering and sciences.",
   },
+    {
+    id: "Italy",
+    name: "Italy",
+    flagUrl: "/flags/italy.svg",
+    tagline: "Rich heritage and affordable education",
+    description: "Italy combines world-class education with rich cultural heritage and affordable tuition at public universities.",
+  },
   {
     id: "france",
     name: "France",
     flagUrl: "/flags/france.svg",
     tagline: "Rich culture and renowned business schools",
     description: "France is known for its art, culture, and prestigious business and culinary programs.",
-  },
-  {
-    id: "Italy",
-    name: "Italy",
-    flagUrl: "/flags/italy.svg",
-    tagline: "Rich heritage and affordable education",
-    description: "Italy combines world-class education with rich cultural heritage and affordable tuition at public universities.",
   },
   {
     id: "Ireland",

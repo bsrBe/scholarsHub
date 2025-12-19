@@ -21,6 +21,7 @@ const DestinationCard = ({ id, name, flagUrl, tagline, description }: Destinatio
             src={flagUrl}
             alt={`${name} flag`}
             className="flag-wave inline-block w-24 h-24 md:w-32 md:h-32 mb-2 transition-transform duration-1000 group-hover:rotate-6 hover:!rotate-0"
+            loading="lazy"
           />
         </div>
       </div>

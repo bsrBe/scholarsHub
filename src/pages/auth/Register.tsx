@@ -6,13 +6,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    agreed: false
   });
   const [formError, setFormError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -29,6 +31,13 @@ export function Register() {
     }));
   };
 
+  const handleCheckboxChange = (checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      agreed: checked
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
@@ -36,6 +45,11 @@ export function Register() {
     // Basic validation
     if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
       setFormError('Please fill in all fields');
+      return;
+    }
+
+    if (!formData.agreed) {
+      setFormError('You must agree to the Terms of Service and Privacy Policy');
       return;
     }
 
@@ -109,7 +123,7 @@ export function Register() {
                 <AlertDescription>{formError}</AlertDescription>
               </Alert>
             )}
-            
+
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium">
                 Full Name
@@ -149,7 +163,7 @@ export function Register() {
                 />
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">
                 Password
@@ -189,6 +203,23 @@ export function Register() {
                 />
               </div>
             </div>
+
+            <div className="flex items-start space-x-2 pt-2">
+              <Checkbox
+                id="agreed"
+                checked={formData.agreed}
+                onCheckedChange={handleCheckboxChange}
+                disabled={loading}
+              />
+              <div className="grid gap-1.5 leading-none">
+                <label
+                  htmlFor="agreed"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  I agree to the <Link to="/terms-of-service" className="text-primary hover:underline">Terms of Service</Link> and <Link to="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>
+                </label>
+              </div>
+            </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full" disabled={loading}>
@@ -196,7 +227,7 @@ export function Register() {
             </Button>
             <p className="text-sm text-center text-gray-600">
               Already have an account?{' '}
-              <Link 
+              <Link
                 to="/login"
                 state={{ from: location.state?.from }}
                 className="text-primary hover:underline"
